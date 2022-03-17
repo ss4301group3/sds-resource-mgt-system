@@ -20,7 +20,7 @@ var httpHandler = {
             },
             loginRequest: {
                 //Scopes areprompted upon login. Keep as small as possible otherwise it'll be a lot to read by the user
-                scopes: ["User.Read","api://sdsrms/access_as_user"]
+                scopes: ["User.Read","access_as_user"]
             }
         },
         getAccount() {return this.msalClient.getAccountByUsername(this.username);},
@@ -38,8 +38,13 @@ var httpHandler = {
                 //DATA_HANDLER.user.confirmSignedIn();
                 if (!(typeof uiHandler === typeof undefined)) {uiHandler.messageBox.welcome(currentAccounts[0].displayName)}
                 else window.addEventListener('load', function() {
-                    console.log(currentAccounts[0].name)
-                    uiHandler.messageBox.welcome(currentAccounts[0].name)
+                    uiHandler.messageBox.welcome(currentAccounts[0].name);
+                    httpHandler.fetch.api('persons/me')
+                    .then(response => {
+                        //renders the response as message; for testing only
+                        uiHandler.messageBox.write("p",`Roles: ${response}`,null,true);
+                        console.log(response);
+                    })
                 })
             }
         },
@@ -102,7 +107,7 @@ var httpHandler = {
             let fetchedResponse;
             try {
                 const httpRequestOptions = {method:'GET'};
-                const accessToken = httpHandler.auth.getAccessTokenByScopes(requiredScopes);
+                const accessToken = await httpHandler.auth.getAccessTokenByScopes(requiredScopes);
                 if (accessToken) httpRequestOptions['headers'] = {'Authorization': `Bearer ${accessToken}`}
                 const payload = await fetch(`http://localhost:8080/api/${routeToFetch}`, httpRequestOptions);
                 if (payload.ok) fetchedResponse =  await payload.json();
