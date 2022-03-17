@@ -11,6 +11,7 @@ function send() {
 }
 
 module.exports = {
+    //Put here the classes, methods, variables etc to expose
     Notification,
     push,
     send

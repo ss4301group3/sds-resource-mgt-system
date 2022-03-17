@@ -1,7 +1,7 @@
 # sds-resource-mgt-system
 The repository for SS4301 Project 3 - SDS Resource Management System
 
-## Instructions - New from from repo
+## Instructions - New from repo
 To install dependencies (listed in package.json), run the lines below, no need to specify exact packages.
 ```
 npm install
@@ -10,14 +10,14 @@ Install dev dependencies by including the --dev flag
 ```
 npm install --dev
 ```
+Run app in dev mode (auto compile scss & restart on each new save made):
+```
+npm run dev
+```
 ## Note - Adding dependencies
 If it's a dev-only dependency, i.e. not meant for use production, add the -D flag, e.g.:
 ```
 npm install jest -D
-```
-Run app in dev mode (auto compile scss & restart on each new save made):
-```
-npm run dev
 ```
 ### Info - dependencies (included in default installation)
 - cookie-parser, debug, express, morgan comes with the default express app
