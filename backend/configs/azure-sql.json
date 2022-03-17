@@ -1,0 +1,14 @@
+{  
+    "authentication": {
+    "options": {
+      "userName": "insert sql username", 
+      "password": "insert password"
+    },
+    "type": "default"
+  },
+  "server": "insert sql server",
+  "options": {
+    "database": "a",
+    "encrypt": true
+  }
+}

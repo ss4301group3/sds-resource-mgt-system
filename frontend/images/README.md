@@ -1,0 +1,1 @@
+logo resolution brought down to reduce size to less than 100kb
