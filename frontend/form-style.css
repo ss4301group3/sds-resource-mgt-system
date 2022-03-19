@@ -154,6 +154,8 @@ h3, p{
     border-bottom: 1px solid #fff;
     outline: none;
     background: transparent;
+    margin-right: 10px ;
+    margin-left: 20px;
 }
 
 .form-box .user-box .agreement{
