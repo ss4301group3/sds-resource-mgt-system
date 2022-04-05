@@ -3,11 +3,16 @@
   "version": "1.0.0",
   "description": "Full-stack web-app for SDS's Resource Management",
   "private": true,
+  "sideEffects": [
+    "*.scss",
+    "*.css"
+  ],
   "scripts": {
     "start": "node ./bin/www",
     "test": "jest",
-    "dev": "nodemon -e html,js,css ./bin/www & npm run watch-compile-scss",
-    "watch-compile-scss": "sass --watch src/style.scss frontend/stylesheets/style.css"
+    "dev": "nodemon -e html,js,css ./bin/www",
+    "watch": "webpack --watch",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",
@@ -22,13 +27,22 @@
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",
+    "lodash": "^4.17.21",
     "morgan": "~1.9.1",
     "passport": "^0.5.2",
     "passport-azure-ad": "^4.3.1",
     "tedious": "^14.3.0"
   },
   "devDependencies": {
+    "css-loader": "^6.7.1",
+    "html-webpack-plugin": "^5.5.0",
     "nodemon": "^2.0.15",
-    "sass": "^1.49.9"
+    "sass": "^1.49.11",
+    "sass-loader": "^12.6.0",
+    "style-loader": "^3.3.1",
+    "ts-loader": "^9.2.8",
+    "typescript": "^4.6.3",
+    "webpack": "^5.71.0",
+    "webpack-cli": "^4.9.2"
   }
 }
