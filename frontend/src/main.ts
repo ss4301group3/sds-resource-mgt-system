@@ -1,5 +1,8 @@
 import "./style.scss";
 import Icon from './brand.png';
+import {
+  BoxBuilder, OrderABox
+} from './components/box'
 
 function component() {
   const element = document.createElement('div');
@@ -11,6 +14,11 @@ function component() {
 
   element.appendChild(myIcon);
 
+  const boxBuilder: BoxBuilder = new OrderABox();
+  const viewOnlyBox = boxBuilder.orderABox("View Only", "Tile");
+  console.log(viewOnlyBox);
+  viewOnlyBox.executeViewOption();
+  
   return element;
 }
 

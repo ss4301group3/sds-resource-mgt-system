@@ -122,3 +122,27 @@ class ViewOnlyBox extends Box {
         this.render(displayMode == "Tile"? new TileRenderOption() : new RowRenderOption());
     }
 }
+
+export abstract class BoxBuilder {
+    abstract makeBox(typeOfBox: string): Box;
+
+    orderABox(typeOfBox: string, displayMode: string): Box {
+        const theBox: Box = this.makeBox(typeOfBox);
+        theBox.makeBox(displayMode);
+
+        return theBox;
+    }
+}
+export class OrderABox extends BoxBuilder {
+    makeBox(typeOfBox: string) {
+        let theBox: Box = null;
+
+        if(typeOfBox == "View Only") {
+            const boxFactory: BoxFactory = new ViewOnlyBoxFactory();
+            theBox = new ViewOnlyBox(boxFactory);
+            theBox.setLabel("A View Only Box");
+        }
+
+        return theBox;
+    }
+}
