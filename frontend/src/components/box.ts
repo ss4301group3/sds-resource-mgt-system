@@ -1,12 +1,16 @@
-interface RenderOption { render(box: Box): void; }
+interface RenderOption { render(box: Box): Node; }
 class TileRenderOption implements RenderOption {
-    render(box: Box): void {
-        console.log("Render in Tile Mode");
+    render(box: Box): HTMLDivElement {
+        const htmlNode = document.createElement("div");
+        htmlNode.innerHTML = "a box as tile";
+        return htmlNode;
     }
 }
 class RowRenderOption implements RenderOption {
-    render(box: Box): void {
-        console.log("Render in Row Mode");
+    render(box: Box): HTMLTableRowElement {
+        const htmlNode = document.createElement("tr");
+        htmlNode.innerHTML = "a box as row";
+        return htmlNode;
     }
 }
 
@@ -72,11 +76,14 @@ class AdminBoxFactory implements BoxFactory{
     assignDeleteOption(): DeleteOption { return new CommonDeleteOption(); }
 }
 
-abstract class Box {
+export abstract class Box {
     #id: number;
     #parentId: number;
     #label: string;
+
     #properties: { [key: string]: string } = {};
+
+    #htmlNode: Node;
 
     #viewOption: ViewOption;
     #editOption: EditOption;
@@ -90,6 +97,9 @@ abstract class Box {
     setProperty(propertyName: string, propertyValue: string): void { this.#properties[propertyName] = propertyValue; }
     setProperties(properties: { [key: string]: string }): void { this.#properties = properties; }
 
+    appendThisHTMLTo(parentNode: Node): void { parentNode.appendChild(this.#htmlNode); }
+    appendBoxChild(childBox: Box): void { childBox.appendThisHTMLTo(this.#htmlNode); }
+
     setViewOption(viewOption: ViewOption): void { this.#viewOption = viewOption; }
     setEditOption(editOption: EditOption): void { this.#editOption = editOption; }
     setDeleteOption(deleteOption: DeleteOption): void { this.#deleteOption = deleteOption; }
@@ -100,7 +110,7 @@ abstract class Box {
     getProperty(propertyName: string): string { return this.#properties[propertyName]; }
     getProperties(): { [key: string]: string } { return this.#properties; }
 
-    render(renderOption: RenderOption): void { renderOption.render(this); }
+    render(renderOption: RenderOption): void { this.#htmlNode = renderOption.render(this); }
 
     executeViewOption(): void { this.#viewOption.view() };
     executeEditOption(): void { this.#editOption.edit() };
