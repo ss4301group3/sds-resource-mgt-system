@@ -1,9 +1,9 @@
 import { makeDivWithClass, makeTableRowWithClass } from "../utils/html";
 import "../stylesheets/box.scss";
-abstract class RenderOption {
-    abstract render(box: Box): HTMLElement;
+interface RenderOption {
+    render(box: Box): HTMLElement;
 }
-class TileRenderOption extends RenderOption {
+class TileRenderOption implements RenderOption {
     render(box: Box): HTMLDivElement {
         const htmlNode = makeDivWithClass("box-component tile");
 
@@ -21,7 +21,7 @@ class TileRenderOption extends RenderOption {
         return htmlNode;
     }
 }
-class RowRenderOption extends RenderOption {
+class RowRenderOption implements RenderOption {
     render(box: Box): HTMLTableRowElement {
         const htmlNode = makeTableRowWithClass("box-component row");
 
@@ -161,7 +161,7 @@ export abstract class Box {
     render(): void {
         let newNode: Node = this.#renderOption.render(this);
 
-        if (this.#htmlNode) {
+        if (this.#htmlNode && this.#htmlNode.parentNode) {
             const parentNode: Node = this.#htmlNode.parentNode;
             parentNode.insertBefore(newNode, this.#htmlNode);
             this.#htmlNode.parentNode.removeChild(this.#htmlNode);
@@ -205,9 +205,14 @@ export abstract class BoxBuilder {
 }
 export class OrderABox extends BoxBuilder {
     makeBox(typeOfBox: string, boxData: BoxData) {
-        let theBox: Box = null;
+        let theBox: Box;
 
         if(typeOfBox == "View Only") {
+            const boxFactory: BoxFactory = new ViewOnlyBoxFactory();
+            theBox = new ViewOnlyBox(boxFactory);
+            theBox.setData(boxData);
+        }
+        else {
             const boxFactory: BoxFactory = new ViewOnlyBoxFactory();
             theBox = new ViewOnlyBox(boxFactory);
             theBox.setData(boxData);

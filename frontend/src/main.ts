@@ -1,6 +1,9 @@
 import "./stylesheets/main.scss";
 import Icon from './assets/brand.png';
-import { BoxData, Box, BoxBuilder, OrderABox } from './components/box'
+import { BoxData, Box, BoxBuilder, OrderABox } from './components/box';
+import { setAsAppContainer } from './components/page';
+
+setAsAppContainer(document.body);
 
 function component() {
   const element = document.createElement('div');
