@@ -1,5 +1,7 @@
 import { makeDivWithId, makeDivWithIdAndText } from "../../utils/html"
 
+import "../../stylesheets/components/app/sidenav.scss";
+
 export function getSidenav(): HTMLDivElement {
     let sidenav: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppSidenav");
 

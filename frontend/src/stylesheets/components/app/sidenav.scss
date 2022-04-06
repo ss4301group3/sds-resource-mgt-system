@@ -1,0 +1,138 @@
+$color_navbar-bg-plain: rgb(14,60,110);
+$color_yellow: #ffcb00;
+$px_small: 3.5px;
+
+@mixin noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+#App {
+  #AppSidenav {
+    z-index: 1;
+    position: fixed;
+    top: 55px; left: -240px;
+    width: 240px; height: calc(100% - 55px);
+
+    color:white;
+    background-color: $color_navbar-bg-plain;
+    
+    transition: left 0.2s ease-out;
+
+    #SideNavSearch {
+      height: 19.5px;
+      margin-left: $px_small;
+      width: calc(240px - $px_small - 5px - 5px);
+
+      border: none;
+      padding: 5px;
+      
+      background-color: white;
+      
+      &:focus {
+        outline: none;
+      }
+
+      &:disabled {
+        background-color: white;
+      }
+    }
+    #SideNavRemarks {
+      @include noselect();
+
+      height:30px;
+      margin: 0px 0px 0px $px_small;
+      padding: 5px;
+
+      background-color: white;
+      color: black;
+
+      text-align: center;
+      font-size:12px;
+      font-weight: bold;
+      
+    }
+    #SideNavList {
+      @include noselect();
+
+      margin: 0 0 0 0;
+      height: 100%;
+
+      #SideNavListUl { margin-left: $px_small; };
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 0;
+
+      li {
+        margin-top: $px_small;
+        padding: $px_small;
+
+        border: $px_small solid white;
+
+        list-style: none;
+
+        font-weight: normal;
+        font-style: normal;
+        color:white;
+
+        background-color:$color_navbar-bg-plain;
+
+        &:hover, &.searchResult {
+          cursor: grab;
+
+          font-weight: bold;
+          font-style: italic;
+          color:$color_yellow;
+
+          border-color: $color_yellow;
+
+          background-color: rgb(13,45,90);
+        }
+        &.dragOver {
+          color: #00ff00;
+          border-color: #00ff00;
+        }
+        &.dragged {
+          font-style: normal;
+          background-color: rgba(10,40,80,1);
+        }
+      }
+    }
+  }
+  #AppSidenavToggle {
+    z-index: 1;
+    align-items: center;
+    
+    position: fixed; display: flex;
+    top:55px; left:0px;
+    width:22px; height: calc(100% - 55px);
+
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color:white;
+
+    background-color: $color_navbar-bg-plain;
+
+    box-shadow: 8px 8px 8px 0 rgba(0,0,0,0.2),10px 10px 10px 0 rgba(0,0,0,0.19);
+    
+    flex-direction: row;
+    justify-content: center;
+    @include noselect();
+
+    transition: left 0.2s ease-out;
+    
+    &:hover {
+      font-style: bold;
+      color:$color_yellow;
+
+      background-color: rgb(13,45,90);
+    }
+  }
+}

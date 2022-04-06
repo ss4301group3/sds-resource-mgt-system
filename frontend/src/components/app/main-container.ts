@@ -1,4 +1,6 @@
-import { makeDivWithId, makeH2WithId, makePWithId } from "../../utils/html";
+import { makeDivWithId, makeH3WithId, makePWithId } from "../../utils/html";
+
+import "../../stylesheets/components/app/main-container.scss";
 
 export function getMainContainer(): HTMLDivElement {
     let container: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppMainContainer");
@@ -16,7 +18,7 @@ export function getMainContainer(): HTMLDivElement {
 export function getPageTitle(): HTMLHeadingElement {
     let title: HTMLHeadingElement = <HTMLHeadingElement> document.querySelector("#AppPageTitle");
 
-    if(!title) title = makeH2WithId("AppPageTitle");
+    if(!title) title = makeH3WithId("AppPageTitle");
 
     return title;
 }

@@ -9,12 +9,15 @@ module.exports = {
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
-      title: 'SDS Resources',
-      favicon: './frontend/src/assets/favicon.svg'
+      template: './frontend/src/index.html',
     }),
   ],
   module: {
 		rules: [
+      {
+        test: /\.html$/,
+        loader: 'html-loader'
+      },
       {
         test: /\.tsx?$/,
         use: 'ts-loader',

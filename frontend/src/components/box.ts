@@ -1,5 +1,4 @@
 import { makeDivWithClass, makeTableRowWithClass } from "../utils/html";
-import "../stylesheets/box.scss";
 interface RenderOption {
     render(box: Box): HTMLElement;
 }
