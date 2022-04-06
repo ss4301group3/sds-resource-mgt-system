@@ -25,6 +25,10 @@ export const makeTableRowWithClass = (className: string): HTMLTableRowElement =>
     className: className
 });
 
+export function removeChildren(elemToClear: HTMLElement): void {
+    while(elemToClear.hasChildNodes()) elemToClear.removeChild(<Node> elemToClear.firstChild);
+}
+
 export function hideElemUsingClassList(elemToHide: HTMLElement): void {
     elemToHide.classList.add("hidden");
 }

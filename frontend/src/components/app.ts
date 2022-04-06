@@ -8,7 +8,6 @@ import "../stylesheets/components/app/message-box.scss";
 
 let appContainer: HTMLElement;
 
-
 export function setAsAppContainer(container?: HTMLElement): void {
     if(!container) container = appContainer;
     appContainer = container;
@@ -44,6 +43,10 @@ function init(): HTMLDivElement {
 
 export function showPage(pageName: string): void {
 
+}
+
+export function showCustomInterface(interfaceHTML: string): void {
+    
 }
 
 

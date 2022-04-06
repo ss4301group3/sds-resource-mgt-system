@@ -1,4 +1,4 @@
-import { makeDivWithId, makeH3WithId, makePWithId } from "../../utils/html";
+import { makeDivWithId, makeH3WithId, makePWithId, removeChildren } from "../../utils/html";
 
 import "../../stylesheets/components/app/main-container.scss";
 
@@ -22,6 +22,10 @@ export function getPageTitle(): HTMLHeadingElement {
 
     return title;
 }
+export function setPageTitle(title: string): void {
+    getPageTitle().innerHTML = title;
+}
+export function clearPageTitle(): void { removeChildren(getPageTitle() ); }
 
 export function getPageRemarks(): HTMLParagraphElement {
     let remarks: HTMLParagraphElement = <HTMLParagraphElement> document.querySelector("#AppPageRemarks");
@@ -30,6 +34,7 @@ export function getPageRemarks(): HTMLParagraphElement {
 
     return remarks;
 }
+export function clearPageRemarks(): void { removeChildren(getPageRemarks() ); }
 
 export function getPageContent(): HTMLDivElement {
     let content: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppPageContent");
@@ -37,4 +42,7 @@ export function getPageContent(): HTMLDivElement {
     if(!content) content = makeDivWithId("AppPageContent");
 
     return content;
+}
+export function addPageContent(newContent: HTMLElement): void {
+    getPageContent().appendChild(newContent);
 }
