@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "outDir": "./frontend/dist/",
+    "outDir": "./dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "module": "es6",

@@ -1,15 +1,41 @@
-interface RenderOption { render(box: Box): Node; }
-class TileRenderOption implements RenderOption {
+import { makeDivWithClass, makeTableRowWithClass } from "../utils/html";
+import "../stylesheets/box.scss";
+abstract class RenderOption {
+    abstract render(box: Box): HTMLElement;
+}
+class TileRenderOption extends RenderOption {
     render(box: Box): HTMLDivElement {
-        const htmlNode = document.createElement("div");
-        htmlNode.innerHTML = "a box as tile";
+        const htmlNode = makeDivWithClass("box-component tile");
+
+        let innerHTMLString: string =
+        `<span class="box-component-label">
+            ${box.getLabel()}
+        </span>`;
+
+        Object.entries(box.getProperties()).forEach(([key, value]) => {
+            innerHTMLString += `<p class="box-component-data">${key}: ${value}</p>`;
+        });
+
+        htmlNode.innerHTML = innerHTMLString
+
         return htmlNode;
     }
 }
-class RowRenderOption implements RenderOption {
+class RowRenderOption extends RenderOption {
     render(box: Box): HTMLTableRowElement {
-        const htmlNode = document.createElement("tr");
-        htmlNode.innerHTML = "a box as row";
+        const htmlNode = makeTableRowWithClass("box-component row");
+
+        let innerHTMLString: string =
+        `<td class="box-component-label">
+            ${box.getLabel()}
+        </td>`;
+
+        Object.entries(box.getProperties()).forEach(([key, value]) => {
+            innerHTMLString += `<td class="box-component-data">${value}</td>`;
+        });
+
+        htmlNode.innerHTML = innerHTMLString
+
         return htmlNode;
     }
 }
@@ -76,41 +102,73 @@ class AdminBoxFactory implements BoxFactory{
     assignDeleteOption(): DeleteOption { return new CommonDeleteOption(); }
 }
 
-export abstract class Box {
+export class BoxData {
     #id: number;
     #parentId: number;
     #label: string;
 
-    #properties: { [key: string]: string } = {};
+    #properties: { [key: string]: string };
 
-    #htmlNode: Node;
-
-    #viewOption: ViewOption;
-    #editOption: EditOption;
-    #deleteOption: DeleteOption;
-
-    abstract makeBox(displayMode: string): void;
-
-    setId(id: number): void { this.#id = id; }
-    setParentId(parentId: number): void { this.#parentId = parentId; }
-    setLabel(label: string): void { this.#label = label; }
+    constructor(id: number, parentId: number, label: string, properties: { [key: string]: string }){
+        this.#id = id;
+        this.#parentId = parentId;
+        this.#label = label;
+        this.#properties = properties ? properties : {};
+    }
     setProperty(propertyName: string, propertyValue: string): void { this.#properties[propertyName] = propertyValue; }
-    setProperties(properties: { [key: string]: string }): void { this.#properties = properties; }
-
-    appendThisHTMLTo(parentNode: Node): void { parentNode.appendChild(this.#htmlNode); }
-    appendBoxChild(childBox: Box): void { childBox.appendThisHTMLTo(this.#htmlNode); }
-
-    setViewOption(viewOption: ViewOption): void { this.#viewOption = viewOption; }
-    setEditOption(editOption: EditOption): void { this.#editOption = editOption; }
-    setDeleteOption(deleteOption: DeleteOption): void { this.#deleteOption = deleteOption; }
 
     getId(): number { return this.#id; }
     getParentId(): number { return this.#parentId; }
     getLabel(): string { return this.#label; }
     getProperty(propertyName: string): string { return this.#properties[propertyName]; }
     getProperties(): { [key: string]: string } { return this.#properties; }
+}
 
-    render(renderOption: RenderOption): void { this.#htmlNode = renderOption.render(this); }
+export abstract class Box {
+    #data: BoxData;
+
+    #htmlNode: Node;
+
+    #renderOption: RenderOption;
+
+    #viewOption: ViewOption;
+    #editOption: EditOption;
+    #deleteOption: DeleteOption;
+
+    abstract makeBox(displayMode: string): void;
+    
+    setData(data: BoxData): void { this.#data = data};
+    setProperty(propertyName: string, propertyValue: string): void {
+        this.#data.setProperty(propertyName, propertyValue);
+        this.render();
+    }
+
+    appendThisHTMLTo(parentNode: Node): void { parentNode.appendChild(this.#htmlNode); }
+    appendBoxChild(childBox: Box): void { childBox.appendThisHTMLTo(this.#htmlNode); }
+
+    setRenderOption(renderOption: RenderOption): void { this.#renderOption = renderOption; }
+
+    setViewOption(viewOption: ViewOption): void { this.#viewOption = viewOption; }
+    setEditOption(editOption: EditOption): void { this.#editOption = editOption; }
+    setDeleteOption(deleteOption: DeleteOption): void { this.#deleteOption = deleteOption; }
+
+    getId(): number { return this.#data.getId(); }
+    getParentId(): number { return this.#data.getParentId(); }
+    getLabel(): string { return this.#data.getLabel(); }
+    getProperty(propertyName: string): string { return this.#data.getProperty(propertyName); }
+    getProperties(): { [key: string]: string } { return this.#data.getProperties(); }
+
+    render(): void {
+        let newNode: Node = this.#renderOption.render(this);
+
+        if (this.#htmlNode) {
+            const parentNode: Node = this.#htmlNode.parentNode;
+            parentNode.insertBefore(newNode, this.#htmlNode);
+            this.#htmlNode.parentNode.removeChild(this.#htmlNode);
+        }
+
+        this.#htmlNode = newNode;
+    }
 
     executeViewOption(): void { this.#viewOption.view() };
     executeEditOption(): void { this.#editOption.edit() };
@@ -129,28 +187,30 @@ class ViewOnlyBox extends Box {
         this.setEditOption(this.#boxFactory.assignEditOption());
         this.setDeleteOption(this.#boxFactory.assignDeleteOption());
 
-        this.render(displayMode == "Tile"? new TileRenderOption() : new RowRenderOption());
+        this.setRenderOption(displayMode == "Tile"? new TileRenderOption() : new RowRenderOption());
+
+        this.render();
     }
 }
 
 export abstract class BoxBuilder {
-    abstract makeBox(typeOfBox: string): Box;
+    abstract makeBox(typeOfBox: string, boxData: BoxData): Box;
 
-    orderABox(typeOfBox: string, displayMode: string): Box {
-        const theBox: Box = this.makeBox(typeOfBox);
+    orderABox(typeOfBox: string, displayMode: string, boxData: BoxData): Box {
+        const theBox: Box = this.makeBox(typeOfBox, boxData);
         theBox.makeBox(displayMode);
 
         return theBox;
     }
 }
 export class OrderABox extends BoxBuilder {
-    makeBox(typeOfBox: string) {
+    makeBox(typeOfBox: string, boxData: BoxData) {
         let theBox: Box = null;
 
         if(typeOfBox == "View Only") {
             const boxFactory: BoxFactory = new ViewOnlyBoxFactory();
             theBox = new ViewOnlyBox(boxFactory);
-            theBox.setLabel("A View Only Box");
+            theBox.setData(boxData);
         }
 
         return theBox;

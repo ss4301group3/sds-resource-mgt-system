@@ -11,8 +11,8 @@
     "start": "node ./bin/www",
     "test": "jest",
     "dev": "nodemon -e html,js,css ./bin/www",
-    "watch": "webpack --watch",
-    "build": "webpack"
+    "watch": "webpack -c ./frontend/webpack.config.js --watch",
+    "build": "webpack -c ./frontend/webpack.config.js"
   },
   "repository": {
     "type": "git",

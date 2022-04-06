@@ -10,7 +10,7 @@ module.exports = {
   plugins: [
     new HtmlWebpackPlugin({
       title: 'SDS Resources',
-      favicon: './frontend/src/favicon.svg'
+      favicon: './frontend/src/assets/favicon.svg'
     }),
   ],
   module: {
@@ -42,7 +42,7 @@ module.exports = {
   },
   output: {
     filename: '[name].[contenthash].js',
-    path: path.resolve(__dirname, 'frontend/dist'),
+    path: path.resolve(__dirname, 'dist'),
     clean: true,
   },
   optimization: {
