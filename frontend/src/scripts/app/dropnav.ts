@@ -1,6 +1,8 @@
 import { makeButtonWithId, makeDivWithId } from "../utils/html";
 import { getFrontPage } from "../pages/frontPage";
 
+import "../../stylesheets/components/app/dropnav.scss";
+
 export function getDropnav(): HTMLDivElement {
     let dropnav: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnav");
 
@@ -33,4 +35,10 @@ export function getEffectedElems(): HTMLCollectionOf<Element> {
 }
 export function haveDropnavEffect(elem: HTMLElement): void {
     elem.classList.add("dropnav-effectee");
+}
+
+export function removeLoader(): void {
+    let loader: HTMLElement = <HTMLElement> document.querySelector('#Preloaded')
+
+    if(loader) loader.parentElement?.removeChild(loader);
 }

@@ -1,23 +1,12 @@
-import { showApp, setAsAppContainer, hideApp } from './scripts/app';
-import { haveDropnavEffect, getDropnav, hideDropnav, showDropnav, showFrontPage } from './scripts/app/dropnav';
-import { clearPageRemarks, clearPageTitle } from './scripts/app/mainContainer';
-import { getNavbar } from './scripts/app/navbar';
-import { getSidenavToggle } from './scripts/app/sidenav';
+import { showApp, setAsAppContainer, init } from './scripts/app';
+import { hideDropnav, showDropnav } from './scripts/app/dropnav';
+
 
 setAsAppContainer(document.body);
-showApp();
-
-clearPageTitle();
-clearPageRemarks();
-
-haveDropnavEffect(getNavbar());
-haveDropnavEffect(getDropnav());
-haveDropnavEffect(getSidenavToggle());
-showFrontPage();
-
-
-document.body.addEventListener("click", () => {
-    let isExpanded = getDropnav().classList.contains("dropnav-active");
-    if(isExpanded) hideDropnav();
-    else showDropnav();
-})
+init();
+setTimeout(() => {
+    document.querySelector("#AppButtonBox")?.classList.add("switched-from")
+}, 1000);
+setTimeout(() => {
+    document.querySelector("#AppButtonBox")?.classList.remove("switched-from")
+}, 2000);

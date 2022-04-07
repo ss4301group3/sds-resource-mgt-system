@@ -16,29 +16,6 @@ $color_yellow: #ffcb00;
 }
 
 #App {
-  #AppNavbarFiller { height: 55px; }
-  #AppDropnav {
-    z-index: 1;
-    position: fixed; display: flex;
-    left:0; top:0;
-    width: 100%; height: 55px;
-    
-    flex-direction: row;
-    justify-content: space-between; align-items: center;
-
-    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.29);
-
-    background-color: $color_navbar-bg;
-    
-    transition-property: background-color, height;
-    transition-timing-function: ease;
-    transition-duration: 0.2s;
-
-    &.dropnav-active {
-      background: $color_navbar-bg;
-      height: 100%;
-    }
-  }
   #AppNavbar {
     z-index: 1;
     position: fixed; display: flex;

@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>SDS Resources</title>
-  <link rel="SHORTCUT ICON" href="./assets/favicon.svg" type="image/x-icon">
+  <link rel="stylesheet" href="./stylesheets/components/app/preload.css">
   <script id="load-msal" src="https://alcdn.msauth.net/browser/2.15.0/js/msal-browser.js" integrity="sha384-dFzMiVGB5HpWZ+5w5VSif6jhWfNeplSw9ACYmQKZcY2azuT9kCxVWVI9HyfGdkHV" crossorigin="anonymous"></script>
   <script type="text/javascript">//if (typeof Msal === 'undefined') document.write(unescape("%3Cscript src='https://alcdn.msftauth.net/browser/2.15.0/js/msal-browser.js' type='text/javascript' crossorigin='anonymous' %3E%3C/script%3E"));</script>
 </head>
@@ -13,8 +13,13 @@
 <body>
   <div id="App">
     <div id="AppNavbarFiller"></div>
-    <div id="AppDropnav"></div>
-    <div id="AppNavbar">
+    <div id="AppDropnav" class="dropnav-effectee dropnav-active">
+      <div id="Preloaded">
+        <span id="Loader">LOADING...</span>
+        <noscript><span id="NoScript">Please enable JavaScript to use this app</span></noscript>
+      </div>
+    </div>
+    <div id="AppNavbar" class="dropnav-effectee dropnav-active">
       <div id="AppNavbarLogo">
         <a href="http://sds.ubd.edu.bn/">
           <img src="./assets/logo.png" alt="School of Digital Science">
@@ -37,12 +42,12 @@
       <noscript><p class="message-text">Please enable JavaScript to use this app</p></noscript>
     </div>
     -->
-    <div id="AppSidenav">
+    <div id="AppSidenav" class="dropnav-effectee dropnav-active">
       <input type="text" id="SideNavSearch" placeholder="Search" disabled="true"></input>
       <p id="SideNavRemarks"></p>
       <div id="SideNavList"><ul id="SideNavListUl"></ul></div>
     </div>
-    <div id="AppSidenavToggle">></div>
+    <div id="AppSidenavToggle" class="dropnav-effectee dropnav-active">></div>
     <div id="AppMainContainer">
       <div id="AppPage">
         <h2 id="AppPageTitle">Fetching content</h2>

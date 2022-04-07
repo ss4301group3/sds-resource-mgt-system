@@ -2,11 +2,18 @@ import { makeDivWithId } from "./utils/html";
 import { getMainContainer } from "./app/mainContainer";
 import { getNavbar, getNavbarFiller } from "./app/navbar";
 import { getSidenav, getSidenavToggle } from "./app/sidenav";
+import { removeLoader, showFrontPage } from "./app/dropnav";
 
 import "../stylesheets/components/app.scss";
 import "../stylesheets/components/app/messageBox.scss";
 
 let appContainer: HTMLElement;
+
+export function init(): void {
+    removeLoader();
+    showApp();
+    showFrontPage();
+}
 
 export function setAsAppContainer(container?: HTMLElement): void {
     if(!container) container = appContainer;
@@ -16,7 +23,7 @@ export function setAsAppContainer(container?: HTMLElement): void {
 export function showApp(): void {
     let app = document.querySelector("#App");
 
-    if(!app) app = init();
+    if(!app) app = getApp();
 
     appContainer.appendChild(app);
 }
@@ -27,7 +34,7 @@ export function hideApp(): void {
     if(app) app.parentNode?.removeChild(app);
 }
 
-function init(): HTMLDivElement {
+function getApp(): HTMLDivElement {
     const app = makeDivWithId("App");
 
     app.appendChild(getNavbarFiller());

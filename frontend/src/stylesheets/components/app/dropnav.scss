@@ -1,26 +1,25 @@
 $color_navbar-bg: #132233;
 
 #App {
-  #AppNavbarFiller { height: 55px; }
   #AppDropnav {
     z-index: 1;
     position: fixed; display: flex;
     left:0; top:0;
-    width: 100%; height: 100%;
+    width: 100%; height: 55px;
     
     flex-direction: row;
     justify-content: space-between; align-items: center;
 
-    transition-property: background-color, height;
-    transition-timing-function: ease;
-    transition-duration: 1s;
-
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.3), 0 6px 20px 0 rgba(0,0,0,0.29);
 
     background-color: $color_navbar-bg;
-    &.theme-dark {
+    
+    transition-property: background-color, height;
+    transition-duration: 0.3s;
+
+    &.dropnav-active {
       background: $color_navbar-bg;
-      height: 155px;
+      height: 100%;
     }
   }
 }

@@ -9,6 +9,7 @@ module.exports = {
   devtool: 'inline-source-map',
   plugins: [
     new HtmlWebpackPlugin({
+      favicon: './frontend/src/assets/favicon.svg',
       template: './frontend/src/template.html',
     }),
   ],
@@ -44,9 +45,9 @@ module.exports = {
     extensions: ['.tsx', '.ts', '.js'],
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: '[name].js',
     path: path.resolve(__dirname, 'dist'),
-    clean: true,
+    clean: false,
   },
   optimization: {
     runtimeChunk: 'single',
