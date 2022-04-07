@@ -1,4 +1,4 @@
-import { makeDivWithClass, makeTableRowWithClass } from "../utils/html";
+import { makeDivWithClass, makeTableRowWithClass } from "./utils/html";
 interface RenderOption {
     render(box: Box): HTMLElement;
 }

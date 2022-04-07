@@ -1,4 +1,4 @@
-import { makeDivWithId, makeDivWithIdAndText } from "../../utils/html"
+import { makeDivWithId, makeDivWithIdAndText } from "../utils/html"
 
 import "../../stylesheets/components/app/sidenav.scss";
 

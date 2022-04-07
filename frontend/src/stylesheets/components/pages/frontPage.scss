@@ -1,0 +1,43 @@
+$color_yellow: #f4c803;
+
+#App {
+  #AppDropnav {
+    #AppButtonBox {
+      position: absolute;
+      display: flex;
+      gap: 52px;
+      justify-content:center;
+      top:-200px; width:100%;
+
+      transition-property: background-color, top;
+      transition-timing-function: ease-out;
+      transition-duration: 0.3s;
+  
+      &.dropnav-active {
+        top: 50%;
+      }
+      
+      button {
+        position: relative;
+        text-decoration: none;
+        overflow: hidden;
+        padding: 10px 20px;
+        background: transparent;
+        color: $color_yellow;
+        border-radius: 25px;
+        border: 2px solid $color_yellow;
+        height: 40px;
+        margin-left:60px;
+      }
+      #AppButtonBoxSeparator {
+          background: linear-gradient( #132233 0%, #f4c803 35%, #132233 100%);
+          width: 2px;
+          height: 200px;
+          position: absolute;
+          top:50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+      }
+    }
+  }
+}

@@ -1,6 +1,6 @@
-import { makeDivWithId, makeH3WithId, makePWithId, removeChildren } from "../../utils/html";
+import { makeDivWithId, makeH3WithId, makePWithId, removeChildren } from "../utils/html";
 
-import "../../stylesheets/components/app/main-container.scss";
+import "../../stylesheets/components/app/mainContainer.scss";
 
 export function getMainContainer(): HTMLDivElement {
     let container: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppMainContainer");

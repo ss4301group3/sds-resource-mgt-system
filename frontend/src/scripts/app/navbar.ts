@@ -1,9 +1,9 @@
-import { makeButtonWithId, makeDivWithId} from "../../utils/html";
+import { makeButtonWithId, makeDivWithId} from "../utils/html";
 import { DEPARTMENT_NAME, HOMEPAGE_URL } from "../../config";
 
 import LOGO from '../../assets/logo.png';
 
-import "../../stylesheets/components/app/navbar.scss";
+import "../../stylesheets/components/app/topnav.scss";
 
 export function getNavbarFiller(): HTMLDivElement {
     let filler: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbarFiller");

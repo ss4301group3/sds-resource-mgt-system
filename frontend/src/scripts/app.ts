@@ -1,10 +1,10 @@
-import { makeDivWithId } from "../utils/html";
-import { getMainContainer } from "./app/main-container";
+import { makeDivWithId } from "./utils/html";
+import { getMainContainer } from "./app/mainContainer";
 import { getNavbar, getNavbarFiller } from "./app/navbar";
 import { getSidenav, getSidenavToggle } from "./app/sidenav";
 
 import "../stylesheets/components/app.scss";
-import "../stylesheets/components/app/message-box.scss";
+import "../stylesheets/components/app/messageBox.scss";
 
 let appContainer: HTMLElement;
 

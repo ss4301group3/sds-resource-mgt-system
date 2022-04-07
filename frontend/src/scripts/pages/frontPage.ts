@@ -1,4 +1,7 @@
-import { makeButtonWithId, makeDivWithId } from "../../utils/html";
+import { makeButtonWithId, makeDivWithId } from "../utils/html";
+
+import "../../stylesheets/components/pages/frontPage.scss";
+import { haveDropnavEffect } from "../app/dropnav";
 
 export function getFrontPage(): HTMLDivElement {
     let buttonBox: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppButtonBox");
@@ -6,7 +9,9 @@ export function getFrontPage(): HTMLDivElement {
     if(!buttonBox) {
         buttonBox = makeDivWithId("AppButtonBox");
         buttonBox.appendChild(getAdminButton());
+        buttonBox.appendChild(getSeparator());
         buttonBox.appendChild(getLoanButton());
+        haveDropnavEffect(buttonBox);
     }
 
     return buttonBox;
@@ -17,10 +22,22 @@ function getAdminButton(): HTMLButtonElement {
 
     if(!adminButton) {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
-        adminButton.innerText = "Admin";
+        adminButton.innerText = "ADMIN";
+        haveDropnavEffect(adminButton);
     }
 
     return adminButton;
+}
+
+function getSeparator(): HTMLDivElement {
+    let separator: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppButtonBoxSeparator");
+    
+    if(!separator) {
+        separator = makeDivWithId("AppButtonBoxSeparator");
+        haveDropnavEffect(separator);
+    }
+
+    return separator;
 }
 
 function getLoanButton(): HTMLButtonElement {
@@ -28,7 +45,8 @@ function getLoanButton(): HTMLButtonElement {
 
     if(!loanButton) {
         loanButton = makeButtonWithId("AppFrontNavLoan");}
-        loanButton.innerText = "Loan Resources";
+        loanButton.innerText = "LOAN RESOURCES";
+        haveDropnavEffect(loanButton);
 
     return loanButton;
 }
