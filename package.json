@@ -11,7 +11,7 @@
     "start": "node ./bin/www",
     "test": "jest",
     "dev": "nodemon -e html,js,css ./bin/www",
-    "watch": "webpack -c ./frontend/webpack.config.js --watch",
+    "build-prod": "webpack -c ./frontend/webpack.config.js --mode=production",
     "build": "webpack -c ./frontend/webpack.config.js"
   },
   "repository": {
