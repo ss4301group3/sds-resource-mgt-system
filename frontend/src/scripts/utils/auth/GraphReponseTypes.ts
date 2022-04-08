@@ -18,8 +18,8 @@
 
 
 /**
- * Mail data from MS Graph
+ * Count of groups that match with specified id (0 or 1 only), fetched from MS Graph
  */
-export type MailInfo = {
-    value?: Array<any>
+export type MemberInfo = {
+    "@odata.count"?: number
 };
