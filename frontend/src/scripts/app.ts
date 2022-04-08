@@ -2,7 +2,8 @@ import { makeDivWithId } from "./utils/html";
 import { getMainContainer } from "./app/mainContainer";
 import { getNavbar, getNavbarFiller } from "./app/navbar";
 import { getSidenav, getSidenavToggle } from "./app/sidenav";
-import { removeLoader, showFrontPage } from "./app/dropnav";
+import { removeLoader } from "./app/dropnav";
+import { pages } from "./utils/pages";
 
 import "../stylesheets/components/app.scss";
 import "../stylesheets/components/app/messageBox.scss";
@@ -12,7 +13,7 @@ let appContainer: HTMLElement;
 export function init(): void {
     removeLoader();
     showApp();
-    showFrontPage();
+    pages.frontPage.show();
 }
 
 export function setAsAppContainer(container?: HTMLElement): void {
@@ -47,35 +48,3 @@ function getApp(): HTMLDivElement {
 
     return app;
 }
-
-export function showPage(pageName: string): void {
-
-}
-
-export function showCustomInterface(interfaceHTML: string): void {
-    
-}
-
-
-interface RenderOption {
-    render(page: Page): void;
-}
-class DefaultRenderOption implements RenderOption {
-    render(page: Page): void {
-    }
-}
-
-class PageData {
-    #label: string;
-    #remarks: string;
-
-    #route: { [key: string]: string };
-    #section: string;
-}
-
-class Page {
-    #data: PageData;
-    #content: PageContent;
-}
-
-class PageContent {}

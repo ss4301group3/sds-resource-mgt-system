@@ -12,7 +12,8 @@
     "test": "jest",
     "dev": "nodemon -e html,js,css ./bin/www",
     "build-prod": "webpack -c ./frontend/webpack.config.js --mode=production",
-    "build": "webpack -c ./frontend/webpack.config.js"
+    "build": "webpack -c ./frontend/webpack.config.js",
+    "watch": "webpack -c ./frontend/webpack.config.js --watch"
   },
   "repository": {
     "type": "git",
@@ -24,6 +25,7 @@
   },
   "homepage": "https://github.com/ss4301group3/sds-resource-mgt-system#readme",
   "dependencies": {
+    "@azure/msal-browser": "^2.23.0",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
     "express": "~4.16.1",

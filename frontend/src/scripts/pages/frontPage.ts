@@ -1,9 +1,23 @@
 import { makeButtonWithId, makeDivWithId } from "../utils/html";
+import { haveDropnavEffect, hideDropnav } from "../app/dropnav";
 
 import "../../stylesheets/components/pages/frontPage.scss";
-import { haveDropnavEffect } from "../app/dropnav";
+import { pages } from "../utils/pages";
 
 export function getFrontPage(): HTMLDivElement {
+
+    let boxContainer: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppButtonBoxContainer");
+
+    if(!boxContainer) {
+        boxContainer = makeDivWithId("AppButtonBoxContainer");
+        boxContainer.appendChild(getButtonBox());
+        haveDropnavEffect(boxContainer);
+    }
+
+    return boxContainer;
+}
+
+function getButtonBox(): HTMLDivElement {
     let buttonBox: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppButtonBox");
     
     if(!buttonBox) {
@@ -11,7 +25,6 @@ export function getFrontPage(): HTMLDivElement {
         buttonBox.appendChild(getAdminButton());
         buttonBox.appendChild(getSeparator());
         buttonBox.appendChild(getLoanButton());
-        haveDropnavEffect(buttonBox);
     }
 
     return buttonBox;
@@ -23,7 +36,7 @@ function getAdminButton(): HTMLButtonElement {
     if(!adminButton) {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
         adminButton.innerText = "ADMIN";
-        haveDropnavEffect(adminButton);
+        adminButton.addEventListener("click", hideDropnav, {capture:false})
     }
 
     return adminButton;
@@ -34,7 +47,6 @@ function getSeparator(): HTMLDivElement {
     
     if(!separator) {
         separator = makeDivWithId("AppButtonBoxSeparator");
-        haveDropnavEffect(separator);
     }
 
     return separator;
@@ -46,7 +58,9 @@ function getLoanButton(): HTMLButtonElement {
     if(!loanButton) {
         loanButton = makeButtonWithId("AppFrontNavLoan");}
         loanButton.innerText = "LOAN RESOURCES";
-        haveDropnavEffect(loanButton);
+        loanButton.addEventListener("click", () => 
+            pages.loanForm.show()
+        , {capture:false})
 
     return loanButton;
 }

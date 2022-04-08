@@ -13,11 +13,6 @@ export function getDropnav(): HTMLDivElement {
     return dropnav;
 }
 
-export function showFrontPage(): void {
-    getDropnav().appendChild(getFrontPage());
-    showDropnav();
-}
-
 export function showDropnav(): void {
     const effectedElems: HTMLCollectionOf<Element> = getEffectedElems();
 

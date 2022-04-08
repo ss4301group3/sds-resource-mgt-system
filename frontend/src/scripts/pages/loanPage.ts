@@ -2,13 +2,26 @@ import { DEPARTMENT_NAME } from "../../config";
 import { haveDropnavEffect } from "../app/dropnav";
 import { makeButtonWithClass, makeButtonWithId, makeDivWithId, makeDivWithIdAndClass, makeH2WithText } from "../utils/html";
 
-export function getLoanForm(): HTMLDivElement {
+import "../../stylesheets/components/pages/loanPage.scss";
+import { pages } from "../utils/pages";
+
+export function getLoanPage(): HTMLDivElement {
+    let boxContainer: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppLoanBoxContainer");
+
+    if(!boxContainer) {
+        boxContainer = makeDivWithIdAndClass("AppLoanBoxContainer", "page-inactive");
+        boxContainer.appendChild(getLoanForm());
+        haveDropnavEffect(boxContainer);
+    }
+    return boxContainer;
+}
+function getLoanForm(): HTMLDivElement {
     let loanBox: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppLoanBox");
     
     if(!loanBox) {
         loanBox = makeDivWithId("AppLoanBox");
         loanBox.innerHTML = `
-<button class="btn" onclick="closeForm()"><i class="material-icons icon">
+<button class="btn"><i class="material-icons icon" id="AppLoanBoxCloseBtn">
     close
 </i></button>
 <h2>School of DIgital Science</h2>
@@ -61,7 +74,8 @@ export function getLoanForm(): HTMLDivElement {
     <button class="submit-btn" type="submit">Submit</button>
 </div>
         `;
-        haveDropnavEffect(loanBox);
+        const closeBtn = loanBox.querySelector("#AppLoanBoxCloseBtn");
+        closeBtn?.addEventListener("click", () => pages.frontPage.show(), {capture: true});
     }
 
     return loanBox;
