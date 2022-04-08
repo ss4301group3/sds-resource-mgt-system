@@ -49,11 +49,11 @@ export async function seeProfile(): Promise<void> {
 /**
  * Called when user clicks "Read Mail"
  */
-export async function readMail(): Promise<void> {
-    const token = isIE ? await authModule.getMailTokenRedirect() : await authModule.getMailTokenPopup();
+export async function readGroups(): Promise<void> {
+    const token = isIE ? await authModule.getGroupsTokenRedirect() : await authModule.getGroupsTokenPopup();
     if (token && token.length > 0) {
-        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_MAIL_ENDPT, token);
-        UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_MAIL_ENDPT);
+        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ENDPT, token);
+        UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ENDPT);
     }
 }
 

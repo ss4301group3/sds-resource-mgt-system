@@ -24,6 +24,6 @@ export class FetchManager {
         console.log('request made at: ' + new Date().toString());
 
         const response = await fetch(endpoint, options);
-        return (await response.json()) as UserInfo | MailInfo;
+        return (await response.json()) as any;//UserInfo | MailInfo;
     }
 }

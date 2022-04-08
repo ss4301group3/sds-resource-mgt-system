@@ -9,11 +9,10 @@ import { SsoSilentRequest } from "@azure/msal-browser";
 const MSAL_CONFIG: Configuration = {
     auth: {
         clientId: "77d7a34b-9853-4113-9d57-3136eb0149e4",
-        //authority: "https://login.microsoftonline.com/3f46b7a8-385a-4569-9af5-c43dd63dad93",
-        //redirectUri: "http://localhost:8080",
+        authority: "https://login.microsoftonline.com/3f46b7a8-385a-4569-9af5-c43dd63dad93",
     },
     cache: {
-        cacheLocation: "sessionStorage", // This configures where your cache will be stored
+        cacheLocation: "localStorage", // This configures where your cache will be stored
         storeAuthStateInCookie: false, // Set this to "true" if you are having issues on IE11 or Edge
     },
     system: {
@@ -52,10 +51,10 @@ export class AuthModule {
     private loginRequest: PopupRequest; // https://azuread.github.io/microsoft-authentication-library-for-js/ref/msal-browser/modules/_src_request_popuprequest_.html
     private profileRedirectRequest: RedirectRequest;
     private profileRequest: PopupRequest;
-    private mailRedirectRequest: RedirectRequest;
-    private mailRequest: PopupRequest;
+    private groupsRedirectRequest: RedirectRequest;
+    private groupsRequest: PopupRequest;
     private silentProfileRequest: SilentRequest; // https://azuread.github.io/microsoft-authentication-library-for-js/ref/msal-browser/modules/_src_request_silentrequest_.html
-    private silentMailRequest: SilentRequest;
+    private silentGroupsRequest: SilentRequest;
     private silentLoginRequest: SsoSilentRequest;
 
     constructor() {
@@ -63,7 +62,7 @@ export class AuthModule {
         this.account = null;
 
         this.loginRequest = {
-            scopes: []
+            scopes: ["User.Read", "api://sdsrms/access_as_user"]
         };
 
         this.loginRedirectRequest = {
@@ -81,12 +80,12 @@ export class AuthModule {
         };
 
         // Add here scopes for access token to be used at MS Graph API endpoints.
-        this.mailRequest = {
-            scopes: ["Mail.Read"]
+        this.groupsRequest = {
+            scopes: ["User.Read"]
         };
 
-        this.mailRedirectRequest = {
-            ...this.mailRequest,
+        this.groupsRedirectRequest = {
+            ...this.groupsRequest,
             redirectStartPage: window.location.href
         };
 
@@ -95,14 +94,14 @@ export class AuthModule {
             forceRefresh: false
         };
 
-        this.silentMailRequest = {
+        this.silentGroupsRequest = {
             scopes: ["openid", "profile", "Mail.Read"],
             forceRefresh: false
         };
 
         this.silentLoginRequest = {
-            loginHint: "IDLAB@msidlab0.ccsctp.net"
-        }
+            //domainHint: "3f46b7a8-385a-4569-9af5-c43dd63dad93",
+        };
     }
 
     /**
@@ -118,7 +117,7 @@ export class AuthModule {
             console.log("No accounts detected");
             return null;
         }
-
+        console.log(currentAccounts)
         if (currentAccounts.length > 1) {
             // Add choose account code here
             console.log("Multiple accounts detected, need to add choose account code.");
@@ -136,6 +135,7 @@ export class AuthModule {
      * https://github.com/AzureAD/microsoft-authentication-library-for-js/blob/dev/lib/msal-browser/docs/initialization.md#redirect-apis
      */
     loadAuthModule(): void {
+        this.attemptSsoSilent();
         this.myMSALObj.handleRedirectPromise().then((resp: AuthenticationResult | null) => {
             this.handleResponse(resp);
         }).catch(console.error);
@@ -151,7 +151,7 @@ export class AuthModule {
         } else {
             this.account = this.getAccount();
         }
-
+        console.log(this.account?.idTokenClaims);
         if (this.account) {
             UIManager.showWelcomeMessage(this.account);
         }
@@ -171,9 +171,9 @@ export class AuthModule {
             }
         }).catch(error => {
             console.error("Silent Error: " + error);
-            if (error instanceof InteractionRequiredAuthError) {
-                this.login("loginPopup");
-            }
+            //if (error instanceof InteractionRequiredAuthError) {
+            //    this.login("loginPopup");
+            //}
         })
     }
 
@@ -229,21 +229,21 @@ export class AuthModule {
     /**
      * Gets the token to read mail data from MS Graph silently, or falls back to interactive redirect.
      */
-    async getMailTokenRedirect(): Promise<string|null> {
+    async getGroupsTokenRedirect(): Promise<string|null> {
         if (this.account) {
-            this.silentMailRequest.account = this.account;
+            this.silentGroupsRequest.account = this.account;
         }
-        return this.getTokenRedirect(this.silentMailRequest, this.mailRedirectRequest);
+        return this.getTokenRedirect(this.silentGroupsRequest, this.groupsRedirectRequest);
     }
 
     /**
      * Gets the token to read mail data from MS Graph silently, or falls back to interactive popup.
      */
-    async getMailTokenPopup(): Promise<string|null> {
+    async getGroupsTokenPopup(): Promise<string|null> {
         if (this.account) {
-            this.silentMailRequest.account = this.account;
+            this.silentGroupsRequest.account = this.account;
         }
-        return this.getTokenPopup(this.silentMailRequest, this.mailRequest);
+        return this.getTokenPopup(this.silentGroupsRequest, this.groupsRequest);
     }
 
     /**
