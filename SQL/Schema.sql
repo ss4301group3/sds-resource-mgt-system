@@ -9,8 +9,8 @@ GO
 CREATE TABLE dbo.PERSON
 (
     personId INT IDENTITY(1,1), -- primary key column
-    GraphId VARCHAR(MAX) NULL,
-    DisplayName VARCHAR(MAX) NULL,
+    graphId VARCHAR(MAX) NULL,
+    displayName VARCHAR(MAX) NULL,
     Email VARCHAR(MAX) NULL,
     Faculty VARCHAR (MAX) NULL,
     Phone INT NULL

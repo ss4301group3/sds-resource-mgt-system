@@ -1,7 +1,7 @@
 CREATE PROCEDURE getPersonList
 AS
 BEGIN
-    SELECT personID, displayName
+    SELECT personId, displayName
     FROM dbo.PERSON
-    ORDER BY personID;
+    ORDER BY personId;
 END;
