@@ -1,9 +1,13 @@
-import { showApp, setAsAppContainer, init } from './scripts/app';
+import { showApp, setAsAppContainer, init as appInit } from './scripts/app';
 import { hideDropnav, showDropnav } from './scripts/app/dropnav';
+import { init as authInit } from './scripts/utils/auth';
 import { pages } from './scripts/utils/pages';
 
-
-setAsAppContainer(document.body);
+function init() {
+    authInit();
+    setAsAppContainer(document.body);
+    appInit();
+}
 init();
 //hideDropnav();
 //pages.frontPage.show();

@@ -18,8 +18,16 @@
 
 
 /**
+ * Count of groups with id that match specified id (0 or 1 only), fetched from MS Graph
+ */
+ export type MembershipInfo = {
+    "@odata.count"?: number
+};
+
+
+/**
  * Count of groups that match with specified id (0 or 1 only), fetched from MS Graph
  */
-export type MemberInfo = {
-    "@odata.count"?: number
+ export type DepartmentInfo = {
+    "value"?: string
 };

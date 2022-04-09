@@ -1,15 +1,16 @@
-import { makeButtonWithId, makeDivWithId } from "../utils/html";
+import { makeButtonWithId, makeDivWithId, makeDivWithIdAndClass } from "../utils/html";
 import { haveDropnavEffect, hideDropnav } from "../app/dropnav";
 
 import "../../stylesheets/components/pages/frontPage.scss";
 import { pages } from "../utils/pages";
+import { signIn } from "../utils/auth";
 
 export function getFrontPage(): HTMLDivElement {
 
     let boxContainer: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppButtonBoxContainer");
 
     if(!boxContainer) {
-        boxContainer = makeDivWithId("AppButtonBoxContainer");
+        boxContainer = makeDivWithIdAndClass("AppButtonBoxContainer", "page-inactive");
         boxContainer.appendChild(getButtonBox());
         haveDropnavEffect(boxContainer);
     }
@@ -36,7 +37,7 @@ function getAdminButton(): HTMLButtonElement {
     if(!adminButton) {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
         adminButton.innerText = "ADMIN";
-        adminButton.addEventListener("click", hideDropnav, {capture:false})
+        adminButton.addEventListener("click", () => signIn("loginPopup"), {capture:false})
     }
 
     return adminButton;

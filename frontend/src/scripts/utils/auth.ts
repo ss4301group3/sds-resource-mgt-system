@@ -1,6 +1,5 @@
 import { AuthModule } from "./auth/AuthModule";
 import { FetchManager } from "./auth/FetchManager";
-import { UIManager } from "./auth/UIManager";
 import { GRAPH_CONFIG } from "./auth/Constants";
 
 //check if browser is Internet Explorer; to login via redirect (as opposed to popup) later on  if so.
@@ -12,9 +11,11 @@ const isIE = msie > 0 || msie11 > 0;
 const authModule: AuthModule = new AuthModule();
 const networkModule: FetchManager = new FetchManager();
 
-window.addEventListener("load", async () => {
-    authModule.loadAuthModule();
-});
+export function init(): void {
+    window.addEventListener("load", async () => {
+        authModule.loadAuthModule();
+    });
+}
 
 /**
  * Called to prompt user for signin, method either loginRedirect or loginPopup
@@ -39,7 +40,7 @@ export function signOut(): void {
     const token = isIE ? await authModule.getProfileTokenRedirect() : await authModule.getProfileTokenPopup();
     if (token && token.length > 0) {
         const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_ME_ENDPT, token);
-        UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_ME_ENDPT);
+        //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_ME_ENDPT);
     }
 }
 
@@ -49,8 +50,8 @@ export function signOut(): void {
 export async function getIsStaff(): Promise<void> {
     const token = isIE ? await authModule.getGroupsTokenRedirect() : await authModule.getGroupsTokenPopup();
     if (token && token.length > 0) {
-        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_ISSTAFF_ENDPT, token);
-        UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_ISSTAFF_ENDPT);
+        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT, token);
+        //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
     }
 }
 
@@ -60,8 +61,8 @@ export async function getIsStaff(): Promise<void> {
 export async function getIsStudent(): Promise<void> {
     const token = isIE ? await authModule.getGroupsTokenRedirect() : await authModule.getGroupsTokenPopup();
     if (token && token.length > 0) {
-        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_ISSTUDENT_ENDPT, token);
-        UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_ISSTUDENT_ENDPT);
+        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTUDENT_ENDPT, token);
+        //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTUDENT_ENDPT);
     }
 }
 

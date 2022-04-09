@@ -1,6 +1,9 @@
 import { PublicClientApplication, SilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
-import { UIManager } from "./UIManager";
 import { SsoSilentRequest } from "@azure/msal-browser";
+import { getDropnav, hideDropnav } from "../../app/dropnav";
+import { getMainContainer } from "../../app/mainContainer";
+import { makeButtonWithClass, makeH3WithId } from "../html";
+import { pages } from "../pages";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -151,10 +154,13 @@ export class AuthModule {
         } else {
             this.account = this.getAccount();
         }
-        console.log(this.account?.idTokenClaims);
         if (this.account) {
-            UIManager.showWelcomeMessage(this.account);
+            hideDropnav();
+            (<HTMLElement>document.querySelector('#AppPageTitle')).innerHTML = "Admin page";
+            (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = "Still working in this";
+            //UIManager.showWelcomeMessage(this.account);
         }
+        else pages.frontPage.show();
     }
 
     /**
@@ -165,7 +171,7 @@ export class AuthModule {
         this.myMSALObj.ssoSilent(this.silentLoginRequest).then(() => {
             this.account = this.getAccount();
             if (this.account) {
-                UIManager.showWelcomeMessage(this.account);
+                //UIManager.showWelcomeMessage(this.account);
             } else {
                 console.log("No account!");
             }
@@ -182,10 +188,14 @@ export class AuthModule {
         if (signInType === "loginPopup") {
             this.myMSALObj.loginPopup(this.loginRequest).then((resp: AuthenticationResult) => {
                 this.handleResponse(resp);
-            }).catch(console.error);
+            }).catch(() => {
+                console.error
+                pages.frontPage.show();
+            });
         } else if (signInType === "loginRedirect") {
             this.myMSALObj.loginRedirect(this.loginRedirectRequest);
         }
+        pages.frontPage.hide();
     }
 
     /**
