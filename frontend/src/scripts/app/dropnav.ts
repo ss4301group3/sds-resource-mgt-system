@@ -41,5 +41,5 @@ export function haveDropnavEffect(elem: HTMLElement): void {
 export function removeLoader(): void {
     let loader: HTMLElement = <HTMLElement> document.querySelector('#Preloaded')
 
-    if(loader) loader.parentElement?.removeChild(loader);
+    if(loader) loader.classList.add("page-inactive")
 }

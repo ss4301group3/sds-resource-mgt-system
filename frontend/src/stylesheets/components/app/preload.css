@@ -7,7 +7,7 @@
   background-color:  #132233;
 }
 
-#App #AppDropnav #Preloaded {
+#App #AppDropnav #LoaderContainer {
   display: flex;
   width: 100%; height: 100%;
   
@@ -15,13 +15,25 @@
   justify-content: center; align-items: center;
   
   background-color: #132233;
+
+  transition-property: scale;
+  transition-duration: 0.3s;
+  transition-timing-function: ease;
 }
 
-#App #AppDropnav #Preloaded span {
+#App #AppDropnav #LoaderContainer span {
   color: #f4c803;
   text-align: center;
   width: 100%;
 }
-#App #AppDropnav #Preloaded #Loader {
+#App #AppDropnav #LoaderContainer #Loader {
   font-size: xx-large;
+}
+#App #AppDropnav #LoaderContainer #Loader {
+  font-size: xx-large;
+}
+
+#App #AppDropnav #LoaderContainer.page-inactive {
+  scale: 0;
+  opacity: 0;
 }
