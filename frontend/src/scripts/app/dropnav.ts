@@ -3,6 +3,7 @@ import { getFrontPage } from "../pages/frontPage";
 
 import "../../stylesheets/components/app/dropnav.scss";
 import { pages } from "../utils/pages";
+import { hideLoader } from "./loader";
 
 export function getDropnav(): HTMLDivElement {
     let dropnav: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnav");
@@ -26,6 +27,7 @@ export function hideDropnav(): void {
     for(let i: number = 0; i < effectedElems.length; i++)
         effectedElems[i].classList.remove("dropnav-active");
     
+    hideLoader();
     pages.frontPage.hide();
 }
     
@@ -36,10 +38,4 @@ export function getEffectedElems(): HTMLCollectionOf<Element> {
 }
 export function haveDropnavEffect(elem: HTMLElement): void {
     elem.classList.add("dropnav-effectee");
-}
-
-export function removeLoader(): void {
-    let loader: HTMLElement = <HTMLElement> document.querySelector('#Preloaded')
-
-    if(loader) loader.classList.add("page-inactive")
 }

@@ -2,9 +2,9 @@ import { makeDivWithId } from "./utils/html";
 import { getMainContainer } from "./app/mainContainer";
 import { getNavbar, getNavbarFiller } from "./app/navbar";
 import { getSidenav, getSidenavToggle } from "./app/sidenav";
-import { removeLoader } from "./app/dropnav";
 import { pages } from "./utils/pages";
 import { signOut } from "./utils/auth";
+import { hideLoader } from "./app/loader";
 
 import "../stylesheets/components/app.scss";
 import "../stylesheets/components/app/messageBox.scss";
@@ -12,7 +12,6 @@ import "../stylesheets/components/app/messageBox.scss";
 let appContainer: HTMLElement;
 
 export function init(): void {
-    removeLoader();
     showApp();
     pages.frontPage.init();
 

@@ -7,33 +7,37 @@
   background-color:  #132233;
 }
 
-#App #AppDropnav #LoaderContainer {
+#App #LoaderContainer {
+  z-index: 2;
+  position: fixed;
   display: flex;
+  top: 0px;
   width: 100%; height: 100%;
   
   flex-direction: column;
   justify-content: center; align-items: center;
   
-  background-color: #132233;
+  background: none;
 
-  transition-property: scale;
-  transition-duration: 0.3s;
+  
+  scale: 1;
+  opacity: 1;
+  transition-property: scale, opacity, top;
+  transition-duration: 0.5s;
   transition-timing-function: ease;
 }
 
-#App #AppDropnav #LoaderContainer span {
+#App #LoaderContainer span {
   color: #f4c803;
   text-align: center;
   width: 100%;
 }
-#App #AppDropnav #LoaderContainer #Loader {
-  font-size: xx-large;
-}
-#App #AppDropnav #LoaderContainer #Loader {
-  font-size: xx-large;
+#App #LoaderContainer #Loader {
+  font-size: x-large;
 }
 
-#App #AppDropnav #LoaderContainer.page-inactive {
+#App #LoaderContainer.page-inactive {
+  top: -100px;
   scale: 0;
   opacity: 0;
 }
