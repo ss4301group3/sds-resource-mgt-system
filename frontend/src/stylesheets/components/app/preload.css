@@ -14,7 +14,7 @@
   align-items: center; 
   justify-content:center;
   width: 100%;
-  top: 40%; height: 20%;
+  top: calc(50% + 100px);
   
   background: none;
 
@@ -35,7 +35,5 @@
 }
 
 #App #LoaderContainer.page-inactive {
-  top: -20%;
-  scale: 0;
-  opacity: 0;
+  top: calc(100% + 0px);
 }

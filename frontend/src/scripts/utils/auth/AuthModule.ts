@@ -173,7 +173,7 @@ export class AuthModule {
      */
     attemptSsoSilent() {
         pages.frontPage.hide();
-        unhideLoader("Checking if any signed-in account");
+        unhideLoader("Checking if any account signed-in");
         this.myMSALObj.ssoSilent(this.silentLoginRequest).then(() => {
             this.account = this.getAccount();
             if (this.account) {
@@ -188,6 +188,7 @@ export class AuthModule {
             hideLoader();
             if(!error.message.includes("AADSTS50058"))
                 console.error("Silent Error: " + error);
+            else(unhideLoader("No account detected"));
         })
     }
 
@@ -195,7 +196,9 @@ export class AuthModule {
      * Calls loginPopup or loginRedirect based on given signInType.
      * @param signInType 
      */
-    login(signInType: string): void {
+    login(signInType: string): void | boolean {
+        if(this.account) return true;
+
         unhideLoader("Signing-in.<br>(Microsoft login pop-up)");
         pages.frontPage.hide();
         if (signInType === "loginPopup") {

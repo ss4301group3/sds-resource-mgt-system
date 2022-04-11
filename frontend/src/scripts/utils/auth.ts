@@ -21,9 +21,9 @@ export function init(): void {
  * Called to prompt user for signin, method either loginRedirect or loginPopup
  * @param method
  */
- export function signIn(method: string): void {
+ export function signIn(method: string): void | boolean {
     const signInType = isIE ? "loginRedirect" : method;
-    authModule.login(signInType);
+    return authModule.login(signInType);
 }
 
 /**

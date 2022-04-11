@@ -4,6 +4,7 @@ import { haveDropnavEffect, hideDropnav } from "../app/dropnav";
 import "../../stylesheets/components/pages/frontPage.scss";
 import { pages } from "../utils/pages";
 import { signIn } from "../utils/auth";
+import { hideLoader } from "../app/loader";
 
 export function getFrontPage(): HTMLDivElement {
 
@@ -37,7 +38,12 @@ function getAdminButton(): HTMLButtonElement {
     if(!adminButton) {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
         adminButton.innerText = "ADMIN";
-        adminButton.addEventListener("click", () => signIn("loginPopup"), {capture:false})
+        adminButton.addEventListener("click", () => {
+            if(signIn("loginPopup")) {
+                hideDropnav();
+                hideLoader();
+            }
+        }, {capture:false})
     }
 
     return adminButton;
@@ -59,9 +65,10 @@ function getLoanButton(): HTMLButtonElement {
     if(!loanButton) {
         loanButton = makeButtonWithId("AppFrontNavLoan");}
         loanButton.innerText = "LOAN RESOURCES";
-        loanButton.addEventListener("click", () => 
-            pages.loanForm.show()
-        , {capture:false})
+        loanButton.addEventListener("click", () => {
+            hideLoader();
+            pages.loanForm.show();
+        }, {capture:false})
 
     return loanButton;
 }
