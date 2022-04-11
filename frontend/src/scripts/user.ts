@@ -51,4 +51,5 @@ export class User {
 
     getRoles = (): string[] => this.#roles? this.#roles : [];
     getName = (): string => this.#name;
+    getEmail = (): string => this.#email;
 }

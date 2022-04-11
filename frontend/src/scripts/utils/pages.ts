@@ -1,6 +1,6 @@
 import { getDropnav, hideDropnav, showDropnav } from "../app/dropnav";
 import { getFrontPage } from "../pages/frontPage";
-import { getLoanPage } from "../pages/loanPage";
+import { getItemsList, getLoanPage } from "../pages/loanPage";
 
 class PageContainer {
     pages: Set<Page> = new Set<Page>();
@@ -55,7 +55,8 @@ export const pages = {
 export function init() {
     Object.entries(pages).forEach(([key, value]) => {
         value.init();
-    })
+    })    
+    getItemsList().itemsList.addItem();
 }
 
 function append(page: Page) {
@@ -93,5 +94,13 @@ function hideOtherContainersButUnhide(container: PageContainer) {
     
     containers.forEach(otherContainer => {
         if(otherContainer != container) otherContainer.hide();
+    });
+}
+
+
+
+export function hideDropnavPages() {
+    Object.entries(pages).forEach(([key, value]) => {
+        if(typeof value == typeof DropnavPage) value.hide();
     });
 }

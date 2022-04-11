@@ -26,7 +26,7 @@ $gap_to_separator: 25px;
   transition-duration: 0.3s;
   
   &.dropnav-active {
-    top: 50%;
+    top: calc(50% - 33px);
   }
   
   &.page-inactive {

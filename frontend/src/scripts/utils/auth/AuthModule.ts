@@ -6,6 +6,7 @@ import { getMainContainer } from "../../app/mainContainer";
 import { makeButtonWithClass, makeH3WithId } from "../html";
 import { pages } from "../pages";
 import { User } from "../../user";
+import { setBorrowerEmail, setBorrowerName } from "../../pages/loanPage";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -159,6 +160,8 @@ export class AuthModule {
         if (this.account) {
             let user = new User(this.account);
             pages.frontPage.show();
+            setBorrowerName(user.getName());
+            setBorrowerEmail(user.getEmail());
             unhideLoader(`Welcome, ${user.getName()}`);
             (<HTMLElement>document.querySelector('#AppPageTitle')).innerHTML = "Admin page";
             (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = `You have ${user.getRoles().length} privileged roles`;
@@ -182,6 +185,8 @@ export class AuthModule {
             if (this.account) {
                 let user = new User(this.account);
                 pages.frontPage.show();
+                setBorrowerName(user.getName());
+                setBorrowerEmail(user.getEmail());
                 unhideLoader(`Welcome, ${user.getName()}`);
                 //UIManager.showWelcomeMessage(this.account);
             } else {

@@ -6,6 +6,7 @@ import { pages } from "../utils/pages";
 import { signIn } from "../utils/auth";
 import { hideLoader, unhideLoader } from "../app/loader";
 import { User } from "../user";
+import { setBorrowerEmail, setBorrowerName } from "./loanPage";
 
 export function getFrontPage(): HTMLDivElement {
 
@@ -51,7 +52,7 @@ function getAdminButton(): HTMLButtonElement {
                 }
             }
             else {
-                unhideLoader("Signing-in")
+                unhideLoader("Signing-in<br>(via. Microsoft)")
             }
         }, {capture:false})
     }

@@ -1,5 +1,4 @@
 import { makeButtonWithId, makeDivWithId, makeDivWithIdAndClass } from "../utils/html";
-import { getFrontPage } from "../pages/frontPage";
 
 import "../../stylesheets/components/app/dropnav.scss";
 import { pages } from "../utils/pages";
