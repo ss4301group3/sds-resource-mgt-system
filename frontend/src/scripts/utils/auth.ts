@@ -1,6 +1,7 @@
 import { AuthModule } from "./auth/AuthModule";
 import { FetchManager } from "./auth/FetchManager";
 import { GRAPH_CONFIG } from "./auth/Constants";
+import { User } from "../user";
 
 //check if browser is Internet Explorer; to login via redirect (as opposed to popup) later on  if so.
 const ua = window.navigator.userAgent;
@@ -21,8 +22,9 @@ export function init(): void {
  * Called to prompt user for signin, method either loginRedirect or loginPopup
  * @param method
  */
- export function signIn(method: string): void | boolean {
-    const signInType = isIE ? "loginRedirect" : method;
+ export function signIn(method: string): void | User {
+    const useRedirect = isIE || window.innerWidth < 860;
+    const signInType = useRedirect ? "loginRedirect" : method;
     return authModule.login(signInType);
 }
 

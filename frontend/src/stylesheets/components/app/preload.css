@@ -13,8 +13,8 @@
   flex-direction: row; display: flex;
   align-items: center; 
   justify-content:center;
-  width: 100%;
-  top: calc(50% + 100px);
+  width: 100%; left: 0;
+  top: calc(50% + 115px);
   
   background: none;
 
@@ -29,6 +29,7 @@
 #App #LoaderContainer span {
   color: #f4c803;
   text-align: center;
+  margin:15px;
 }
 #App #LoaderContainer #Loader {
   font-size: x-large;

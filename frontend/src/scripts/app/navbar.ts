@@ -1,9 +1,10 @@
-import { makeButtonWithId, makeDivWithId} from "../utils/html";
+import { makeButtonWithId, makeDivWithId, makeDivWithIdAndClass} from "../utils/html";
 import { DEPARTMENT_NAME, HOMEPAGE_URL } from "../../config";
 
 import LOGO from '../../assets/logo.png';
 
 import "../../stylesheets/components/app/navbar.scss";
+import { signOut } from "../utils/auth";
 
 export function getNavbarFiller(): HTMLDivElement {
     let filler: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbarFiller");
@@ -17,7 +18,7 @@ export function getNavbar(): HTMLDivElement {
     let navbar: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbar");
 
     if(!navbar) {
-        navbar = makeDivWithId("AppNavbar");
+        navbar = makeDivWithIdAndClass("AppNavbar","dropnav-effectee dropnav-active");
         navbar.appendChild(getNavbarLogo());
         navbar.appendChild(getNavbarNavs());
         navbar.appendChild(getNavbarAuth());
@@ -68,6 +69,7 @@ export function getNavbarAuth(): HTMLDivElement {
 
     if(!auth) {
         auth = makeDivWithId("AppNavbarAuth");
+        auth.addEventListener("click", signOut);
         auth.appendChild(getNavbarAuthButton());
     }
 
@@ -79,7 +81,7 @@ export function getNavbarAuthButton(): HTMLButtonElement {
 
     if(!authBtn) {
         authBtn = makeButtonWithId("AppNavbarAuthButton");
-        authBtn.innerText = "Sign In";
+        authBtn.innerText = "Sign Out";
     }
 
     return authBtn;

@@ -5,6 +5,7 @@ import { hideLoader, unhideLoader } from "../../app/loader";
 import { getMainContainer } from "../../app/mainContainer";
 import { makeButtonWithClass, makeH3WithId } from "../html";
 import { pages } from "../pages";
+import { User } from "../../user";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -156,9 +157,11 @@ export class AuthModule {
             this.account = this.getAccount();
         }
         if (this.account) {
-            hideDropnav();
+            let user = new User(this.account);
+            pages.frontPage.show();
+            unhideLoader(`Welcome, ${user.getName()}`);
             (<HTMLElement>document.querySelector('#AppPageTitle')).innerHTML = "Admin page";
-            (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = "Still working in this";
+            (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = `You have ${user.getRoles().length} privileged roles`;
             //UIManager.showWelcomeMessage(this.account);
         }
         else {
@@ -177,18 +180,21 @@ export class AuthModule {
         this.myMSALObj.ssoSilent(this.silentLoginRequest).then(() => {
             this.account = this.getAccount();
             if (this.account) {
-                hideLoader();
+                let user = new User(this.account);
                 pages.frontPage.show();
+                unhideLoader(`Welcome, ${user.getName()}`);
                 //UIManager.showWelcomeMessage(this.account);
             } else {
                 console.log("No account!");
             }
         }).catch(error => {
             pages.frontPage.show();
-            hideLoader();
-            if(!error.message.includes("AADSTS50058"))
+            if(error.message.includes("AADSTS50058")) unhideLoader("No account detected");
+            else if(error.message.includes("AADSTS50199")) unhideLoader("For security reasons, manual sign-in is required");
+            else {
+                unhideLoader("Error getting signed-in account");
                 console.error("Silent Error: " + error);
-            else(unhideLoader("No account detected"));
+            }
         })
     }
 
@@ -196,8 +202,8 @@ export class AuthModule {
      * Calls loginPopup or loginRedirect based on given signInType.
      * @param signInType 
      */
-    login(signInType: string): void | boolean {
-        if(this.account) return true;
+    login(signInType: string): void | User {
+        if(this.account) return new User(this.account);
 
         unhideLoader("Signing-in.<br>(Microsoft login pop-up)");
         pages.frontPage.hide();
@@ -226,7 +232,7 @@ export class AuthModule {
             account
         };
         showDropnav();
-        unhideLoader('Please wait a moment to securely sign-out your account.');
+        unhideLoader('Please wait a moment to securely signout your account.');
         
         this.myMSALObj.logoutRedirect(logOutRequest);
     }

@@ -4,6 +4,7 @@ import { makeButtonWithClass, makeButtonWithId, makeDivWithId, makeDivWithIdAndC
 
 import "../../stylesheets/components/pages/loanPage.scss";
 import { pages } from "../utils/pages";
+import { unhideLoader } from "../app/loader";
 
 export function getLoanPage(): HTMLDivElement {
     let boxContainer: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppLoanBoxContainer");
@@ -75,7 +76,10 @@ function getLoanForm(): HTMLDivElement {
 </div>
         `;
         const closeBtn = loanBox.querySelector("#AppLoanBoxCloseBtn");
-        closeBtn?.addEventListener("click", () => pages.frontPage.show(), {capture: true});
+        closeBtn?.addEventListener("click", () => {
+            pages.frontPage.show();
+            unhideLoader();
+        }, {capture: true});
     }
 
     return loanBox;

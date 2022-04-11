@@ -1,6 +1,6 @@
 export function isDefinedAndKnown(varToBeChecked: any) {
     if(typeof varToBeChecked !== typeof undefined) {
-        if(typeof varToBeChecked !== typeof null)
+        if(typeof varToBeChecked !== null)
             return true;
     }
     return false;

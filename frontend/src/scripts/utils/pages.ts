@@ -52,6 +52,11 @@ export const pages = {
     frontPage: new DropnavPage(getFrontPage),
     loanForm: new DropnavPage(getLoanPage)
 }
+export function init() {
+    Object.entries(pages).forEach(([key, value]) => {
+        value.init();
+    })
+}
 
 function append(page: Page) {
     const pageNode = page.node = page.getNode();

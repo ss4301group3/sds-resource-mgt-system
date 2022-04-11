@@ -8,6 +8,11 @@ export const makeDivWithIdAndClass = (id: string, className: string): HTMLDivEle
     id: id,
     className: className
 });
+export const makeDivWithIdAndClassAndText = (id: string, className: string, text: string): HTMLDivElement => Object.assign(document.createElement("div"),{
+    id: id,
+    className: className,
+    innerHTML: text
+});
 export const makeDivWithIdAndText = (id: string, text: string): HTMLDivElement => Object.assign(document.createElement("div"),{
     id: id,
     innerHTML: text

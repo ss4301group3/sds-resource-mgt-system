@@ -8,15 +8,12 @@ import { hideLoader } from "./app/loader";
 
 import "../stylesheets/components/app.scss";
 import "../stylesheets/components/app/messageBox.scss";
+import { getDropnav } from "./app/dropnav";
 
 let appContainer: HTMLElement;
 
 export function init(): void {
     showApp();
-    pages.frontPage.init();
-
-    //to be replaced with proper code
-    document.querySelector('#AppNavbarAuthButton')?.addEventListener("click", signOut);
 }
 
 export function setAsAppContainer(container?: HTMLElement): void {
@@ -25,9 +22,7 @@ export function setAsAppContainer(container?: HTMLElement): void {
 }
 
 export function showApp(): void {
-    let app = document.querySelector("#App");
-
-    if(!app) app = getApp();
+    const app = getApp();
 
     appContainer.appendChild(app);
 }
@@ -39,9 +34,12 @@ export function hideApp(): void {
 }
 
 function getApp(): HTMLDivElement {
-    const app = makeDivWithId("App");
+    let app = <HTMLDivElement> document.querySelector("#App");
+
+    if(!app) app = makeDivWithId("App");
 
     app.appendChild(getNavbarFiller());
+    app.appendChild(getDropnav());
     app.appendChild(getNavbar());
 
     app.appendChild(getSidenav());

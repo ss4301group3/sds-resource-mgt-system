@@ -4,7 +4,8 @@ import { haveDropnavEffect, hideDropnav } from "../app/dropnav";
 import "../../stylesheets/components/pages/frontPage.scss";
 import { pages } from "../utils/pages";
 import { signIn } from "../utils/auth";
-import { hideLoader } from "../app/loader";
+import { hideLoader, unhideLoader } from "../app/loader";
+import { User } from "../user";
 
 export function getFrontPage(): HTMLDivElement {
 
@@ -39,9 +40,18 @@ function getAdminButton(): HTMLButtonElement {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
         adminButton.innerText = "ADMIN";
         adminButton.addEventListener("click", () => {
-            if(signIn("loginPopup")) {
-                hideDropnav();
-                hideLoader();
+            let currentUser: void | User = signIn("loginPopup");
+            if(currentUser) {
+                if(currentUser.getRoles().length > 0) {
+                    hideDropnav();
+                    hideLoader();
+                }
+                else {
+                    unhideLoader("No privileged access granted to user");
+                }
+            }
+            else {
+                unhideLoader("Signing-in")
             }
         }, {capture:false})
     }

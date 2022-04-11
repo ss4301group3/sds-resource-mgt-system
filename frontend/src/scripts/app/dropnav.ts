@@ -1,4 +1,4 @@
-import { makeButtonWithId, makeDivWithId } from "../utils/html";
+import { makeButtonWithId, makeDivWithId, makeDivWithIdAndClass } from "../utils/html";
 import { getFrontPage } from "../pages/frontPage";
 
 import "../../stylesheets/components/app/dropnav.scss";
@@ -9,7 +9,7 @@ export function getDropnav(): HTMLDivElement {
     let dropnav: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnav");
 
     if(!dropnav) {
-        dropnav = makeDivWithId("AppDropnav");
+        dropnav = makeDivWithIdAndClass("AppDropnav","dropnav-effectee dropnav-active");
     }
 
     return dropnav;
@@ -29,6 +29,7 @@ export function hideDropnav(): void {
     
     hideLoader();
     pages.frontPage.hide();
+    pages.loanForm.hide();
 }
     
     
