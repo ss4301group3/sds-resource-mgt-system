@@ -1,17 +1,26 @@
-import { makeButtonWithId, makeDivWithId } from "../utils/html";
-import { getFrontPage } from "../pages/frontPage";
+import { makeButtonWithId, makeDivWithId, makeDivWithIdAndClass } from "../utils/html";
 
 import "../../stylesheets/components/app/dropnav.scss";
 import { pages } from "../utils/pages";
+import { hideLoader } from "./loader";
 
 export function getDropnav(): HTMLDivElement {
     let dropnav: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnav");
 
     if(!dropnav) {
-        dropnav = makeDivWithId("AppDropnav");
+        dropnav = makeDivWithIdAndClass("AppDropnav","dropnav-effectee dropnav-active");
     }
 
     return dropnav;
+}
+export function getDropnavBg(): HTMLDivElement {
+    let dropnavBg: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnavBg");
+
+    if(!dropnavBg) {
+        dropnavBg = makeDivWithIdAndClass("AppDropnavBg","dropnav-effectee dropnav-active");
+    }
+
+    return dropnavBg;
 }
 
 export function showDropnav(): void {
@@ -26,7 +35,9 @@ export function hideDropnav(): void {
     for(let i: number = 0; i < effectedElems.length; i++)
         effectedElems[i].classList.remove("dropnav-active");
     
+    hideLoader();
     pages.frontPage.hide();
+    pages.loanForm.hide();
 }
     
     
@@ -36,10 +47,4 @@ export function getEffectedElems(): HTMLCollectionOf<Element> {
 }
 export function haveDropnavEffect(elem: HTMLElement): void {
     elem.classList.add("dropnav-effectee");
-}
-
-export function removeLoader(): void {
-    let loader: HTMLElement = <HTMLElement> document.querySelector('#Preloaded')
-
-    if(loader) loader.parentElement?.removeChild(loader);
 }

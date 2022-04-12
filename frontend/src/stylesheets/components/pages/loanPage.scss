@@ -11,25 +11,25 @@
 	&.dropnav-active {
 		top: 0px;
 	}
-	
 	&.page-inactive {
 		left: 100%;
 		opacity: 0;
 		scale: 0;
 	}
+	
 	#AppLoanBox {
 		position: relative;
 		padding: 40px;
-		top: 20px;
+		top: 0px;
 		left: 15%;
 		background: #091119;
 		box-sizing: border-box;
 		box-shadow: 0 15px 25px rgba(0,0,0,.6);
-		border-radius: 10px;
-		margin-bottom: 60px;
+		margin-bottom: 0px;
 		width: 70%;
 		
 		.btn{
+			position: relative;
 			background: transparent;
 			border: none;
 			color: #f4c803;
@@ -45,66 +45,53 @@
 			clear: both;
 		}
 		
-		
-		.user-box {
-			position: relative;
-		}
-		
-		.user-box input {
-			width: 40%;
-			padding: 10px 0;
-			font-size: 16px;
+		h3,
+		p{
 			color: #fff;
-			margin-bottom: 30px;
-			border: none;
-			border-bottom: 1px solid #fff;
-			outline: none;
-			background: transparent;
-		}
-		.user-box label {
-			position: absolute;
-			top:0;
-			left: 0;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			pointer-events: none;
-			transition: .5s;
+			font-size: 15px;
 		}
 		
 		.user-box {
 			position: relative;
+			
+			input {
+				width: 100%;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				margin-bottom: 30px;
+				border: none;
+				border-bottom: 1px solid #fff;
+				outline: none;
+				background: transparent;
+				
+				&:focus ~ label,
+				&:valid ~ label {
+					top: -20px;
+					left: 0;
+					color: #f4c803;
+					font-size: 12px;
+				}
+				
+				&:disabled ~ label {
+					top: -20px;
+					left: 0;
+					color: #0f0;
+					font-size: 12px;
+				}
+			}
+			label {
+				position: absolute;
+				top:0;
+				left: 0;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				pointer-events: none;
+				transition: .5s;
+			}
 		}
 		
-		.user-box input {
-			width: 100%;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			margin-bottom: 30px;
-			border: none;
-			border-bottom: 1px solid #fff;
-			outline: none;
-			background: transparent;
-		}
-		.user-box label {
-			position: absolute;
-			top:0;
-			left: 0;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			pointer-events: none;
-			transition: .5s;
-		}
-		
-		.user-box input:focus ~ label,
-		.user-box input:valid ~ label {
-			top: -20px;
-			left: 0;
-			color: #f4c803;
-			font-size: 12px;
-		}
 		
 		.date-box{
 			display: inline;
@@ -112,74 +99,68 @@
 			padding-top: 0.6px;
 			color:#fff;
 			font-size: 16px;
-		}
-		.date-box input{
-			width: 30%;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			margin-bottom: 30px;
-			border: none;
-			border-bottom: 1px solid #fff;
-			outline: none;
-			background: transparent;
-			margin-left: 10px;
-			margin-right: 10px;
+			
+			input{
+				width: 30%;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				margin-bottom: 30px;
+				border: none;
+				border-bottom: 1px solid #fff;
+				outline: none;
+				background: transparent;
+				margin-left: 10px;
+				margin-right: 10px;
+			}
 		}
 		
 		.select-box{
 			position: relative;
 			width: 100%;
 			align-content: center;
-		}
-		.select-box select{
-			width:40%;
-			margin-right: 10px;
-			border-radius: 25px;
-			padding:10px;
-			background:transparent;
-			outline: none;
-			color: #fff;
-		}
-		.select-box option{
-			color: black;
-		}
-		.select-box input{
-			width: 40%;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			margin-bottom: 30px;
-			margin-left: 20px;
-			border: none;
-			border-bottom: 1px solid #fff;
-			outline: none;
-			background: transparent;
-		}
-		.select-box label{
-			position: absolute;
-			top:0;
-			left: 0;
-			padding: 10px 0;
-			font-size: 16px;
-			color: #fff;
-			pointer-events: none;
-			transition: .5s;
-		}
-		
-		.select-box button{
-			background: transparent;
-			color: #fff;
-			border: none;
-			margin-left: 20px;
-		}
-		
-		.select-box button:hover{
-			cursor: pointer;
-		}
-		h3, p{
-			color: #fff;
-			font-size: 15px;
+			
+			#LoanBoxItemsList {
+				div {
+					select{
+						text-align: center;
+						width: 70%;
+						margin-right: 10px;
+						margin-top: 5px;
+						border-radius: 25px;
+						padding:10px;
+						background:transparent;
+						outline: none;
+						color: #fff;
+					}
+					option{
+						color: black;
+					}
+					input{
+						width: 50px;
+						padding: 10px 0;
+						font-size: 16px;
+						color: #fff;
+						margin-bottom: 15px;
+						margin-left: 20px;
+						border: none;
+						border-bottom: 1px solid #fff;
+						outline: none;
+						background: transparent;
+					}
+				}
+			}
+			button{
+				background: transparent;
+				color: #fff;
+				border: none;
+				
+				width:100%;
+				
+				i:hover{
+					cursor: pointer;
+				}
+			}
 		}
 		
 		.submit-btn{
@@ -199,14 +180,34 @@
 			border-radius: 25px;
 			border: 2px solid #f4c803;
 			background: transparent;
-		}
-		
-		.submit-btn:hover {
-			background: #f4c803;
-			color: #091119;
-			border-radius:25px;
-			cursor: pointer;
+			
+			&:hover {
+				background: #f4c803;
+				color: #091119;
+				border-radius:25px;
+				cursor: pointer;
+			}
 		}
 	}
 	
+}
+
+@media only screen and (max-width: 800px) {
+	#AppLoanBoxContainer {
+		#AppLoanBox {
+			top: 0%;
+			left: 0%; width: auto;
+			margin: 0;
+			.date-box {
+				display: block;
+				width: 100%;
+				input {
+					width: auto;
+				}
+			}
+			.btn {
+				top: -20px; left: -20px;
+			}
+		}
+	}
 }

@@ -1,4 +1,4 @@
-import { makeDivWithId, makeDivWithIdAndText } from "../utils/html"
+import { makeDivWithId, makeDivWithIdAndClassAndText, makeDivWithIdAndText } from "../utils/html"
 
 import "../../stylesheets/components/app/sidenav.scss";
 
@@ -15,7 +15,7 @@ export function getSidenavToggle(): HTMLDivElement {
     let toggle: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppSidenavToggle");
 
     if(!toggle) {
-        toggle = makeDivWithIdAndText("AppSidenavToggle", ">");
+        toggle = makeDivWithIdAndClassAndText("AppSidenavToggle", "dropnav-effectee dropnav-active", ">");
     };
 
     return toggle;

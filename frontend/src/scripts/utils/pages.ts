@@ -1,6 +1,7 @@
 import { getDropnav, hideDropnav, showDropnav } from "../app/dropnav";
+import { getMainContainer, hideMainContainer, showMainContainer } from "../app/mainContainer";
 import { getFrontPage } from "../pages/frontPage";
-import { getLoanPage } from "../pages/loanPage";
+import { getItemsList, getLoanPage } from "../pages/loanPage";
 
 class PageContainer {
     pages: Set<Page> = new Set<Page>();
@@ -19,9 +20,11 @@ class PageContainer {
     }
 }
 const dropnav = new PageContainer(getDropnav, showDropnav, hideDropnav);
+const mainContainer = new PageContainer(getMainContainer, showMainContainer, hideMainContainer);
 
 const containers: Set<PageContainer> = new Set<PageContainer>();
 containers.add(dropnav);
+containers.add(mainContainer);
 
 abstract class Page {
     abstract parentContainer: PageContainer;
@@ -33,7 +36,7 @@ abstract class Page {
     
     init(): void { append(this).to(this.parentContainer); }
     
-    show(): void {
+    show = (): void => {
         append(this).to(this.parentContainer)
         unhide(this).butHideOthersOn(this.parentContainer);
     }
@@ -48,9 +51,26 @@ class DropnavPage extends Page{
         this.parentContainer.pages.add(this);
     }
 }
+class MainContPage extends Page{
+    readonly parentContainer = mainContainer;
+    readonly getNode;
+    
+    constructor(pageGetter: () => HTMLDivElement) {
+        super();
+        this.getNode = pageGetter;
+        this.parentContainer.pages.add(this);
+    }
+}
 export const pages = {
     frontPage: new DropnavPage(getFrontPage),
-    loanForm: new DropnavPage(getLoanPage)
+    loanForm: new DropnavPage(getLoanPage),
+    //adminHome: new MainContPage(get)
+}
+export function init() {
+    Object.entries(pages).forEach(([key, value]) => {
+        value.init();
+    })    
+    getItemsList().itemsList.addItem();
 }
 
 function append(page: Page) {
@@ -88,5 +108,14 @@ function hideOtherContainersButUnhide(container: PageContainer) {
     
     containers.forEach(otherContainer => {
         if(otherContainer != container) otherContainer.hide();
+    });
+}
+
+
+
+export function hideDropnavPages() {
+    Object.entries(pages).forEach(([key, value]) => {
+        if(value.parentContainer.getNode() == getDropnav())
+            value.hide();
     });
 }

@@ -1,9 +1,13 @@
 import { PublicClientApplication, SilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
 import { SsoSilentRequest } from "@azure/msal-browser";
-import { getDropnav, hideDropnav } from "../../app/dropnav";
-import { getMainContainer } from "../../app/mainContainer";
+import { getDropnav, hideDropnav, showDropnav } from "../../app/dropnav";
+import { appendSignOutOnLoader, hideLoader, unhideLoader } from "../../app/loader";
 import { makeButtonWithClass, makeH3WithId } from "../html";
 import { pages } from "../pages";
+import { User } from "../../user";
+import { setBorrowerEmail, setBorrowerName } from "../../pages/loanPage";
+import { hideAdminFrontPageFeatures } from "../../pages/frontPage";
+import { renderAdminHomePage } from "../../pages/adminHome";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -155,12 +159,22 @@ export class AuthModule {
             this.account = this.getAccount();
         }
         if (this.account) {
-            hideDropnav();
-            (<HTMLElement>document.querySelector('#AppPageTitle')).innerHTML = "Admin page";
-            (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = "Still working in this";
+            let user = new User(this.account);
+            pages.frontPage.show();
+            setBorrowerName(user.getName());
+            setBorrowerEmail(user.getEmail());
+
+            appendSignOutOnLoader();
+
+            if(!user.hasAnyPrivilege()) hideAdminFrontPageFeatures();
+            unhideLoader(`Welcome, ${user.getName()}`);
+            renderAdminHomePage(user);
             //UIManager.showWelcomeMessage(this.account);
         }
-        else pages.frontPage.show();
+        else {
+            pages.frontPage.show();
+            hideLoader();
+        }
     }
 
     /**
@@ -168,15 +182,32 @@ export class AuthModule {
      * @param request 
      */
     attemptSsoSilent() {
+        pages.frontPage.hide();
+        unhideLoader("Checking if any already signed-in account");
         this.myMSALObj.ssoSilent(this.silentLoginRequest).then(() => {
             this.account = this.getAccount();
             if (this.account) {
+                let user = new User(this.account);
+                pages.frontPage.show();
+                setBorrowerName(user.getName());
+                setBorrowerEmail(user.getEmail());
+
+                appendSignOutOnLoader();
+
+                if(!user.hasAnyPrivilege()) hideAdminFrontPageFeatures();
+                unhideLoader(`Welcome, ${user.getName()}`);
                 //UIManager.showWelcomeMessage(this.account);
             } else {
                 console.log("No account!");
             }
         }).catch(error => {
-            console.error("Silent Error: " + error);
+            pages.frontPage.show();
+            if(error.message.includes("AADSTS50058")) unhideLoader("No account detected");
+            else if(error.message.includes("AADSTS50199")) unhideLoader("For security reasons, manual sign-in is required");
+            else {
+                unhideLoader("Error getting signed-in account");
+                console.error("Silent Error: " + error);
+            }
         })
     }
 
@@ -184,18 +215,22 @@ export class AuthModule {
      * Calls loginPopup or loginRedirect based on given signInType.
      * @param signInType 
      */
-    login(signInType: string): void {
-        if (signInType === "loginPopup") {
+    login(signInType: string): void | User {
+        if(this.account) return new User(this.account);
+
+        unhideLoader("Signing-in.<br>(Microsoft login pop-up)");
+        pages.frontPage.hide();
+        if (signInType === "loginPopup" ) {
             this.myMSALObj.loginPopup(this.loginRequest).then((resp: AuthenticationResult) => {
                 this.handleResponse(resp);
             }).catch(() => {
                 console.error
+                hideLoader();
                 pages.frontPage.show();
             });
-        } else if (signInType === "loginRedirect") {
+        } else if (signInType === "loginRedirect" || signInType === "adminSignin") {
             this.myMSALObj.loginRedirect(this.loginRedirectRequest);
         }
-        pages.frontPage.hide();
     }
 
     /**
@@ -209,6 +244,8 @@ export class AuthModule {
         const logOutRequest: EndSessionRequest = {
             account
         };
+        showDropnav();
+        unhideLoader('Please wait a moment to securely signout your account.');
         
         this.myMSALObj.logoutRedirect(logOutRequest);
     }

@@ -2,23 +2,39 @@
 The repository for SS4301 Project 3 - SDS Resource Management System
 
 ## Instructions - New from repo
-To install dependencies (listed in package.json), run the lines below, no need to specify exact packages.
+
+To run the project locally, need to run these once:
+
+```console
+npm install --include=dev
+npm run build
 ```
-npm install
+
+Reason being that I have set git to ignore the dist folder containing the compiled codes (which should not be tracked by git)<br>
+<br>
+
+Then start:
+
 ```
-Install dev dependencies by including the --dev flag
+npm run start
 ```
-npm install --dev
-```
-Run app in dev mode (auto compile scss & restart on each new save made):
+
+To run the app in dev mode (restart on each new save made):
+- use run dev instead of start
+
 ```
 npm run dev
 ```
-## Note - Adding dependencies
+
+## Note - Adding further dependencies
 If it's a dev-only dependency, i.e. not meant for use in production, add the -D flag, e.g.:
+
 ```
 npm install jest -D
 ```
+
+Otherwise, no need for the -D
+
 ### Info - dependencies (included in default installation)
 - cookie-parser, debug, express, morgan comes with the default express app
 - passport & passport-ad are required for authentication with azure active directory

@@ -1,9 +1,11 @@
-import { makeButtonWithId, makeDivWithId} from "../utils/html";
+import { makeAWithClassAndHrefAndText, makeButtonWithId, makeDivWithId, makeDivWithIdAndClass, makeDivWithIdAndClassAndText, removeChildren} from "../utils/html";
 import { DEPARTMENT_NAME, HOMEPAGE_URL } from "../../config";
 
 import LOGO from '../../assets/logo.png';
 
 import "../../stylesheets/components/app/navbar.scss";
+import { signOut } from "../utils/auth";
+import { removeSignOutOnLoader } from "./loader";
 
 export function getNavbarFiller(): HTMLDivElement {
     let filler: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbarFiller");
@@ -17,7 +19,7 @@ export function getNavbar(): HTMLDivElement {
     let navbar: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbar");
 
     if(!navbar) {
-        navbar = makeDivWithId("AppNavbar");
+        navbar = makeDivWithIdAndClass("AppNavbar","dropnav-effectee dropnav-active");
         navbar.appendChild(getNavbarLogo());
         navbar.appendChild(getNavbarNavs());
         navbar.appendChild(getNavbarAuth());
@@ -62,12 +64,30 @@ export function getNavbarNavs(): HTMLDivElement {
 
     return navs;
 }
+export function clearNavbarNavs(): void {
+    removeChildren(getNavbarNavs());
+}
+export function addNavbarLink(label: string, functionOnClick: Function): void {
+    const navLink = makeDivWithIdAndClass(
+        `AppNavbarNav${label.split(" ").join("")}`,
+        'nav',
+    );
+    navLink.addEventListener("click", () => {
+        functionOnClick()
+    },{ capture: true });
+    navLink.appendChild(makeAWithClassAndHrefAndText("anchor", "javascript:void(0)", label));
+    getNavbarNavs().appendChild(navLink);
+}
 
 export function getNavbarAuth(): HTMLDivElement {
     let auth: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppNavbarAuth");
 
     if(!auth) {
         auth = makeDivWithId("AppNavbarAuth");
+        auth.addEventListener("click", () => {
+            signOut();
+            removeSignOutOnLoader();
+        }, { capture : true });
         auth.appendChild(getNavbarAuthButton());
     }
 
@@ -79,7 +99,7 @@ export function getNavbarAuthButton(): HTMLButtonElement {
 
     if(!authBtn) {
         authBtn = makeButtonWithId("AppNavbarAuthButton");
-        authBtn.innerText = "Sign In";
+        authBtn.innerText = "Sign Out";
     }
 
     return authBtn;

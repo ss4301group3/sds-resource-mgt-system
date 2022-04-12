@@ -1,4 +1,5 @@
 $color_yellow: #f4c803;
+$gap_to_separator: 25px;
 
 @keyframes pulse {
   0% {
@@ -22,10 +23,10 @@ $color_yellow: #f4c803;
   top:-200px;
   
   transition-property: opacity, top;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
   
   &.dropnav-active {
-    top: 50%;
+    top: calc(50% - 51px);
   }
   
   &.page-inactive {
@@ -44,7 +45,7 @@ $color_yellow: #f4c803;
     width:100%; left: 0%;
     
     transition-property: top;
-    transition-duration: 0.5s;
+    transition-duration: 0.3s;
     
     button {
       position: relative;
@@ -57,10 +58,16 @@ $color_yellow: #f4c803;
       border: 2px solid $color_yellow;
       height: 40px;
       top: 80px;
-      margin: 0 30px;
+      margin: 0 $gap_to_separator;
+      &#AppFrontNavAdmin {
+        margin-left: 68px;
+      }
+      &#AppFrontNavLoan {
+        margin-right: 0;
+      }
       
       transition-property: scale;
-      transition-duration: 0.5s;
+      transition-duration: 0.3s;
       
       &:hover{
         animation: pulse 1.5s infinite;
@@ -74,7 +81,7 @@ $color_yellow: #f4c803;
       position: relative;
       
       transition-property: scale, top;
-      transition-duration: 0.5s;
+      transition-duration: 0.3s;
     }
   }
 }

@@ -1,4 +1,5 @@
 $color_navbar-bg: #132233;
+$color_navbar-bg_light: rgb(14,60,110);
 $color_yellow: #ffcb00;
 $px_small: 3.5px;
 
@@ -19,7 +20,7 @@ $px_small: 3.5px;
     width: 240px; height: calc(100% - 55px);
 
     color:white;
-    background-color: $color_navbar-bg;
+    background-color: $color_navbar-bg_light;
     
     transition: left 0.2s ease-out;
 
@@ -118,7 +119,7 @@ $px_small: 3.5px;
     font-weight: bold;
     color:white;
 
-    background-color: $color_navbar-bg;
+    background-color: $color_navbar-bg_light;
 
     box-shadow: 8px 8px 8px 0 rgba(0,0,0,0.2),10px 10px 10px 0 rgba(0,0,0,0.19);
     
@@ -128,11 +129,12 @@ $px_small: 3.5px;
 
     transition: left 0.2s ease-out;
     
-    transition-property: left, box-shadow;
+    transition-property: left, box-shadow, background-color;
     transition-timing-function: ease-out;
     transition-duration: 0.2s;
 
     &.dropnav-active {
+      background-color: $color_navbar-bg;
       left: -22px;
       box-shadow: 8px 8px 8px 0 rgba(0,0,0,0),10px 10px 10px 0 rgba(0,0,0,0);
     }
