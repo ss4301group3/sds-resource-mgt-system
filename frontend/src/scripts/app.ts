@@ -8,7 +8,7 @@ import { hideLoader } from "./app/loader";
 
 import "../stylesheets/components/app.scss";
 import "../stylesheets/components/app/messageBox.scss";
-import { getDropnav } from "./app/dropnav";
+import { getDropnav, getDropnavBg } from "./app/dropnav";
 
 let appContainer: HTMLElement;
 
@@ -39,6 +39,7 @@ function getApp(): HTMLDivElement {
     if(!app) app = makeDivWithId("App");
 
     app.appendChild(getNavbarFiller());
+    app.appendChild(getDropnavBg());
     app.appendChild(getDropnav());
     app.appendChild(getNavbar());
 

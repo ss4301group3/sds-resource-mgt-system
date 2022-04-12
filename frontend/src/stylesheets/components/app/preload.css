@@ -1,15 +1,15 @@
-body {
+#App, body {
   background-color:  #132233;
 }
 
 #App #LoaderContainer {
   z-index: 2;
   position: fixed;
-  flex-direction: row; display: flex;
+  flex-direction: column; display: flex;
   align-items: center; 
   justify-content:center;
   width: 100%; left: 0;
-  top: calc(50% + 67px);
+  top: calc(50% + 49px);
   
   background: none;
 
@@ -19,6 +19,11 @@ body {
   transition-property: scale, opacity, top;
   transition-duration: 0.3s;
   transition-timing-function: ease;
+}
+
+#App #LoaderContainer #LoaderSignOut {
+  color: #f4c803;
+  text-align: center;
 }
 
 #App #LoaderContainer span {

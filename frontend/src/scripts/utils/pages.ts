@@ -1,4 +1,5 @@
 import { getDropnav, hideDropnav, showDropnav } from "../app/dropnav";
+import { getMainContainer, hideMainContainer, showMainContainer } from "../app/mainContainer";
 import { getFrontPage } from "../pages/frontPage";
 import { getItemsList, getLoanPage } from "../pages/loanPage";
 
@@ -19,9 +20,11 @@ class PageContainer {
     }
 }
 const dropnav = new PageContainer(getDropnav, showDropnav, hideDropnav);
+const mainContainer = new PageContainer(getMainContainer, showMainContainer, hideMainContainer);
 
 const containers: Set<PageContainer> = new Set<PageContainer>();
 containers.add(dropnav);
+containers.add(mainContainer);
 
 abstract class Page {
     abstract parentContainer: PageContainer;
@@ -33,7 +36,7 @@ abstract class Page {
     
     init(): void { append(this).to(this.parentContainer); }
     
-    show(): void {
+    show = (): void => {
         append(this).to(this.parentContainer)
         unhide(this).butHideOthersOn(this.parentContainer);
     }
@@ -48,9 +51,20 @@ class DropnavPage extends Page{
         this.parentContainer.pages.add(this);
     }
 }
+class MainContPage extends Page{
+    readonly parentContainer = mainContainer;
+    readonly getNode;
+    
+    constructor(pageGetter: () => HTMLDivElement) {
+        super();
+        this.getNode = pageGetter;
+        this.parentContainer.pages.add(this);
+    }
+}
 export const pages = {
     frontPage: new DropnavPage(getFrontPage),
-    loanForm: new DropnavPage(getLoanPage)
+    loanForm: new DropnavPage(getLoanPage),
+    //adminHome: new MainContPage(get)
 }
 export function init() {
     Object.entries(pages).forEach(([key, value]) => {
@@ -101,6 +115,7 @@ function hideOtherContainersButUnhide(container: PageContainer) {
 
 export function hideDropnavPages() {
     Object.entries(pages).forEach(([key, value]) => {
-        if(typeof value == typeof DropnavPage) value.hide();
+        if(value.parentContainer.getNode() == getDropnav())
+            value.hide();
     });
 }

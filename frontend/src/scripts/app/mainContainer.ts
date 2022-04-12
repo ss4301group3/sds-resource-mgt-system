@@ -1,6 +1,8 @@
-import { makeDivWithId, makeH3WithId, makePWithId, removeChildren } from "../utils/html";
+import { makeDivWithId, makeH2Withid, makeH3WithId, makePWithId, removeChildren } from "../utils/html";
 
 import "../../stylesheets/components/app/mainContainer.scss";
+import { User } from "../user";
+import { hideDropnav, showDropnav } from "./dropnav";
 
 export function getMainContainer(): HTMLDivElement {
     let container: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppMainContainer");
@@ -18,7 +20,7 @@ export function getMainContainer(): HTMLDivElement {
 export function getPageTitle(): HTMLHeadingElement {
     let title: HTMLHeadingElement = <HTMLHeadingElement> document.querySelector("#AppPageTitle");
 
-    if(!title) title = makeH3WithId("AppPageTitle");
+    if(!title) title = makeH2Withid("AppPageTitle");
 
     return title;
 }
@@ -34,6 +36,9 @@ export function getPageRemarks(): HTMLParagraphElement {
 
     return remarks;
 }
+export function setPageRemarks(title: string): void {
+    getPageRemarks().innerHTML = title;
+}
 export function clearPageRemarks(): void { removeChildren(getPageRemarks() ); }
 
 export function getPageContent(): HTMLDivElement {
@@ -45,4 +50,16 @@ export function getPageContent(): HTMLDivElement {
 }
 export function addPageContent(newContent: HTMLElement): void {
     getPageContent().appendChild(newContent);
+}
+export function clearPageContent(): void { removeChildren(getPageContent() ); }
+
+export function showMainContainer(): void {
+    //may not need to do anything after all
+    //hideDropnav();
+    //hideSidenav();
+}
+
+export function hideMainContainer(): void {
+    //showDropnav();
+    //showSidenav();
 }

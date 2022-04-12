@@ -7,6 +7,7 @@ import { signIn } from "../utils/auth";
 import { hideLoader, unhideLoader } from "../app/loader";
 import { User } from "../user";
 import { setBorrowerEmail, setBorrowerName } from "./loanPage";
+import { renderAdminHomePage } from "./adminHome";
 
 export function getFrontPage(): HTMLDivElement {
 
@@ -41,14 +42,15 @@ function getAdminButton(): HTMLButtonElement {
         adminButton = makeButtonWithId("AppFrontNavAdmin");
         adminButton.innerText = "ADMIN";
         adminButton.addEventListener("click", () => {
-            let currentUser: void | User = signIn("loginPopup");
+            let currentUser: void | User = signIn("adminSignin");
             if(currentUser) {
-                if(currentUser.getRoles().length > 0) {
+                if(currentUser.hasAnyPrivilege()) {
                     hideDropnav();
                     hideLoader();
                 }
                 else {
-                    unhideLoader("No privileged access granted to user");
+                    unhideLoader(`Welcome, ${currentUser.getName()}<br><br>No privileged access granted to user`);
+                    hideAdminFrontPageFeatures();
                 }
             }
             else {
@@ -82,4 +84,11 @@ function getLoanButton(): HTMLButtonElement {
         }, {capture:false})
 
     return loanButton;
+}
+
+export function hideAdminFrontPageFeatures(): void {
+    getSeparator().style.display = "none"
+    getAdminButton().style.display = "none"
+    getLoanButton().style.marginLeft = "0px";
+    getLoanButton().style.top = "0px";
 }

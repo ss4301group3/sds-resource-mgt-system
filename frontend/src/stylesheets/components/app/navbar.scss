@@ -39,7 +39,7 @@ $color_yellow: #ffcb00;
       img { margin: 9px 0 6px 9px; }
     }
 
-    #NavbarNavs {
+    #AppNavbarNavs {
       display:flex;
       margin: 0 2px;
 
@@ -48,13 +48,13 @@ $color_yellow: #ffcb00;
 
       .nav {
         &.hidden {display: none;}
-        .link {
+        .anchor {
           display: table-cell;
           height: 55px; padding:0 4px;
 
           vertical-align: middle; text-align: center;
 
-          color: white;
+          color: #ccc;
 
           text-decoration: underline rgb(14,60,110,0);
           text-underline-offset: 4px;

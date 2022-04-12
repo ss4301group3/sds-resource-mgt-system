@@ -18,6 +18,9 @@ export const makeDivWithIdAndText = (id: string, text: string): HTMLDivElement =
     innerHTML: text
 });
 
+export const makeH2Withid = (id: string): HTMLHeadingElement => Object.assign(document.createElement("h2"),{
+    id: id
+});
 export const makeH2WithText = (text: string): HTMLHeadingElement => Object.assign(document.createElement("h2"),{
     innerHTML: text
 });
@@ -66,9 +69,24 @@ export const makeButtonWithTypeAndIdAndClassAndText = (type: string, id: string,
     innerHTML: text
 });
 
+export const makeLiWithText = (innerHTML: string): HTMLLIElement => Object.assign(document.createElement("li"),{
+    innerHTML: innerHTML
+});
+
 export const makeIWithIdAndClassAndText = (id: string, className: string, innerHTML: string): HTMLElement => Object.assign(document.createElement("i"),{
     id: id,
     className: className,
+    innerHTML: innerHTML
+});
+
+export const makeAWithIdAndHrefAndText = (id: string, href: string, innerHTML: string): HTMLAnchorElement => Object.assign(document.createElement("a"),{
+    id: id,
+    href: href,
+    innerHTML: innerHTML
+});
+export const makeAWithClassAndHrefAndText = (className: string, href: string, innerHTML: string): HTMLAnchorElement => Object.assign(document.createElement("a"),{
+    className: className,
+    href: href,
     innerHTML: innerHTML
 });
 

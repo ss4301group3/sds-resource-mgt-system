@@ -10,3 +10,9 @@ export const AGREEMENT_TERMS: string[] = [
     "7. Sign out/turn off syncing for personal account in email, browsers and social media and collect all data and documents befroe returning",
     "8. Failure to comply with these borrowing policies and procedures may result in loss of privilege"
 ]
+export const ROLE_NAMES: Array<string> = ["responderA", "responderB", "appAdmin"];
+export const ROLE_DESCRIPTIONS: {[key:string]: string} = {
+    "responderA": "Responder A: Able to respond to a loan request after Supervisor's agreement (if borrower a student)",
+    "responderB": "Responder B: Second & final responder to loan requests (after first responder's approval)",
+    "appAdmin": "App Admin: Able to make changes to app and/or resources configurations"
+}

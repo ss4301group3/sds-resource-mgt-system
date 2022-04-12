@@ -23,7 +23,8 @@ export function init(): void {
  * @param method
  */
  export function signIn(method: string): void | User {
-    const useRedirect = isIE || window.innerWidth < 860;
+    const adminSignIn = method == "adminSignin";
+    const useRedirect = isIE || (adminSignIn && window.innerWidth < 860);
     const signInType = useRedirect ? "loginRedirect" : method;
     return authModule.login(signInType);
 }

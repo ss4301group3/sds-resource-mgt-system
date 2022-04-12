@@ -13,6 +13,15 @@ export function getDropnav(): HTMLDivElement {
 
     return dropnav;
 }
+export function getDropnavBg(): HTMLDivElement {
+    let dropnavBg: HTMLDivElement = <HTMLDivElement> document.querySelector("#AppDropnavBg");
+
+    if(!dropnavBg) {
+        dropnavBg = makeDivWithIdAndClass("AppDropnavBg","dropnav-effectee dropnav-active");
+    }
+
+    return dropnavBg;
+}
 
 export function showDropnav(): void {
     const effectedElems: HTMLCollectionOf<Element> = getEffectedElems();

@@ -1,6 +1,7 @@
 import { DepartmentInfo, MembershipInfo, UserInfo } from "./utils/auth/GraphReponseTypes"
 import { AccountInfo } from "@azure/msal-browser";
 import { isDefinedAndKnown } from "./utils/var";
+import { ROLE_NAMES } from "../config";
 
 type IdTokenClaims = { roles: Array<string>; }
 type MemberInfoValue = { "@odata.count": number; }
@@ -14,7 +15,7 @@ export class User {
     #faculty: string; // Extracted from Graph - Profile
     #isStudent: boolean; // Extracted from Graph - Groups endpoint
     #isStaff: boolean; // Extracted from Graph - Groups endpoint
-    #roles: Array<string> = []; // Azure app roles for access control
+    #roles: Array<string>; // Azure app roles for access control
 
     assignProfile(userInfo: UserInfo) {
         if(isDefinedAndKnown(userInfo.displayName)) this.#name = <string> userInfo.displayName;
@@ -40,16 +41,21 @@ export class User {
     constructor(accountInfo: AccountInfo) {
         const hasName: boolean = isDefinedAndKnown(accountInfo.name);
         const hasIdToken: boolean = isDefinedAndKnown(accountInfo.idTokenClaims);
-        const hasRoles: boolean = hasIdToken ? isDefinedAndKnown((<IdTokenClaims>accountInfo.idTokenClaims)['roles'].length): false;
+        const hasRoles: boolean = hasIdToken ? Object.keys((<IdTokenClaims>accountInfo.idTokenClaims)).includes("roles") : false;
 
         this.#oid = accountInfo.localAccountId;
         this.#email = accountInfo.username;
         
         if(hasName) this.#name = <string> accountInfo.name;
-        if(hasRoles) this.#roles = (<IdTokenClaims> accountInfo.idTokenClaims).roles;
+        this.#roles = hasRoles ? (<IdTokenClaims> accountInfo.idTokenClaims).roles : [];
     }
 
     getRoles = (): string[] => this.#roles? this.#roles : [];
     getName = (): string => this.#name;
     getEmail = (): string => this.#email;
+    isStaff = (): boolean => this.#isStaff;
+    isRespA = (): boolean => this.#roles.includes(ROLE_NAMES[0]);
+    isRespB = (): boolean => this.#roles.includes(ROLE_NAMES[1]);
+    isAppAdmin = (): boolean => this.#roles.includes(ROLE_NAMES[2]);
+    hasAnyPrivilege = (): boolean => ( this.#roles.length > 0 || this.isStaff());
 }

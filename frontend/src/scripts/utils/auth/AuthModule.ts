@@ -1,12 +1,13 @@
 import { PublicClientApplication, SilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
 import { SsoSilentRequest } from "@azure/msal-browser";
 import { getDropnav, hideDropnav, showDropnav } from "../../app/dropnav";
-import { hideLoader, unhideLoader } from "../../app/loader";
-import { getMainContainer } from "../../app/mainContainer";
+import { appendSignOutOnLoader, hideLoader, unhideLoader } from "../../app/loader";
 import { makeButtonWithClass, makeH3WithId } from "../html";
 import { pages } from "../pages";
 import { User } from "../../user";
 import { setBorrowerEmail, setBorrowerName } from "../../pages/loanPage";
+import { hideAdminFrontPageFeatures } from "../../pages/frontPage";
+import { renderAdminHomePage } from "../../pages/adminHome";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -162,9 +163,12 @@ export class AuthModule {
             pages.frontPage.show();
             setBorrowerName(user.getName());
             setBorrowerEmail(user.getEmail());
+
+            appendSignOutOnLoader();
+
+            if(!user.hasAnyPrivilege()) hideAdminFrontPageFeatures();
             unhideLoader(`Welcome, ${user.getName()}`);
-            (<HTMLElement>document.querySelector('#AppPageTitle')).innerHTML = "Admin page";
-            (<HTMLElement>document.querySelector('#AppPageRemarks')).innerHTML = `You have ${user.getRoles().length} privileged roles`;
+            renderAdminHomePage(user);
             //UIManager.showWelcomeMessage(this.account);
         }
         else {
@@ -179,7 +183,7 @@ export class AuthModule {
      */
     attemptSsoSilent() {
         pages.frontPage.hide();
-        unhideLoader("Checking if any account signed-in");
+        unhideLoader("Checking if any already signed-in account");
         this.myMSALObj.ssoSilent(this.silentLoginRequest).then(() => {
             this.account = this.getAccount();
             if (this.account) {
@@ -187,6 +191,10 @@ export class AuthModule {
                 pages.frontPage.show();
                 setBorrowerName(user.getName());
                 setBorrowerEmail(user.getEmail());
+
+                appendSignOutOnLoader();
+
+                if(!user.hasAnyPrivilege()) hideAdminFrontPageFeatures();
                 unhideLoader(`Welcome, ${user.getName()}`);
                 //UIManager.showWelcomeMessage(this.account);
             } else {
@@ -212,7 +220,7 @@ export class AuthModule {
 
         unhideLoader("Signing-in.<br>(Microsoft login pop-up)");
         pages.frontPage.hide();
-        if (signInType === "loginPopup") {
+        if (signInType === "loginPopup" ) {
             this.myMSALObj.loginPopup(this.loginRequest).then((resp: AuthenticationResult) => {
                 this.handleResponse(resp);
             }).catch(() => {
@@ -220,7 +228,7 @@ export class AuthModule {
                 hideLoader();
                 pages.frontPage.show();
             });
-        } else if (signInType === "loginRedirect") {
+        } else if (signInType === "loginRedirect" || signInType === "adminSignin") {
             this.myMSALObj.loginRedirect(this.loginRedirectRequest);
         }
     }
