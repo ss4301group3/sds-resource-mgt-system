@@ -20,7 +20,7 @@ export class FrontPage {
         const boxContainer = getOrCreate("DIV", "AppButtonBoxContainer", "dropnav-effectee page-inactive") as HTMLDivElement;
     
         ifEmpty(boxContainer).appendByGetters([getButtonBox]);
-    
+        
         return boxContainer;
     }
 }

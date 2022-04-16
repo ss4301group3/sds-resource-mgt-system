@@ -6,6 +6,7 @@ import { Navbar} from "./App/Navbar";
 import "../../stylesheets/components/App.scss";
 import { Sidenav } from "./App/Sidenav";
 import { MainContainer } from "./App/MainContainer";
+import { FrontPage } from "./Pages/FrontPage";
 
 export class App {
     static init() {

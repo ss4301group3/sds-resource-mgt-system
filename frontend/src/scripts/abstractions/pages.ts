@@ -7,7 +7,7 @@ interface PageContainer {
     addPage(elemGetter: ElemGetter, title?: string, remarks?: string): Page;
     domHandler: MainContainer | Dropnav;
 }
-abstract class Page {
+export abstract class Page {
     abstract display(): void;
 }
 

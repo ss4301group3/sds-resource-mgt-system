@@ -1,6 +1,6 @@
 
 import { AGREEMENT_NOTE, AGREEMENT_TERMS, DEPARTMENT_NAME } from "../../../config";
-import { DivContainingItemsList, LoanBoxItemsList } from "../../abstractions/LoanForm";
+import { DivContainingItemsList, LoanBoxItemsList } from "../../abstractions/loanFormComponents";
 import { getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import { noSpaces } from "../../utils/strings";
 

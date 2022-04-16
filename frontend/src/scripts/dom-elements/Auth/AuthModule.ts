@@ -1,5 +1,5 @@
 import { PublicClientApplication, SilentRequest, SsoSilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
-import { App } from "../../dom-elements/App";
+import { App } from "../App";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -194,7 +194,7 @@ export class AuthModule {
             this.myMSALObj.loginPopup(this.loginRequest).then((resp: AuthenticationResult) => {
                 this.handleResponse(resp);
             }).catch( error => {
-                console.log(error);
+                if(!error.message.includes("user_cancelled")) console.log(error);
                 App.handleCancelSignIn();
             });
         } else if (signInType === "loginRedirect") {
