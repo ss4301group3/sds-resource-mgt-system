@@ -1,0 +1,87 @@
+$color_yellow: #f4c803;
+$gap_to_separator: 25px;
+
+@keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 $color_yellow;
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 10px rgba(255,0,0, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(255,0,0, 0);
+  }
+}
+
+#AppButtonBoxContainer {
+  
+  position:relative;
+  flex-direction: row;
+  justify-content: space-between; align-items: center;
+  display: flex;
+  opacity: 1;
+  top:-200px;
+  
+  transition-property: opacity, top;
+  transition-duration: 0.3s;
+  
+  &.dropnav-active {
+    top: calc(50% - 51px);
+  }
+  
+  &.page-inactive {
+    opacity: 0;
+    button, #AppButtonBoxSeparator {
+      scale:0.0001;
+    }
+  }
+  
+  #AppButtonBox {
+    position: absolute;
+    display: flex;
+    gap: 0px;
+    justify-content:center;
+    
+    width:100%; left: 0%;
+    
+    transition-property: top;
+    transition-duration: 0.3s;
+    
+    button {
+      position: relative;
+      text-decoration: none;
+      overflow: hidden;
+      padding: 10px 20px;
+      background: transparent;
+      color: $color_yellow;
+      border-radius: 25px;
+      border: 2px solid $color_yellow;
+      height: 40px;
+      top: 80px;
+      margin: 0 $gap_to_separator;
+      &#AppFrontNavAdmin {
+        margin-left: 68px;
+      }
+      &#AppFrontNavLoan {
+        margin-right: 0;
+      }
+      
+      transition-property: scale;
+      transition-duration: 0.3s;
+      
+      &:hover{
+        animation: pulse 1.5s infinite;
+        cursor: pointer;
+      }
+    }
+    #AppButtonBoxSeparator {
+      background: linear-gradient( #132233 0%, $color_yellow 35%, #132233 100%);
+      width: 2px;
+      height: 200px;
+      position: relative;
+      
+      transition-property: scale, top;
+      transition-duration: 0.3s;
+    }
+  }
+}
