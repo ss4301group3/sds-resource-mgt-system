@@ -15,6 +15,15 @@ export class App {
         Navbar.init();
         Dropnav.init();
     }
+    static handleSignedInUser(account: any): void {
+        console.log("Welcome", account);
+        //Handle on both the frontpage (welcome & append signout)
+        //as well as maincontentpage (welcome)
+        //also according to privilege granted
+    }
+    static handleSigningIn(): void {}
+    static handleCancelSignIn(message?: string): void {}
+    static handleSignOut(): void {}
 }
 
 function getAppElem(): HTMLDivElement {

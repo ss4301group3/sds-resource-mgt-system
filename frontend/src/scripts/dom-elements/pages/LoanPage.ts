@@ -9,7 +9,14 @@ import "../../../stylesheets/components/pages/LoanPage.scss";
 let closeForm: Function = () => {};
 let submitForm: Function = () => {};
 
+let borrowerName: string | null = null;
+let borrowerEmail: string | null = null;
+
 export class LoanPage {
+    static init(): void {
+        if(borrowerName) this.setBorrowerName(borrowerName);
+        if(borrowerEmail) this.setBorrowerEmail(borrowerEmail);
+    }
 
     static get(): HTMLDivElement {
         const boxContainer = getOrCreate("DIV", "AppLoanBoxContainer", "dropnav-effectee page-inactive") as HTMLDivElement;
@@ -21,15 +28,28 @@ export class LoanPage {
     
     static setActionForCloseButton(fn: Function) { closeForm = fn; }
     static setActionForSubmitButton(fn: Function) { submitForm = fn; }
-}
 
-export function setBorrowerName(name: string) {
-    (<HTMLInputElement>getOrCreate("INPUT", "LoanBoxBorrowerNameInput")).disabled = true;
-    (<HTMLInputElement>getOrCreate("INPUT", "LoanBoxBorrowerNameInput")).value = name;
-}
-export function setBorrowerEmail(email: string) {
-    (<HTMLInputElement>getOrCreate("INPUT", "LoanBoxEmailInput")).disabled = true;
-    (<HTMLInputElement>getOrCreate("INPUT", "LoanBoxEmailInput")).value = email;
+    static setBorrowerName(name: string): void {
+        borrowerName = name;
+
+        const inputField = (<HTMLInputElement|null>document.getElementById("LoanBoxBorrowerNameInput"));
+
+        if(inputField) {
+            inputField.disabled = true;
+            inputField.value = borrowerName;
+        }
+    }
+
+    static setBorrowerEmail(email: string): void {
+        borrowerEmail = email;
+
+        const inputField = (<HTMLInputElement|null>document.getElementById("LoanBoxEmailInput"));
+
+        if(inputField) {
+            inputField.disabled = true;
+            inputField.value = borrowerEmail;
+        }
+    }
 }
 
 function getLoanForm(): HTMLDivElement {

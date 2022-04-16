@@ -1,10 +1,11 @@
 import { ElemGetter, getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import "../../../stylesheets/components/pages/FrontPage.scss"
 
-let openForm: Function = () => {};
-let signInAsAdmin: Function = () => {};
+let openFormAction: Function = () => {};
+let adminSignInAction: Function = () => {};
 
 export class FrontPage {
+    static init(): void {}
     static hideAdminRoute(): void {
         getSeparator().style.display = "none"
         getAdminButton().style.display = "none"
@@ -12,8 +13,8 @@ export class FrontPage {
         getLoanButton().style.top = "0px";
     }
     
-    static setActionForLoanButton(fn: Function) { openForm = fn; }
-    static setActionForAdminButton(fn: Function) { signInAsAdmin = fn; }
+    static setActionForAdminButton(fn: Function) { adminSignInAction = fn; }
+    static setActionForLoanButton(fn: Function) { openFormAction = fn; }
 
     static get(): HTMLDivElement {
         const boxContainer = getOrCreate("DIV", "AppButtonBoxContainer", "dropnav-effectee page-inactive") as HTMLDivElement;
@@ -39,7 +40,7 @@ function getButtonBox(): HTMLDivElement {
 function getAdminButton(): HTMLButtonElement {
     const adminButton = getOrCreate("BUTTON", "AppFrontNavAdmin", null, "ADMIN") as HTMLButtonElement;
 
-    ifClicked(adminButton).trigger(() => signInAsAdmin() as EventListener);
+    ifClicked(adminButton).trigger(() => adminSignInAction() as EventListener);
 
     return adminButton;
 }
@@ -51,7 +52,7 @@ function getSeparator(): HTMLDivElement {
 function getLoanButton(): HTMLButtonElement {
     const loanButton = getOrCreate("BUTTON", "AppFrontNavLoan", null, "LOAN RESOURCES") as HTMLButtonElement;
 
-    ifClicked(loanButton).trigger(() => openForm() as EventListener);
+    ifClicked(loanButton).trigger(() => openFormAction() as EventListener);
 
     return loanButton;
 }

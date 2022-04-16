@@ -10,9 +10,12 @@ const pages = new BasicPageContainer;
 const drops = new DropPageContainer;
 
 const fp = drops.addPage(FrontPage.get);
+
 const lp = drops.addPage(LoanPage.get)
+LoanPage.init();
 
 FrontPage.setActionForLoanButton(() => { lp.display(); Loader.hide(); });
+
 LoanPage.setActionForCloseButton(() => { fp.display(); Loader.display(); });
 
 fp.display();
