@@ -78,7 +78,7 @@ function getResources(): HTMLElement {
             id: `ContentResourcesItem${resource.getId().toString()}`,
             innerHTML: resource.getLabel()
         });
-        ifClicked(item).trigger(() => FormPage.addItem(resource.getId(), resource.getLabel()))
+        ifClicked(item).trigger(() => FormPage.addItem(resource, 1));
         container.appendChild(item);
     });
     return container;

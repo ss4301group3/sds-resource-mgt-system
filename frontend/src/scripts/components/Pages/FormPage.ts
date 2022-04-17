@@ -6,6 +6,7 @@ import { noSpaces } from "../../utils/strings";
 
 import "../../../stylesheets/components/pages/FormPage.scss";
 import { Pages } from "../Pages";
+import { Resource } from "../../abstractions/dto";
 
 let closeForm: Function = () => {};
 let submitForm: Function = () => {};
@@ -54,8 +55,8 @@ export class FormPage {
         }
     }
 
-    static addItem(itemId: number, text: string): void {
-        ItemsList.addItem(itemId, text);
+    static addItem(resource: Resource, amount: number): void {
+        ItemsList.addItem(resource, amount);
     }
 }
 
@@ -122,12 +123,8 @@ function getItemsList(): DivContainingItemsList {
     let listDiv = <DivContainingItemsList> document.querySelector("#LoanBoxItemsList");
 
     if(!listDiv) {
-        const itemsData = {
-            "0": "Laptop",
-            "1": "Computer"
-        }
 
-        const itemsList: LoanBoxItemsList = ItemsList = new LoanBoxItemsList("LoanBoxItemsList", itemsData);
+        const itemsList: LoanBoxItemsList = ItemsList = new LoanBoxItemsList("LoanBoxItemsList");
         listDiv = itemsList.initAndGetOwnElem();
     }
 

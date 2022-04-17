@@ -3,6 +3,7 @@ import { DEFAULT_SIGN_IN, DEPARTMENT_NAME, HOMEPAGE_URL } from '../../../config'
 import { getOrCreate, ifClicked, ifEmpty, on } from '../../utils/html'
 import "../../../stylesheets/components/App/Navbar.scss";
 import { Auth } from '../Auth';
+import { noSpaces } from '../../utils/strings';
 
     
 const signInAction = () => Auth.signIn(DEFAULT_SIGN_IN);
@@ -49,7 +50,7 @@ export class Navbar {
     }
     
     static addNavLink(label: string, pageGetter: EventListener | EventListenerObject): void {
-        const identifier = label.split(" ").join("");
+        const identifier = noSpaces(label);
     
         const navLink = getOrCreate("DIV", `AppNavbarNav${identifier}`,'nav') as HTMLDivElement;
     
@@ -61,7 +62,7 @@ export class Navbar {
 
     private static getNavLinkAnchor(label: string) {
         const text = label.includes(" Page") ? label.substring(0, label.indexOf(" Page")) : label;
-        const anchor = getOrCreate("A", null, "anchor", text) as HTMLAnchorElement;
+        const anchor = getOrCreate("A", `AppNavbarNavAnchor${noSpaces(text)}`, "anchor", text) as HTMLAnchorElement;
     
         anchor.href = "javascript:void(0)";
     
