@@ -1,9 +1,10 @@
 
 import { ROLE_DESCRIPTIONS } from "../../../config";
-import { ElemGetter, getOrCreate, newElem, on } from "../../utils/html";
+import { ElemGetter, getOrCreate, ifClicked, newElem, on } from "../../utils/html";
 import { App, AppUser } from "../App";
 import { Data } from "../Data";
 import { Category } from "../../abstractions/dto"
+import { FormPage } from "./FormPage";
 
 export class ResourcesPage {
     static getContent(): HTMLDivElement {
@@ -49,26 +50,36 @@ function getContent(): Array<ElemGetter> {
 
 function getCategoriesHeading(): HTMLElement { return newElem("H3", "Categories"); }
 function getCategories(): HTMLElement {
-    const container = getOrCreate("DIV", "ContentCategoriesContainer");
+    const container = Object.assign(document.createElement("DIV"), {
+        id: "ContentCategoriesContainer"
+    });
     const categories = Data.getCategories();
 
     Object.entries(categories).forEach(([id, category]) => {
-        container.appendChild(
-            getOrCreate("BUTTON", `ContentCategoriesItem${id}`, null, category.getLabel())
-        );
+        const item = Object.assign(document.createElement("BUTTON"), {
+            id: `ContentCategoriesItem${category.getId().toString()}`,
+            innerHTML: category.getLabel()
+        });
+        ifClicked(item).trigger(() => {});
+        container.appendChild(item);
     });
     return container;
 }
 
 function getResourcesHeading(): HTMLElement { return newElem("H3", "Resources"); }
 function getResources(): HTMLElement {
-    const container = getOrCreate("DIV", "ContentResourcesContainer");
+    const container = Object.assign(document.createElement("DIV"), {
+        id: "ContentResourcesContainer"
+    });
     const resources = Data.getResources();
 
     Object.entries(resources).forEach(([id, resource]) => {
-        container.appendChild(
-            getOrCreate("BUTTON", `ContentResourcesItem${id}`, null, resource.getLabel())
-        );
+        const item = Object.assign(document.createElement("BUTTON"), {
+            id: `ContentResourcesItem${resource.getId().toString()}`,
+            innerHTML: resource.getLabel()
+        });
+        ifClicked(item).trigger(() => FormPage.addItem(resource.getId(), resource.getLabel()))
+        container.appendChild(item);
     });
     return container;
 }

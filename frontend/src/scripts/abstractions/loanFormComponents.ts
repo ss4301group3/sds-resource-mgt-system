@@ -4,7 +4,7 @@ export class LoanBoxItem{
     elem: HTMLDivElement;
     select: HTMLSelectElement;
     input: HTMLInputElement;
-    constructor(itemsData: {[key:string]: string}) {
+    constructor(itemId: number, text: string) {
         this.elem = document.createElement("div");
         this.select = document.createElement("select");
 
@@ -18,12 +18,8 @@ export class LoanBoxItem{
         this.input = getOrCreate("INPUT", null, null, null, null,
             type, name, required) as HTMLInputElement;
         
-        this.select.appendChild(newOption("", ">--Select an item--<"));
+        this.select.appendChild(newOption(itemId.toString(), text));
         this.select.disabled = true;
-        
-        Object.entries(itemsData).forEach(([key, value]) => {
-            this.select.appendChild(newOption(key, value));
-        });
 
         this.elem.appendChild(this.select);
         this.elem.appendChild(this.input);
@@ -49,12 +45,10 @@ export class LoanBoxItemsList{
     getElem(): DivContainingItemsList {
         return <DivContainingItemsList> document.getElementById(this.id);
     }
-    itemsData: {[key:string]: string};
     items: Array<LoanBoxItem>
 
     constructor(id: string, itemsData: {[key:string]: string}) {
         this.id = id;
-        this.itemsData = itemsData;
         this.items = new Array<LoanBoxItem>();
     }
 
@@ -66,8 +60,8 @@ export class LoanBoxItemsList{
         return elem;
     }
 
-    addItem(): void {
-        const item = new LoanBoxItem(this.itemsData);
+    addItem(itemId: number, text: string): void {
+        const item = new LoanBoxItem(itemId, text);
         this.items.push(item);
         this.getElem().appendChild(item.elem);
     }

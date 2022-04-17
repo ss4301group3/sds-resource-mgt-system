@@ -5,6 +5,7 @@ import { getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import { noSpaces } from "../../utils/strings";
 
 import "../../../stylesheets/components/pages/FormPage.scss";
+import { Pages } from "../Pages";
 
 let closeForm: Function = () => {};
 let submitForm: Function = () => {};
@@ -53,7 +54,9 @@ export class FormPage {
         }
     }
 
-    static itemsList = ItemsList;
+    static addItem(itemId: number, text: string): void {
+        ItemsList.addItem(itemId, text);
+    }
 }
 
 function getLoanForm(): HTMLDivElement {
@@ -142,7 +145,7 @@ function getAddItemButton(): HTMLButtonElement {
 function getAddItemIcon(): HTMLElement {
     const icon = getOrCreate("I", "LoanBoxItemsListAddItemIcon", "material-icons", "add") as HTMLElement;
     
-    ifClicked(icon).trigger(() => getItemsList().itemsList.addItem());
+    ifClicked(icon).trigger(() => Pages.display("Resources"));//getItemsList().itemsList.addItem());
 
     return icon;
 }
