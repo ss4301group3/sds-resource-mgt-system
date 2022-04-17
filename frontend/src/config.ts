@@ -2,10 +2,10 @@
 export const DEPARTMENT_NAME: string = "School of Digital Science";
 export const HOMEPAGE_URL: string = "http://sds.ubd.edu.bn/";
 
-//Default dom element to attach the app to; Specify here if e.g. attaching the app to an existing template.
-export const APP_CONTAINER: HTMLElement = <HTMLElement> 
+//Default dom element to attach the app to;
+export const APP_CONTAINER: HTMLElement = document.body;
 
-    document.body; //<- change this;
+export const DEFAULT_SIGN_IN: string = "loginPopup";
 
 //These will appear on the form
 export const AGREEMENT_NOTE: string = "By submitting this form, I understand that the following as my responsibility:"

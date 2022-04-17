@@ -1,7 +1,9 @@
-import { App } from "./dom-elements/App";
-import { Auth } from "./dom-elements/Auth";
-import { Pages } from "./dom-elements/Pages";
+import { App } from "./components/App";
+import { Auth } from "./components/Auth";
+import { Data } from "./components/Data";
+import { Pages } from "./components/Pages";
 
 Auth.init();
+Data.init();
 App.init();
 Pages.init();

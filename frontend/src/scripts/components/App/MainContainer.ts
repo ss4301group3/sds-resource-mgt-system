@@ -3,7 +3,7 @@ import "../../../stylesheets/components/App/MainContainer.scss";
 
 export class MainContainer {
     static get(): HTMLDivElement {
-        const container = getOrCreate("DIV", "AppContainer") as HTMLDivElement;
+        const container = getOrCreate("DIV", "AppMainContainer") as HTMLDivElement;
 
         ifEmpty(container).appendByGetters([
             getTitle,
@@ -33,6 +33,6 @@ export class MainContainer {
     }
 }
 
-function getTitle(): HTMLHeadingElement { return getOrCreate("H2", "AppPageTitle") as HTMLHeadingElement; }
-function getRemarks(): HTMLHeadingElement { return getOrCreate("P", "AppPageRemarks") as HTMLParagraphElement; }
+function getTitle(): HTMLHeadingElement { return getOrCreate("H1", "AppPageTitle") as HTMLHeadingElement; }
+function getRemarks(): HTMLHeadingElement { return getOrCreate("H4", "AppPageRemarks") as HTMLParagraphElement; }
 function getContent(): HTMLDivElement { return getOrCreate("DIV", "AppPageContent") as HTMLDivElement; }

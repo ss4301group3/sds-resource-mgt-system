@@ -1,5 +1,6 @@
 #App, body {
   background-color:  #132233;
+  margin: 0;
 }
 
 #App #LoaderContainer {
@@ -17,8 +18,7 @@
   scale: 1;
   opacity: 1;
   transition-property: scale, opacity, top;
-  transition-duration: 0.3s;
-  transition-timing-function: ease;
+  transition-duration: 0.5s;
 }
 
 #App #LoaderContainer #LoaderSignOut {
@@ -38,5 +38,8 @@
 #App #LoaderContainer.page-inactive,
 #App #LoaderContainer.loader-inactive,
 #App #LoaderContainer.dropnav-inactive {
-  top: calc(100% + 0px);
+  
+  scale: 0;
+  opacity: 0;
+  top: 100%;
 }

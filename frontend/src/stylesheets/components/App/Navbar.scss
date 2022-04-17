@@ -49,19 +49,21 @@ $color_yellow: #ffcb00;
       .nav {
         &.hidden {display: none;}
         .anchor {
+          @include nav-link-animation();
           display: table-cell;
           height: 55px; padding:0 4px;
 
           vertical-align: middle; text-align: center;
 
-          color: #ccc;
+          color: white;
 
           text-decoration: underline rgb(14,60,110,0);
           text-underline-offset: 4px;
 
-          @include nav-link-animation();
+        }
 
-          &:hover, &.current {
+        &:hover, &.current {
+          .anchor {
             color: $color_yellow;
             text-decoration: underline $color_yellow;
           }

@@ -26,6 +26,10 @@ export function ifClicked(elem: HTMLElement) {
 	}
 }
 
+export function newElem(tag: string, text: string): HTMLElement {
+	return Object.assign(document.createElement(tag), {innerText: text});
+}
+
 export function getOrCreate(
 	tag: string,
 	id?: string | null,

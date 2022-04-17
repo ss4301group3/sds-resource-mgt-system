@@ -1,13 +1,16 @@
 import Logo from '../../../assets/logo.png'
-import { DEPARTMENT_NAME, HOMEPAGE_URL } from '../../../config';
+import { DEFAULT_SIGN_IN, DEPARTMENT_NAME, HOMEPAGE_URL } from '../../../config';
 import { getOrCreate, ifClicked, ifEmpty, on } from '../../utils/html'
 import "../../../stylesheets/components/App/Navbar.scss";
+import { Auth } from '../Auth';
+
+    
+const signInAction = () => Auth.signIn(DEFAULT_SIGN_IN);
+const signOutAction = () => Auth.signOut();
 
 export class Navbar {
     static init() {
         on(getNavs()).removeChildren();
-        
-        this.setAuthButtonAction("Sign In", true, true);
     }
 
     static get(): HTMLDivElement {
@@ -27,24 +30,21 @@ export class Navbar {
 
     static setAuthButtonAction(description: string, shouldSignIn: boolean, isClickable: boolean): void {
         const authElem = getAuth(), authButton = getAuthButton();
-    
-        const signIn = () => {};
-        const signOut = () => {};
-
-        const unintended = shouldSignIn ? signOut : signIn;
-        const intended = shouldSignIn ? signIn : signOut;
+        
+        const intended = shouldSignIn ? signInAction : signOutAction;
+        const unintended = !shouldSignIn ? signInAction : signOutAction;
     
         ifClicked(authElem).ignore(unintended);
     
-        if(!isClickable) {
-            authElem.classList.add("unclickable");
-            ifClicked(authElem).ignore(intended);
-        }
-        else {
+        if(isClickable) {
             authElem.classList.remove("unclickable");
             ifClicked(authElem).trigger(intended);
         }
-    
+        else {
+            authElem.classList.add("unclickable");
+            ifClicked(authElem).ignore(intended);
+        }
+
         authButton.innerText = description;
     }
     
@@ -55,14 +55,30 @@ export class Navbar {
     
         ifClicked(navLink).trigger(pageGetter);
         navLink.appendChild(this.getNavLinkAnchor(label));
+
+        getNavs().appendChild(navLink);
     }
 
     private static getNavLinkAnchor(label: string) {
-        const anchor = getOrCreate("A", null, "anchor", label) as HTMLAnchorElement;
+        const text = label.includes(" Page") ? label.substring(0, label.indexOf(" Page")) : label;
+        const anchor = getOrCreate("A", null, "anchor", text) as HTMLAnchorElement;
     
         anchor.href = "javascript:void(0)";
     
         return anchor;
+    }
+
+    static setCurrent(label: string): void {
+        const identifier = label.split(" ").join("");
+        
+        const navs = getNavs().children;
+
+        for(let i = 0; i < navs.length; i++) {
+            if(navs[i].id == `AppNavbarNav${identifier}`)
+                navs[i].classList.add("current");
+            else
+                navs[i].classList.remove("current");
+        }
     }
 }
 

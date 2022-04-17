@@ -1,10 +1,11 @@
 import { ElemGetter } from "../utils/html";
-import { Dropnav } from "../dom-elements/App/Dropnav";
-import { MainContainer } from "../dom-elements/App/MainContainer"
-import { Navbar } from "../dom-elements/App/Navbar";
+import { Dropnav } from "../components/App/Dropnav";
+import { MainContainer } from "../components/App/MainContainer"
+import { Navbar } from "../components/App/Navbar";
+import { StringGetter } from "../utils/strings";
 
 interface PageContainer {
-    addPage(elemGetter: ElemGetter, title?: string, remarks?: string): Page;
+    addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: StringGetter): Page;
     domHandler: MainContainer | Dropnav;
 }
 export abstract class Page {
@@ -16,29 +17,34 @@ export class BasicPageContainer implements PageContainer{
 
     private pages: Set<BasicPage> = new Set<BasicPage>();
 
-    addPage(contentGetter: ElemGetter, title: string, remarks: string): BasicPage {
-        const page = new BasicPage(this, title, remarks, contentGetter)
+    addPage(contentGetter: ElemGetter, titleGetter: StringGetter, remarksGetter: StringGetter): BasicPage {
+        const page = new BasicPage(this, titleGetter, remarksGetter, contentGetter)
         this.pages.add(page);
         return page;
     }
 }
-class BasicPage extends Page {
+export class BasicPage extends Page {
     private container: BasicPageContainer;
 
-    private title: string;
-    private remarks: string;
+    private getTitle: StringGetter;
+    private getRemarks: StringGetter;
     private getContent: ElemGetter;
 
-    constructor(container: BasicPageContainer, title: string, remarks: string, contentGetter: ElemGetter) {
+    constructor(
+        container: BasicPageContainer, 
+        titleGetter: StringGetter, 
+        remarksGetter: StringGetter, 
+        contentGetter: ElemGetter
+    ) {
         super();
 
         this.container = container;
 
-        this.title = title;
-        this.remarks = remarks;
+        this.getTitle = titleGetter;
+        this.getRemarks = remarksGetter;
         this.getContent = contentGetter;
 
-        Navbar.addNavLink(title, this.display);
+        Navbar.addNavLink(this.getTitle(), () => this.display());
     }
 
     display(): void {
@@ -46,9 +52,11 @@ class BasicPage extends Page {
 
         const domHandler = this.container.domHandler;
 
-        domHandler.setTitle(this.title);
-        domHandler.setRemarks(this.remarks);
+        domHandler.setTitle(this.getTitle());
+        domHandler.setRemarks(this.getRemarks());
         domHandler.replaceContent(this.getContent());
+
+        Navbar.setCurrent(this.getTitle());
     }
 }
 

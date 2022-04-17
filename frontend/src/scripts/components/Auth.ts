@@ -12,6 +12,9 @@ export class Auth {
             authModule.loadAuthModule();
         });
     }
+
+    static signIn = signIn;
+    static signOut = signOut;
 }
 
 const ua = window.navigator.userAgent;
@@ -24,7 +27,7 @@ const isIE = msie > 0 || msie11 > 0;
  * @param method
  */
  export function signIn(method: string): void {
-    const adminSignIn = method == "adminSignin";
+    const adminSignIn = method == "adminButton";
 
     const useRedirect = isIE || (adminSignIn && window.innerWidth < 860 || method == "loginRedirect");
 

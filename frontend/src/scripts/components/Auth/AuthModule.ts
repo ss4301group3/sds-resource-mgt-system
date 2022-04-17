@@ -1,5 +1,5 @@
 import { PublicClientApplication, SilentRequest, SsoSilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
-import { App } from "../App";
+import { App } from "../../components/App";
 
 /**
  * Configuration class for @azure/msal-browser: 
@@ -148,6 +148,7 @@ export class AuthModule {
             this.account = response.account;
         } else {
             this.account = this.getAccount();
+            if(!this.account) this.attemptSsoSilent();
         }
 
         if (this.account) {
@@ -166,20 +167,24 @@ export class AuthModule {
                 App.handleSignedInUser(this.account);
             } else {
                 console.log("No account!");
+                App.handleNoSignedInUser();
             }
         }).catch(error => {
-            console.error("Silent Error: " + error);
             if (error instanceof InteractionRequiredAuthError) {
-                this.login("loginPopup");
+                App.handleCancelSignIn("Manual Sign-in required");
             }
-            if (error.message.includes("AADSTS50058")) {
-                App.handleCancelSignIn("No account detected!");
+            else if (error.message.includes("AADSTS50199")) {
+                App.handleCancelSignIn("Due to security reasons, manual sign-in required");
             }
-            if (error.message.includes("AADSTS50199")) {
-                App.handleCancelSignIn("For security reasons, manual sign-in is required");
+            else if (error.message.includes("endpoints_resolution_error")) {
+                App.handleCancelSignIn("Unable to establish connection<br><br>Please check network");
+            }
+            else if (error.message.includes("monitor_window_timeout")) {
+                App.handleCancelSignIn("Timeout error<br><br>Please check network");
             }
             else {
                 App.handleCancelSignIn("Unable to get signed-in account");
+                console.error("Silent Error: " + error);
             }
         })
     }
@@ -194,8 +199,19 @@ export class AuthModule {
             this.myMSALObj.loginPopup(this.loginRequest).then((resp: AuthenticationResult) => {
                 this.handleResponse(resp);
             }).catch( error => {
-                if(!error.message.includes("user_cancelled")) console.log(error);
-                App.handleCancelSignIn();
+                if(error.message.includes("user_cancelled")) {
+                    App.handleCancelSignIn("Sign-in cancelled");
+                }
+                else if(error.message.includes("endpoints_resolution_error")) {
+                    App.handleCancelSignIn("Unable to establish connection<br><br>Please check network");
+                }
+                else if(error.message.includes("popup_window_error: Error opening popup window")) {
+                    App.handleCancelSignIn("Unable to open pop-up window<br><br>Please check/enable the option");
+                }
+                else {
+                    console.log(error);
+                    App.handleCancelSignIn();
+                }
             });
         } else if (signInType === "loginRedirect") {
             this.myMSALObj.loginRedirect(this.loginRedirectRequest);
