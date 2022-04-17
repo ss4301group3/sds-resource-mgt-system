@@ -45,7 +45,7 @@ export class Navbar {
             ifClicked(authElem).ignore(intended);
         }
 
-        authButton.innerText = description;
+        authButton.innerHTML = description;
     }
     
     static addNavLink(label: string, pageGetter: EventListener | EventListenerObject): void {
@@ -79,6 +79,12 @@ export class Navbar {
             else
                 navs[i].classList.remove("current");
         }
+    }
+
+    static hideNavFor(label: string): void {
+        const identifier = label.split(" ").join("");
+
+        document.getElementById(`AppNavbarNav${identifier}`)?.classList.add("hidden");
     }
 }
 

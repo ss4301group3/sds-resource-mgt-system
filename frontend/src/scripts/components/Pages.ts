@@ -6,8 +6,9 @@ import { Navbar } from "../components/App/Navbar";
 import { signIn } from "./Auth";
 import { FrontPage } from "./Pages/FrontPage";
 import { HomePage } from "./Pages/HomePage";
-import { LoanPage } from "./Pages/LoanPage";
+import { FormPage } from "./Pages/FormPage";
 import { ResourcesPage } from "./Pages/ResourcesPage";
+import { AppUser } from "./App";
 
 const basicPages = new BasicPageContainer;
 const dropPages = new DropPageContainer;
@@ -25,6 +26,7 @@ export class Pages {
     static refresh(): void {
         this.display(currentPage);
     }
+
     static display(pageidentifier: string): void {
         const pageKey = noSpaces(currentPage = pageidentifier);
 
@@ -33,18 +35,25 @@ export class Pages {
 
         pages[pageKey].display();
     }
+    static cleanNavs(): void {
+        if(!AppUser.hasAnyPrivilege()) {
+            Navbar.hideNavFor("Home Page");
+            FrontPage.hideAdminRoute();
+        }
+        Navbar.addNavLink("Form Page", () => { pages.FormPage.display(); Loader.hide(); });
+        FrontPage.setActionForAdminButton(() => Pages.display("Home Page"));
+    }
 }
-
 function initializePages(): void {
     FrontPage.init(); pages.FrontPage = dropPages.addPage(FrontPage.get);
-    LoanPage.init(); pages.LoanPage = dropPages.addPage(LoanPage.get);
+    FormPage.init(); pages.FormPage = dropPages.addPage(FormPage.get);
     pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks);
     pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks);
 }
 
 function initializeLinks(): void {
-    FrontPage.setActionForLoanButton(() => { pages.LoanPage.display(); Loader.hide(); });
+    FrontPage.setActionForLoanButton(() => { pages.FormPage.display(); Loader.hide(); });
     FrontPage.setActionForAdminButton(() => { signIn("adminButton") });
 
-    LoanPage.setActionForCloseButton(() => { pages.FrontPage.display(); Loader.display(); });
+    FormPage.setActionForCloseButton(() => { pages.FrontPage.display(); Loader.display(); });
 }

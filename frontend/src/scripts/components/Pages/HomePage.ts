@@ -29,7 +29,7 @@ function getContent(): Array<ElemGetter> {
         getNavigationInstructions
     ];
 
-    if(AppUser.getRoles().length == 0)
+    if(!AppUser.hasAnyPrivilege())
         return getters.filter(notRolesRelated);
 
     return getters;

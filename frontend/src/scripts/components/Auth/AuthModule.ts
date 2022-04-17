@@ -1,6 +1,8 @@
 import { PublicClientApplication, SilentRequest, SsoSilentRequest, AuthenticationResult, Configuration, LogLevel, AccountInfo, InteractionRequiredAuthError, RedirectRequest, PopupRequest, EndSessionRequest } from "@azure/msal-browser";
 import { App } from "../../components/App";
 
+export let signInAttemptExecuted: boolean = false;
+
 /**
  * Configuration class for @azure/msal-browser: 
  * https://azuread.github.io/microsoft-authentication-library-for-js/ref/msal-browser/modules/_src_config_configuration_.html
@@ -99,7 +101,7 @@ export class AuthModule {
         };
 
         this.silentLoginRequest = {
-            loginHint: "IDLAB@msidlab0.ccsctp.net"
+            domainHint: "3f46b7a8-385a-4569-9af5-c43dd63dad93",
         }
     }
 
@@ -169,6 +171,7 @@ export class AuthModule {
                 console.log("No account!");
                 App.handleNoSignedInUser();
             }
+            signInAttemptExecuted = true;
         }).catch(error => {
             if (error instanceof InteractionRequiredAuthError) {
                 App.handleCancelSignIn("Manual Sign-in required");
@@ -186,6 +189,7 @@ export class AuthModule {
                 App.handleCancelSignIn("Unable to get signed-in account");
                 console.error("Silent Error: " + error);
             }
+            signInAttemptExecuted = true;
         })
     }
 

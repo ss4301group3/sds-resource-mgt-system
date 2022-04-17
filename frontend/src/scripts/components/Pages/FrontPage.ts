@@ -16,6 +16,10 @@ export class FrontPage {
     static setActionForAdminButton(fn: Function) { adminSignInAction = fn; }
     static setActionForLoanButton(fn: Function) { openFormAction = fn; }
 
+    static deactivate() {
+        this.get().classList.add("page-inactive");
+    }
+
     static get(): HTMLDivElement {
         const boxContainer = getOrCreate("DIV", "AppButtonBoxContainer", "dropnav-effectee page-inactive") as HTMLDivElement;
     

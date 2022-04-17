@@ -1,4 +1,4 @@
-import { getOrCreate } from "../utils/html";
+import { getOrCreate, ifClicked, newElem } from "../utils/html";
 
 export class LoanBoxItem{
     elem: HTMLDivElement;
@@ -8,11 +8,18 @@ export class LoanBoxItem{
         this.elem = document.createElement("div");
         this.select = document.createElement("select");
 
+        const cancel = Object.assign(document.createElement("button"), {
+            classList: "cancel-item"
+        });
+        cancel.appendChild(getOrCreate("i", null, "material-icons icon", "cancel"));
+        ifClicked(cancel).trigger(() => this.elem.parentElement?.removeChild(this.elem));
+
         const type = "number", name = "", required = true;
         this.input = getOrCreate("INPUT", null, null, null, null,
             type, name, required) as HTMLInputElement;
         
         this.select.appendChild(newOption("", ">--Select an item--<"));
+        this.select.disabled = true;
         
         Object.entries(itemsData).forEach(([key, value]) => {
             this.select.appendChild(newOption(key, value));
@@ -20,6 +27,7 @@ export class LoanBoxItem{
 
         this.elem.appendChild(this.select);
         this.elem.appendChild(this.input);
+        this.elem.appendChild(cancel);
     }
 }
 

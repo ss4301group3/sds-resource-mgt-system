@@ -4,7 +4,7 @@ import { DivContainingItemsList, LoanBoxItemsList } from "../../abstractions/loa
 import { getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import { noSpaces } from "../../utils/strings";
 
-import "../../../stylesheets/components/pages/LoanPage.scss";
+import "../../../stylesheets/components/pages/FormPage.scss";
 
 let closeForm: Function = () => {};
 let submitForm: Function = () => {};
@@ -12,7 +12,9 @@ let submitForm: Function = () => {};
 let borrowerName: string | null = null;
 let borrowerEmail: string | null = null;
 
-export class LoanPage {
+let ItemsList: LoanBoxItemsList;
+
+export class FormPage {
     static init(): void {
         if(borrowerName) this.setBorrowerName(borrowerName);
         if(borrowerEmail) this.setBorrowerEmail(borrowerEmail);
@@ -50,6 +52,8 @@ export class LoanPage {
             inputField.value = borrowerEmail;
         }
     }
+
+    static itemsList = ItemsList;
 }
 
 function getLoanForm(): HTMLDivElement {
@@ -77,15 +81,13 @@ function getCloseBtn(): HTMLButtonElement {
     const closeBtn = getOrCreate("BUTTON", "LoanBoxCloneBtn", "btn") as HTMLButtonElement;
     
     ifEmpty(closeBtn).appendByGetters([getCloseBtnIcon]);
+    
+    ifClicked(closeBtn).trigger(() => closeForm() as EventListener);
 
     return closeBtn;
 }
 function getCloseBtnIcon(): HTMLElement {
-    const icon = getOrCreate("I", "LoanBoxCloseBtnIcon", "material-icons icon", "close") as HTMLElement;
-    
-    ifClicked(icon).trigger(() => closeForm() as EventListener);
-
-    return icon;
+    return getOrCreate("I", "LoanBoxCloseBtnIcon", "material-icons icon", "close") as HTMLElement;
 }
 
 function getDeptHeading(): HTMLHeadElement {
@@ -122,7 +124,7 @@ function getItemsList(): DivContainingItemsList {
             "1": "Computer"
         }
 
-        const itemsList: LoanBoxItemsList = new LoanBoxItemsList("LoanBoxItemsList", itemsData);
+        const itemsList: LoanBoxItemsList = ItemsList = new LoanBoxItemsList("LoanBoxItemsList", itemsData);
         listDiv = itemsList.initAndGetOwnElem();
     }
 

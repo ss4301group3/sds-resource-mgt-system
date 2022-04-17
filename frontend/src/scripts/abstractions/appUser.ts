@@ -54,5 +54,5 @@ export class User {
     isRespA = (): boolean => this.#roles.includes(ROLE_NAMES[0]);
     isRespB = (): boolean => this.#roles.includes(ROLE_NAMES[1]);
     isAppAdmin = (): boolean => this.#roles.includes(ROLE_NAMES[2]);
-    hasAnyPrivilege = (): boolean => ( this.#roles.length > 0 || this.isStaff());
+    hasAnyPrivilege = (): boolean => ( this.#roles.length > 0);
 }

@@ -9,6 +9,8 @@ import { MainContainer } from "./App/MainContainer";
 import { AccountInfo } from "@azure/msal-browser";
 import { User } from "../abstractions/appUser";
 import { Pages } from "./Pages";
+import { FrontPage } from "./Pages/FrontPage";
+import { FormPage } from "./Pages/FormPage";
 
 export let AppUser: User;
 
@@ -22,35 +24,40 @@ export class App {
     }
 
     static handleSignedInUser(account: AccountInfo): void {
-        AppUser = new User(account);
+        AppUser = new User(account); const displayName = AppUser.getName();
 
         Loader.clearThenHide(false);
         Loader.display(`Welcome, ${account.name}`, 3000);
         Loader.appendSignOutButtonWithUsername(account.username);
 
-        Pages.display("Home Page");
+        if(AppUser.hasAnyPrivilege()) Pages.display("Home Page");
 
-        Navbar.setAuthButtonAction(`Sign Out (${AppUser.getEmail()})`, false, true);
+        Pages.cleanNavs();
+        Pages.refresh();
+
+        FormPage.setBorrowerEmail(AppUser.getEmail());
+        if(displayName) FormPage.setBorrowerName(displayName);
+
+        Navbar.setAuthButtonAction(`Sign Out<span class="user-email"> (${AppUser.getEmail()})</span>`, false, true);
     }
     static handleNoSignedInUser(): void {
         Loader.clearThenHide(true);
-        Loader.display("No account signed-in", 2000);
-
-        Pages.display("Front Page"); console.log("nsi")
+        Loader.display("No account signed-in", 1500);
+        Pages.refresh();
 
         Navbar.setAuthButtonAction("Sign In", true, true);
     }
     static handleSigningIn(): void {
         Loader.clearThenHide(true);
-        Loader.display("Signing-in", 60000);
+        Loader.display("Signing-in", 3600000);
+        FrontPage.deactivate();
 
         Navbar.setAuthButtonAction("Signing In", true, false);
     }
     static handleCancelSignIn(message?: string): void {
         Loader.clearThenHide(true);
-        Loader.display(message, 2000);
-
-        Pages.display("Front Page"); console.log("csi")
+        Loader.display(message, 1500);
+        Pages.refresh();
 
         Navbar.setAuthButtonAction("Sign In", true, true);
     }

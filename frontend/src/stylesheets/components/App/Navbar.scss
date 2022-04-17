@@ -105,3 +105,15 @@ $color_yellow: #ffcb00;
     }
   }
 }
+
+@media only screen and (max-width: 650px) {
+  #App #AppNavbar #AppNavbarLogo {
+    display: none;
+  }
+  #App #AppNavbar #AppNavbarNavs {
+    margin-left: 24px;
+  }
+  #App #AppNavbar #AppNavbarAuth #AppNavbarAuthButton .user-email {
+    display: none;
+  }
+}

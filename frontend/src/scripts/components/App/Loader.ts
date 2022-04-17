@@ -1,4 +1,5 @@
 import { getOrCreate, ifClicked, on } from "../../utils/html";
+import { Auth } from "../Auth";
 
 let to: NodeJS.Timeout | null;
 let to2: NodeJS.Timeout | null;
@@ -67,7 +68,7 @@ export class Loader {
 
         anchor.href = "javascript:void(0)";
         anchor.innerHTML = `(Sign-out - ${username})`;
-        ifClicked(anchor).trigger(()=>{});
+        ifClicked(anchor).trigger(Auth.signOut);
     
         return anchor;
     }

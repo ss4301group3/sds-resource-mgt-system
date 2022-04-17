@@ -148,6 +148,21 @@
 						outline: none;
 						background: transparent;
 					}
+					.cancel-item {
+						background: transparent;
+						color: #fff;
+						border: none;
+						width: auto;
+						
+						i {
+							position: relative;
+							top: 8px;
+							left: 16px;
+							&:hover {
+								cursor: pointer;
+							}
+						}
+					}
 				}
 			}
 			button{
