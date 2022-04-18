@@ -1,9 +1,14 @@
+$color_yellow: #ffcb00;
 #App {
   #AppMainContainer {
+    color: white;
     transition: margin-left 0.2s ease-out;
     margin-left: calc(20px + 22px);
     margin-top: 20px;
     margin-right: 20px;
+    a {
+      color: $color_yellow;
+    }
     #AppPageTitle {
       margin: 0 0 0 0;
     }

@@ -1,18 +1,31 @@
+$color_yellow: #ffcb00;
+
 #App {
     #AppMainContainer {
         #AppPageContent {
             #ContentCategoriesContainer {
                 button {
-                    font-weight: bold;
+                    background: transparent;
+                    color: white;
                     padding: 10px;
+                    &:hover {
+                        border-color: $color_yellow;
+                        color: $color_yellow
+                    }
                 }
             }
             #ContentResourcesContainer {
                 button {
-                    font-weight: bold;
+                    background: transparent;
+                    color: white;
                     padding: 10px;
                     text-align: left;
                     width: 100%;
+                    &:hover {
+                        font-weight: bold;
+                        border-color: $color_yellow;
+                        color: $color_yellow
+                    }
                 }
             }
         }

@@ -1,4 +1,6 @@
 $color_yellow-light: #ffdd88cc;
+$color_yellow: #ffcb00;
+$color_blue-dark: #091119;
 
 #App {
 	#AppMessageBox {
@@ -11,17 +13,18 @@ $color_yellow-light: #ffdd88cc;
 		text-align: center;
 
 		p,h3 {
+			color:white;
 			display:block;
 			font-weight: bold;
 
 			margin: 0;
 			padding: 7px 0;
 
-			background-color: $color_yellow-light;
+			background-color: $color_blue-dark;
 			.link {
 				font-size: small;
 				font-style: italic;
-				color: blue;
+				color: $color_yellow;
 				text-decoration: underline 1px;
 				&:hover {
 					font-style: normal;
