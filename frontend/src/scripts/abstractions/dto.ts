@@ -1,4 +1,9 @@
-export class Category {
+export interface Dto {
+    getId(): number;
+    getLabel(): string;
+} 
+
+export class Category implements Dto{
     #id: number;
     #label: string;
     #parentId: number | null;
@@ -14,7 +19,7 @@ export class Category {
     getParentId(): number | null { return this.#parentId; }
 }
 
-export class Resource {
+export class Resource implements Dto {
     #id: number;
     #label: string;
     #categoryId: number | null;
@@ -27,5 +32,5 @@ export class Resource {
 
     getId(): number { return this.#id; }
     getLabel(): string { return this.#label; }
-    getCategory(): number | null { return this.#categoryId; }
+    getCategoryId(): number | null { return this.#categoryId; }
 }

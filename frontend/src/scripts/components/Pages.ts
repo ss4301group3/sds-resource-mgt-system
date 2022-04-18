@@ -1,6 +1,5 @@
 import { BasicPage, BasicPageContainer, DropPageContainer, Page } from "../abstractions/pages";
 import { noSpaces } from "../utils/strings";
-import { Dropnav } from "../components/App/Dropnav";
 import { Loader } from "../components/App/Loader";
 import { Navbar } from "../components/App/Navbar";
 import { signIn } from "./Auth";
@@ -9,6 +8,7 @@ import { HomePage } from "./Pages/HomePage";
 import { FormPage } from "./Pages/FormPage";
 import { ResourcesPage } from "./Pages/ResourcesPage";
 import { AppUser } from "./App";
+import { Dto } from "../abstractions/dto";
 
 const basicPages = new BasicPageContainer;
 const dropPages = new DropPageContainer;
@@ -27,13 +27,22 @@ export class Pages {
         this.display(currentPage);
     }
 
-    static display(pageidentifier: string): void {
+    static displayRecent(pageidentifier: string) {
         const pageKey = noSpaces(currentPage = pageidentifier);
 
         if(typeof pages[pageKey] === typeof BasicPage)
             Navbar.setCurrent(pageKey);
 
-        pages[pageKey].display();
+        pages[pageKey].displayRecent();
+    }
+
+    static display(pageidentifier: string, dto?: Dto): void {
+        const pageKey = noSpaces(currentPage = pageidentifier);
+
+        if(typeof pages[pageKey] === typeof BasicPage)
+            Navbar.setCurrent(pageKey);
+
+        pages[pageKey].display(dto);
     }
     static cleanNavs(): void {
         if(!AppUser.hasAnyPrivilege()) {
@@ -49,7 +58,6 @@ function initializePages(): void {
     FormPage.init(); pages.FormPage = dropPages.addPage(FormPage.get);
     pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks);
     pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks);
-    Navbar.addNavLink("Form Page", () => { pages.FormPage.display(); Loader.hide(); });
 }
 
 function initializeLinks(): void {
@@ -57,4 +65,5 @@ function initializeLinks(): void {
     FrontPage.setActionForAdminButton(() => { signIn("adminButton") });
 
     FormPage.setActionForCloseButton(() => { pages.FrontPage.display(); Loader.display(); });
+    Navbar.addNavLink("Form Page", () => { pages.FormPage.display(); Loader.hide(); });
 }

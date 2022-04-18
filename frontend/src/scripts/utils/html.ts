@@ -1,4 +1,6 @@
-export type ElemGetter = () => HTMLElement;
+import { Category, Dto } from "../abstractions/dto";
+
+export type ElemGetter = (dto?: Dto) => HTMLElement;
 
 export function on(elem: HTMLElement) {
 	return {

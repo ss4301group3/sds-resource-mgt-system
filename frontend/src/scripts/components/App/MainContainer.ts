@@ -18,8 +18,9 @@ export class MainContainer {
         getTitle().innerText = title;
     }
 
-    static setRemarks(remarks: string): void {
-        getRemarks().innerHTML = remarks;
+    static setRemarks(remarks: HTMLElement): void {
+        on(getRemarks()).removeChildren();
+        getRemarks().appendChild(remarks);
     }
 
     static addContent(newContent: HTMLElement): void {

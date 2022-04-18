@@ -4,13 +4,15 @@ import { MainContainer } from "../components/App/MainContainer"
 import { Navbar } from "../components/App/Navbar";
 import { StringGetter } from "../utils/strings";
 import { Loader } from "../components/App/Loader";
+import { Dto } from "./dto";
 
 interface PageContainer {
-    addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: StringGetter): Page;
+    addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: ElemGetter): Page;
     domHandler: MainContainer | Dropnav;
 }
 export abstract class Page {
-    abstract display(): void;
+    abstract display(dto?: Dto): void;
+    abstract displayRecent(): void;
 }
 
 export class BasicPageContainer implements PageContainer{
@@ -18,7 +20,7 @@ export class BasicPageContainer implements PageContainer{
 
     private pages: Set<BasicPage> = new Set<BasicPage>();
 
-    addPage(contentGetter: ElemGetter, titleGetter: StringGetter, remarksGetter: StringGetter): BasicPage {
+    addPage(contentGetter: ElemGetter, titleGetter: StringGetter, remarksGetter: ElemGetter): BasicPage {
         const page = new BasicPage(this, titleGetter, remarksGetter, contentGetter)
         this.pages.add(page);
         return page;
@@ -28,13 +30,15 @@ export class BasicPage extends Page {
     private container: BasicPageContainer;
 
     private getTitle: StringGetter;
-    private getRemarks: StringGetter;
+    private getRemarks: ElemGetter;
     private getContent: ElemGetter;
+
+    private mostRecentDto: Dto | undefined;
 
     constructor(
         container: BasicPageContainer, 
         titleGetter: StringGetter, 
-        remarksGetter: StringGetter, 
+        remarksGetter: ElemGetter, 
         contentGetter: ElemGetter
     ) {
         super();
@@ -45,19 +49,25 @@ export class BasicPage extends Page {
         this.getRemarks = remarksGetter;
         this.getContent = contentGetter;
 
-        Navbar.addNavLink(this.getTitle(), () => this.display());
+        Navbar.addNavLink(this.getTitle(), () => this.displayRecent());
     }
 
-    display(): void {
+    display(dto?: Dto): void {
         Dropnav.collapse();
 
         const domHandler = this.container.domHandler;
 
-        domHandler.setTitle(this.getTitle());
-        domHandler.setRemarks(this.getRemarks());
-        domHandler.replaceContent(this.getContent());
+        domHandler.setTitle(this.getTitle(dto));
+        domHandler.setRemarks(this.getRemarks(dto));
+        domHandler.replaceContent(this.getContent(dto));
+
+        this.mostRecentDto = dto;
 
         Navbar.setCurrent(this.getTitle());
+    }
+
+    displayRecent(): void {
+        this.display(this.mostRecentDto);
     }
 }
 
@@ -112,5 +122,9 @@ class DropPage extends Page {
         this.container.domHandler.expand();
 
         this.container.unhide(this).andHideOthers();
+    }
+
+    displayRecent(): void {
+        this.display();
     }
 }

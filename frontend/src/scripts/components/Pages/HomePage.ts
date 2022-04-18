@@ -1,6 +1,6 @@
 import { AccountInfo } from "@azure/msal-browser";
 import { ROLE_DESCRIPTIONS } from "../../../config";
-import { ElemGetter, getOrCreate, on } from "../../utils/html";
+import { ElemGetter, getOrCreate, newElem, on } from "../../utils/html";
 import { App, AppUser } from "../App";
 
 export class HomePage {
@@ -17,7 +17,7 @@ export class HomePage {
     }
 
     static getRemarks() {
-        return "";
+        return newElem("", "");
     }
 }
 

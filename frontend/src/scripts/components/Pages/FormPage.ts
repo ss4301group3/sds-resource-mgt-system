@@ -146,7 +146,7 @@ function getAddItemButton(): HTMLButtonElement {
 function getAddItemIcon(): HTMLElement {
     const icon = getOrCreate("I", "LoanBoxItemsListAddItemIcon", "material-icons", "add") as HTMLElement;
     
-    ifClicked(icon).trigger(() => Pages.display("Resources"));//getItemsList().itemsList.addItem());
+    ifClicked(icon).trigger(() => Pages.displayRecent("Resources"));//getItemsList().itemsList.addItem());
 
     return icon;
 }
