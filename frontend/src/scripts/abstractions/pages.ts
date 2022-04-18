@@ -3,6 +3,7 @@ import { Dropnav } from "../components/App/Dropnav";
 import { MainContainer } from "../components/App/MainContainer"
 import { Navbar } from "../components/App/Navbar";
 import { StringGetter } from "../utils/strings";
+import { Loader } from "../components/App/Loader";
 
 interface PageContainer {
     addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: StringGetter): Page;
@@ -89,8 +90,13 @@ class DropPage extends Page {
 
     private getElem: ElemGetter;
     
-    hide(): void { this.getElem().classList.add("page-inactive"); }
-    unhide(): void { this.getElem().classList.remove("page-inactive"); }
+    hide(): void { 
+        this.getElem().classList.add("page-inactive");
+    }
+    unhide(): void {
+        this.getElem().classList.remove("page-inactive");
+        if(this.getElem().id != "AppButtonBoxContainer") Loader.hide();
+    }
 
     constructor(container: DropPageContainer, elemGetter: ElemGetter) {
         super();

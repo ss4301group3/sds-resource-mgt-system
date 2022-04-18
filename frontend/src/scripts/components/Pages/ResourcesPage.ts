@@ -5,6 +5,9 @@ import { App, AppUser } from "../App";
 import { Data } from "../Data";
 import { Category } from "../../abstractions/dto"
 import { FormPage } from "./FormPage";
+import { MessageBox } from "../App/MessageBox";
+
+import "../../../stylesheets/components/pages/ResourcesPage.scss";
 
 export class ResourcesPage {
     static getContent(): HTMLDivElement {
@@ -78,7 +81,13 @@ function getResources(): HTMLElement {
             id: `ContentResourcesItem${resource.getId().toString()}`,
             innerHTML: resource.getLabel()
         });
-        ifClicked(item).trigger(() => FormPage.addItem(resource, 1));
+        ifClicked(item).trigger(() => {
+            FormPage.addItem(resource, 1);
+
+            MessageBox.writeMessage(
+                `MessageBoxAddResMsg${resource.getId()}`,
+                `+ ${resource.getLabel()} ; Total - ${FormPage.peekItem(resource)[1]} [<span class="link">Form Page</span>]`, true, 3500)
+        });
         container.appendChild(item);
     });
     return container;

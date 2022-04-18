@@ -1,0 +1,20 @@
+#App {
+    #AppMainContainer {
+        #AppPageContent {
+            #ContentCategoriesContainer {
+                button {
+                    font-weight: bold;
+                    padding: 10px;
+                }
+            }
+            #ContentResourcesContainer {
+                button {
+                    font-weight: bold;
+                    padding: 10px;
+                    text-align: left;
+                    width: 100%;
+                }
+            }
+        }
+    }
+}

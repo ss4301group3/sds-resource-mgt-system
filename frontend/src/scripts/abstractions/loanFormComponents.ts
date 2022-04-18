@@ -1,4 +1,4 @@
-import { getOrCreate, ifClicked, newElem, on } from "../utils/html";
+import { getOrCreate, on } from "../utils/html";
 import { Resource } from "./dto";
 
 export abstract class DivContainingItemsList extends HTMLDivElement {
@@ -30,7 +30,6 @@ export class LoanBoxItemsList{
         Object.entries(data).forEach(([id, itemInfo]) => {
             this.#renderItem(itemInfo[0], itemInfo[1]);
         });
-        console.log(data);
     }
 
     #renderItem(resource: Resource, amount: number): void {
@@ -57,6 +56,13 @@ export class LoanBoxItemsList{
 
     removeItem(resource: Resource): void {
         delete this.resources[resource.getId()];
+    }
+
+    peekItem(resource: Resource): [any, number] {
+        if(this.resources[resource.getId()]) {
+            return this.resources[resource.getId()];
+        }
+        return [null, 0];
     }
 }
 

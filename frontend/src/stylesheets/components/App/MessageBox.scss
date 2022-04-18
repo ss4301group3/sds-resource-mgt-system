@@ -12,11 +12,21 @@ $color_yellow-light: #ffdd88cc;
 
 		p,h3 {
 			display:block;
+			font-weight: bold;
 
 			margin: 0;
 			padding: 7px 0;
 
 			background-color: $color_yellow-light;
+			.link {
+				font-size: small;
+				font-style: italic;
+				color: blue;
+				text-decoration: underline 1px;
+				&:hover {
+					font-style: normal;
+				}
+			}
 		}
 	}
 }

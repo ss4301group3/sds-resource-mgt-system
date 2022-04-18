@@ -1,5 +1,5 @@
 import { Category, Resource } from "../abstractions/dto";
-import { Fetch } from "./App/Data/Fetch";
+import { Fetch } from "./Data/Fetch";
 import { signInAttemptExecuted } from "./Auth/AuthModule";
 import { Pages } from "./Pages";
 

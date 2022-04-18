@@ -50,7 +50,6 @@ function initializePages(): void {
     pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks);
     pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks);
     Navbar.addNavLink("Form Page", () => { pages.FormPage.display(); Loader.hide(); });
-    Navbar.addNavLink("Form Page", () => { pages.FormPage.display(); Loader.hide(); });
 }
 
 function initializeLinks(): void {

@@ -65,6 +65,10 @@ export function getOrCreate(
 	return elem;
 }
 
+export function removeElem(elem: HTMLElement) {
+	elem.parentElement?.removeChild(elem);
+}
+
 function isEmpty(elem: HTMLElement): boolean { return elem.childElementCount == 0 };
 
 function match(tag: string, tag2: string): boolean { return tag.toLowerCase() === tag2.toLowerCase()};

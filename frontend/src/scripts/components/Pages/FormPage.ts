@@ -58,6 +58,10 @@ export class FormPage {
     static addItem(resource: Resource, amount: number): void {
         ItemsList.addItem(resource, amount);
     }
+
+    static peekItem(resource: Resource) {
+        return ItemsList.peekItem(resource);
+    }
 }
 
 function getLoanForm(): HTMLDivElement {

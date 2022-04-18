@@ -11,6 +11,7 @@ import { User } from "../abstractions/appUser";
 import { Pages } from "./Pages";
 import { FrontPage } from "./Pages/FrontPage";
 import { FormPage } from "./Pages/FormPage";
+import { MessageBox } from "./App/MessageBox";
 
 export let AppUser: User;
 
@@ -74,6 +75,8 @@ function getAppElem(): HTMLDivElement {
         Dropnav.getBackground,
         Dropnav.get,
         Navbar.get,
+
+        MessageBox.get,
 
         Sidenav.get,
         Sidenav.getToggle,

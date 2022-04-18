@@ -174,7 +174,7 @@ export class AuthModule {
             signInAttemptExecuted = true;
         }).catch(error => {
             if (error instanceof InteractionRequiredAuthError) {
-                App.handleCancelSignIn("Manual Sign-in required");
+                App.handleCancelSignIn("No signed-in account retrieved");
             }
             else if (error.message.includes("AADSTS50199")) {
                 App.handleCancelSignIn("Due to security reasons, manual sign-in required");

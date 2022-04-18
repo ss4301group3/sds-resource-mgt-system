@@ -1,4 +1,4 @@
-import { Category, Resource  } from "../../../abstractions/dto"
+import { Category, Resource  } from "../../abstractions/dto"
 
 export class Fetch {
     static async getCategory(parentId?: number) {
@@ -19,5 +19,7 @@ function getMockResources(): {[id: number]: Resource} {
     return {
         0: new Resource(0, "Dummy Item A", null),
         1: new Resource(1, "Dummy Item B", null),
+        2: new Resource(2, "Dummy Item C", null),
+        3: new Resource(3, "Dummy Item D", null),
     }
 }
