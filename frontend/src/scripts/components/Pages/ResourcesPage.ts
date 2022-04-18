@@ -3,7 +3,7 @@ import { ROLE_DESCRIPTIONS } from "../../../config";
 import { ElemGetter, getOrCreate, ifClicked, newElem, on } from "../../utils/html";
 import { App, AppUser } from "../App";
 import { Data } from "../Data";
-import { Category, Dto } from "../../abstractions/dto"
+import { Category, Dto } from "../../abstractions/dto/Resource"
 import { FormPage } from "./FormPage";
 import { MessageBox } from "../App/MessageBox";
 

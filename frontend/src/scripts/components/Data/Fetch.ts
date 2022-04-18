@@ -1,4 +1,4 @@
-import { Category, Resource  } from "../../abstractions/dto"
+import { Category, Resource  } from "../../abstractions/dto/Resource"
 
 export class Fetch {
     static async getCategory(parentId?: number) {

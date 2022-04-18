@@ -1,4 +1,4 @@
-import { Category, Dto, Resource } from "../abstractions/dto";
+import { Category, Dto, Resource } from "../abstractions/dto/Resource";
 import { Fetch } from "./Data/Fetch";
 import { signInAttemptExecuted } from "./Auth/AuthModule";
 import { Pages } from "./Pages";

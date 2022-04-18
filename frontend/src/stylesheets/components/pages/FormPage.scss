@@ -4,12 +4,16 @@
 	height: 100%;
 	left: 0;
 	top: -55px;
+	opacity: 0;
+	scale: 0;
 	
 	transition-property: opacity, scale, top, left;
 	transition-duration: 0.3s;
 	
 	&.dropnav-active {
 		top: 0px;
+		opacity: 1;
+		scale: 1;
 	}
 	&.page-inactive {
 		left: 100%;
