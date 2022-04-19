@@ -1,10 +1,11 @@
-import { Category, Resource  } from "../../abstractions/dto/Resource"
+import { Category } from "../../abstractions/dto/Category";
+import { Resource  } from "../../abstractions/dto/Item"
 
 export class Fetch {
-    static async getCategory(parentId?: number) {
+    static async getCategory() {
         return getMockCategories();
     }
-    static async getResources(categoryId?: number) {
+    static async getResources() {
         return getMockResources();
     }
 }
@@ -20,13 +21,13 @@ function getMockCategories(): {[id: number]: Category} {
 }
 function getMockResources(): {[id: number]: Resource} {
     return {
-        0: new Resource(0, "Dummy Makebook Error", 3),
-        1: new Resource(1, "Dummy Galaxy NOT", 2),
-        2: new Resource(2, "Dummy Probbook", 3),
-        3: new Resource(3, "Dummy Surface Bro", 2),
-        4: new Resource(4, "Dummy Desk", 4),
-        5: new Resource(5, "Dummy Table", 4),
-        6: new Resource(6, "Dummy Coffee Table", 4),
-        7: new Resource(7, "Dummy Laptop", 3),
+        0: new Resource(0, "Dummy Make Book Err", 3, null, null, new Date(), false),
+        1: new Resource(1, "Dummy Galaxynaut", 2, null, null, new Date(), false),
+        2: new Resource(2, "Dummy Probbook", 3, null, null, new Date(), false),
+        3: new Resource(3, "Dummy Surface Bro", 2, null, null, new Date(), false),
+        4: new Resource(4, "Dummy Desk", 4, null, null, new Date(), false),
+        5: new Resource(5, "Dummy Table", 4, null, null, new Date(), false),
+        6: new Resource(6, "Dummy Coffee Table", 4, null, null, new Date(), false),
+        7: new Resource(7, "Dummy Allenwhere", 3, null, null, new Date(), false),
     }
 }

@@ -4,7 +4,7 @@ import { MainContainer } from "../components/App/MainContainer"
 import { Navbar } from "../components/App/Navbar";
 import { StringGetter } from "../utils/strings";
 import { Loader } from "../components/App/Loader";
-import { Dto } from "./dto/Resource";
+import { Dto } from "./dto";
 
 interface PageContainer {
     addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: ElemGetter): Page;

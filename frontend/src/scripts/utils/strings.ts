@@ -1,4 +1,4 @@
-import { Dto } from "../abstractions/dto/Resource";
+import { Dto } from "../abstractions/dto";
 
 export function noSpaces(text: string) {
     const wordsArray = text.split(" ");

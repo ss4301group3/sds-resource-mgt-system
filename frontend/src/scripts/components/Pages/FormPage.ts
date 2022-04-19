@@ -6,7 +6,7 @@ import { noSpaces } from "../../utils/strings";
 
 import "../../../stylesheets/components/pages/FormPage.scss";
 import { Pages } from "../Pages";
-import { Resource } from "../../abstractions/dto/Resource";
+import { Resource } from "../../abstractions/dto/Item";
 
 let closeForm: Function = () => {};
 let submitForm: Function = () => {};

@@ -1,14 +1,13 @@
 
-import { ROLE_DESCRIPTIONS } from "../../../config";
-import { ElemGetter, getOrCreate, ifClicked, newElem, on } from "../../utils/html";
-import { App, AppUser } from "../App";
+import { ElemGetter, ifClicked, newElem, on } from "../../utils/html";
 import { Data } from "../Data";
-import { Category, Dto } from "../../abstractions/dto/Resource"
+import { Category} from "../../abstractions/dto/Category"
 import { FormPage } from "./FormPage";
 import { MessageBox } from "../App/MessageBox";
+import { Pages } from "../Pages";
+import { Dto } from "../../abstractions/dto";
 
 import "../../../stylesheets/components/pages/ResourcesPage.scss";
-import { Pages } from "../Pages";
 
 export class ResourcesPage {
 
@@ -142,7 +141,7 @@ function getResources(category?: Dto): HTMLElement {
 
             MessageBox.writeMessage(
                 `MessageBoxAddResMsg${resource.getId()}`,
-                `+ ${label} ; Total - ${currentAmount} [<span class="link">Form Page</span>]`, true, 3500
+                `+ ${label} ; Total - ${currentAmount} [<span class="link">Form Page</span>]`, true, 5000
             );
         });
 

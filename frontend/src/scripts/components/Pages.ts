@@ -8,7 +8,7 @@ import { HomePage } from "./Pages/HomePage";
 import { FormPage } from "./Pages/FormPage";
 import { ResourcesPage } from "./Pages/ResourcesPage";
 import { AppUser } from "./App";
-import { Dto } from "../abstractions/dto/Resource";
+import { Dto } from "../abstractions/dto";
 
 const basicPages = new BasicPageContainer;
 const dropPages = new DropPageContainer;

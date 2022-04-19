@@ -1,5 +1,5 @@
 import { getOrCreate, on } from "../utils/html";
-import { Resource } from "./dto/Resource";
+import { Resource } from "./dto/Item";
 
 export abstract class DivContainingItemsList extends HTMLDivElement {
     abstract itemsList: LoanBoxItemsList;

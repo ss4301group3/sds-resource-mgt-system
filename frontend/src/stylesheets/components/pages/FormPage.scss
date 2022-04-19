@@ -133,7 +133,11 @@
 						margin-top: 5px;
 						border-radius: 25px;
 						padding:10px;
-						background:transparent;
+  						-moz-appearance: none;
+  						-webkit-appearance: none;
+  						appearance: none;
+  						background-image: none;
+						background: none;
 						outline: none;
 						color: #fff;
 					}
@@ -141,7 +145,7 @@
 						color: black;
 					}
 					input{
-						width: 50px;
+						width: 13%;
 						padding: 10px 0;
 						font-size: 16px;
 						color: #fff;

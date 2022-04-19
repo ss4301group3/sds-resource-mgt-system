@@ -1,4 +1,4 @@
-import { Category, Dto } from "../abstractions/dto/Resource";
+import { Dto } from "../abstractions/dto";
 
 export type ElemGetter = (dto?: Dto) => HTMLElement;
 
