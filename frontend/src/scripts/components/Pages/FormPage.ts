@@ -139,16 +139,14 @@ function getAddItemButton(): HTMLButtonElement {
     const button = getOrCreate("BUTTON", "LoanBoxItemsListAddItem", "addMore", null, null, "button") as HTMLButtonElement;
     
     ifEmpty(button).appendByGetters([getAddItemIcon]);
+    
+    ifClicked(button).trigger(() => Pages.displayRecent("Resources"));
 
     return button;
 }
 
 function getAddItemIcon(): HTMLElement {
-    const icon = getOrCreate("I", "LoanBoxItemsListAddItemIcon", "material-icons", "add") as HTMLElement;
-    
-    ifClicked(icon).trigger(() => Pages.displayRecent("Resources"));//getItemsList().itemsList.addItem());
-
-    return icon;
+    return getOrCreate("I", "LoanBoxItemsListAddItemIcon", "material-icons", "add") as HTMLElement;
 }
 
 function getAgreementListBox(): HTMLDivElement {

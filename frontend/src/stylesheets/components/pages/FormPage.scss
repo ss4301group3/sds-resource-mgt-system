@@ -1,3 +1,4 @@
+$color_yellow: #f4c803;
 #AppLoanBoxContainer {
 	position: relative;
 	overflow-y: auto;
@@ -68,7 +69,7 @@
 				border-bottom: 1px solid #fff;
 				outline: none;
 				background: transparent;
-				
+
 				&:focus ~ label,
 				&:valid ~ label {
 					top: -20px;
@@ -109,7 +110,7 @@
 				padding: 10px 0;
 				font-size: 16px;
 				color: #fff;
-				margin-bottom: 30px;
+				margin-bottom: 20px;
 				border: none;
 				border-bottom: 1px solid #fff;
 				outline: none;
@@ -123,14 +124,16 @@
 			position: relative;
 			width: 100%;
 			align-content: center;
-			
+			#LoanBoxItemsHeading {
+				margin-bottom: 0;
+			}
 			#LoanBoxItemsList {
 				div {
 					select{
 						text-align: center;
 						width: 80%;
-						margin-right: 10px;
-						margin-top: 5px;
+						margin-right: 0px;
+						margin-top: 15px;
 						border-radius: 25px;
 						padding:10px;
   						-moz-appearance: none;
@@ -140,6 +143,9 @@
 						background: none;
 						outline: none;
 						color: #fff;
+						&:disabled {
+							color: fff;
+						}
 					}
 					option{
 						color: black;
@@ -149,7 +155,7 @@
 						padding: 10px 0;
 						font-size: 16px;
 						color: #fff;
-						margin-bottom: 15px;
+						margin-bottom: 0;
 						margin-left: 20px;
 						border: none;
 						border-bottom: 1px solid #fff;
@@ -173,16 +179,27 @@
 					}
 				}
 			}
-			button{
+			button.addMore{
+				padding: 8px;
+				margin: 7px;
 				background: transparent;
 				color: #fff;
 				border: none;
 				
 				width:100%;
 				
-				i:hover{
+				&:hover{
+					i {
+						color: $color_yellow;
+						font-weight: bold;
+					}
 					cursor: pointer;
 				}
+			}
+		}
+		#Agreement {
+			h3 {
+				margin-top: 0;
 			}
 		}
 		
@@ -237,6 +254,9 @@
 					div {
 						select{
 							width: 73%;
+							&:disabled {
+								color: #0f0;
+							}
 						}
 					}
 				}
