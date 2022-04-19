@@ -2,26 +2,28 @@ import { Category } from "./dto/Category";
 import { Resource } from "./dto/Item";
 import { Person } from "./dto/Person";
 
-export class ReservationFilter {
-    category: Category | null = null;
-    item: Resource | null = null;
-    itemisConsumable: boolean | null = null;
-    person: Person | null = null;
-    personIsStaff: boolean | null = null;
-    personIsStudent: boolean | null = null;
-    personFaculty: string | null = null;
-    reservationSupervisor: Person | null = null;
-    reservationResponder: Person | null = null;
-    reservationIsPending: boolean | null = null;
-    reservationAmountOfRequiredApprovals: number | null = null;
-    reservationIsReleased: boolean | null = null;
-    reservationIsReturned: boolean | null = null;
-    reservationStartsAfter: Date | null = null;
-    reservationEndsBefore: Date | null = null;
-    reservationCreatedAfter: Date | null = null;
-    reservationCreatedBefore: Date | null = null;
-    reservationUpdatedAfter: Date | null = null;
-    reservationUpdatedBefore: Date | null = null;
+export interface Filter {}
+
+export class ReservationsFilter implements Filter {
+    private category: Category | null = null;
+    private item: Resource | null = null;
+    private itemisConsumable: boolean | null = null;
+    private person: Person | null = null;
+    private personIsStaff: boolean | null = null;
+    private personIsStudent: boolean | null = null;
+    private personFaculty: string | null = null;
+    private reservationSupervisor: Person | null = null;
+    private reservationResponder: Person | null = null;
+    private reservationIsPending: boolean | null = null;
+    private reservationAmountOfRequiredApprovals: number | null = null;
+    private reservationIsReleased: boolean | null = null;
+    private reservationIsReturned: boolean | null = null;
+    private reservationStartsAfter: Date | null = null;
+    private reservationEndsBefore: Date | null = null;
+    private reservationCreatedAfter: Date | null = null;
+    private reservationCreatedBefore: Date | null = null;
+    private reservationUpdatedAfter: Date | null = null;
+    private reservationUpdatedBefore: Date | null = null;
 
     setCategory(dto: Category | null): void { this.category = dto; }
     setItem(dto: Resource | null): void { this.item = dto; }

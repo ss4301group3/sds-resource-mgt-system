@@ -1,14 +1,9 @@
-import { Resource } from "../abstractions/dto/Item";
 import { Fetch } from "./Data/Fetch";
 import { signInAttemptExecuted } from "./Auth/AuthModule";
 import { Pages } from "./Pages";
-import { Dto } from "../abstractions/dto";
+import { CategoryDtos, CategoryGroups, Dto, ReservationDtos, ResourceDtos, ResourceGroups } from "../abstractions/dto";
 import { Category } from "../abstractions/dto/Category";
 
-type CategoryDtos = {[id: number]: Category}
-type CategoryGroups = {[id: number]: CategoryDtos}
-type ResourceDtos = {[id: number]: Resource}
-type ResourceGroups = {[id: number]: ResourceDtos}
 
 let categories: CategoryDtos = {};
 let categoryGroups: CategoryGroups = {};
@@ -16,6 +11,7 @@ let categoryNonGroup: CategoryDtos = {};
 let resources: ResourceDtos = {};
 let resourceGroups: ResourceGroups = {};
 let resourceNonGroup: ResourceDtos = {};
+let reservations: ReservationDtos = {};
 
 export class Data {
     static async init(): Promise<void> {
@@ -52,6 +48,9 @@ export class Data {
             return {};
         }
         return resourceNonGroup;
+    }
+    static async getAsyncReservations(): Promise<ReservationDtos> {
+        return Fetch.Reservations();
     }
 
     static forceRerenderView(): void {

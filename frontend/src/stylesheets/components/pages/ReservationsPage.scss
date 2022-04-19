@@ -1,0 +1,17 @@
+$color_yellow: #ffcb00;
+
+#App {
+    #AppMainContainer {
+        #AppPageContent {
+            div {
+                table {
+                    tr {
+                        &.cluster-label td{
+                            padding-top: 10px;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

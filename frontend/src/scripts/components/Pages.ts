@@ -9,6 +9,7 @@ import { FormPage } from "./Pages/FormPage";
 import { ResourcesPage } from "./Pages/ResourcesPage";
 import { AppUser } from "./App";
 import { Dto } from "../abstractions/dto";
+import { ReservationsPage } from "./Pages/ReservationsPage";
 
 const basicPages = new BasicPageContainer;
 const dropPages = new DropPageContainer;
@@ -58,6 +59,7 @@ function initializePages(): void {
     FormPage.init(); pages.FormPage = dropPages.addPage(FormPage.get);
     pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks);
     pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks);
+    pages.Reservations = basicPages.addPage(ReservationsPage.getContent, ReservationsPage.getTitle, ReservationsPage.getRemarks);
 }
 
 function initializeLinks(): void {
