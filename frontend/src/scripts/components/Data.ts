@@ -19,8 +19,8 @@ let resourceNonGroup: ResourceDtos = {};
 
 export class Data {
     static async init(): Promise<void> {
-        categories = await Fetch.getCategory();
-        resources = await Fetch.getResources();
+        categories = await Fetch.Categories();
+        resources = await Fetch.Resources();
         
         group(categories);
         group(resources);
