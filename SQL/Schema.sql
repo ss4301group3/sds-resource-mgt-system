@@ -1,7 +1,7 @@
 CREATE SCHEMA dbo;
 GO
 
--- Create a new table called 'TableName' in schema 'dbo'PERSON the table if it already exists
+-- Create a new table in schema 'dbo'PERSON the table if it already exists
 IF OBJECT_ID('dbo.PERSON', 'U') IS NOT NULL
 DROP TABLE PERSON
 GO

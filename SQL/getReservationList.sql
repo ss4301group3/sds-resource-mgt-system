@@ -1,7 +1,7 @@
 CREATE PROCEDURE getReservationList
 AS
 BEGIN
-    SELECT reservationId, itemName, itemId
+    SELECT *
     FROM dbo.RESERVATION
     ORDER BY reservationId;
 END;
