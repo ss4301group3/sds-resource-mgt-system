@@ -1,0 +1,1 @@
+Required: googleapis, nodemailer, nodejs
