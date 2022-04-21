@@ -3,14 +3,16 @@ The repository for SS4301 Project 3 - SDS Resource Management System
 
 ## Instructions - New from repo
 
-To run the project locally, need to run these once:
+To run the project locally, need to run these commands once:
+- reason being that I have set git to ignore the dist folder i.e. where the results of compilation are kept.
+  - the folder contents need to be created manually
 
 ```console
 npm install --include=dev
 npm run build
 ```
 
-Reason being that I have set git to ignore the dist folder containing the compiled codes (which should not be tracked by git)<br>
+WARNING: The node_modules files resulting from the installation are around 600Mb <br>
 <br>
 
 Then start:
