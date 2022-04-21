@@ -114,5 +114,7 @@ export class Sidenav {
                 (<HTMLInputElement>searchInputs[i]).disabled = false;
             }
         }
+        
+        if(searchInputs.length>0) (<HTMLInputElement>searchInputs[0]).focus();
     }
 }

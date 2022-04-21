@@ -30,23 +30,23 @@ export class Navbar {
     }
 
     static setAuthButtonAction(description: string, shouldSignIn: boolean, isClickable: boolean): void {
-        const authElem = getAuth(), authButton = getAuthButton();
+        const authElem = getAuth(), authButtonDiv = getDivContainingAuthButton();
         
         const intended = shouldSignIn ? signInAction : signOutAction;
         const unintended = !shouldSignIn ? signInAction : signOutAction;
     
-        ifClicked(authElem).ignore(unintended);
+        ifClicked(authButtonDiv).ignore(unintended);
     
         if(isClickable) {
-            authElem.classList.remove("unclickable");
-            ifClicked(authElem).trigger(intended);
+            authButtonDiv.classList.remove("unclickable");
+            ifClicked(authButtonDiv).trigger(intended);
         }
         else {
-            authElem.classList.add("unclickable");
-            ifClicked(authElem).ignore(intended);
+            authButtonDiv.classList.add("unclickable");
+            ifClicked(authButtonDiv).ignore(intended);
         }
 
-        authButton.innerHTML = description;
+        if(authButtonDiv.firstChild) (<HTMLElement>authButtonDiv.firstChild).innerHTML = description;
     }
     
     static addNavLink(label: string, pageGetter: EventListener | EventListenerObject): void {
@@ -120,10 +120,19 @@ function getNavs(): HTMLDivElement {
 function getAuth(): HTMLDivElement {
     const auth = getOrCreate("DIV", "AppNavbarAuth") as HTMLDivElement;
 
-    auth.appendChild(getAuthButton());
+    auth.appendChild(getDivContainingAuthButton());
+    auth.appendChild(getEmptyDiv());
 
     return auth;
 }
-function getAuthButton(): HTMLButtonElement {
-    return getOrCreate("BUTTON", "AppNavbarAuthButton") as HTMLButtonElement;
+function getDivContainingAuthButton(): HTMLDivElement {
+    const div = getOrCreate("DIV","AppNavbarAuthDiv") as HTMLDivElement;
+
+    div.appendChild(getOrCreate("BUTTON", "AppNavbarAuthButton") as HTMLButtonElement);
+
+    return div;
+}
+
+function getEmptyDiv(): HTMLDivElement {
+    return getOrCreate("DIV","AppNavbarAuthEmptyDiv") as HTMLDivElement;
 }
