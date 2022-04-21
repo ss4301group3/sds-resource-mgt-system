@@ -1,7 +1,8 @@
 import { Dto, ReservationDtos } from "../../abstractions/dto";
-import { ClusterData, extractReservationClusterData, extractReservationClusterId, Reservation } from "../../abstractions/dto/Reservation";
+import { Reservation } from "../../abstractions/dto/Reservation";
 import { ElemGetter, getOrCreate, newElem, on } from "../../utils/html";
 import { Data } from "../Data";
+import { ClusterData, ReservationHandler as Handle } from "../../abstractions/dto/Reservation/ReservationHandler";
 
 import "../../../stylesheets/components/pages/ReservationsPage.scss";
 
@@ -53,45 +54,59 @@ function getTableLoader(): HTMLTableCellElement {
     return newElem("TD", "Fetching data") as HTMLTableCellElement;
 }
 function getRows(dtos: ReservationDtos): Array<HTMLTableRowElement> {
-    const clusters: {[clusterId: string]: [Reservation]} = {};
-    let clusterData: ClusterData;
-
     const rows: Array<HTMLTableRowElement> = [];
     
-
-    Object.entries(dtos).forEach(([id, dto]) => {
-        const clusterId = extractReservationClusterId(dto);
-        if(clusters[clusterId]) {
-            clusterData = extractReservationClusterData(dto);
-            clusters[clusterId].push(dto);
-        }
-        else clusters[clusterId] = [dto];
-    });
+    const columnLabels = Handle.Dto.getPublicLabels()
+    
     const headers = getOrCreate("TR", null, "headings") as HTMLTableRowElement;
-    ["Item name", "Released?", "Returned?",].forEach(header => {
-        headers.appendChild(newHeader(header));
+
+    columnLabels.forEach(label => {
+        headers.appendChild(newHeader(label));
     });
     rows.push(headers);
 
+    const clusters: {[clusterId: string]: [Reservation]} = {};
+    let clusterData: ClusterData;
+
+    Object.entries(dtos).forEach(([id, dto]) => {
+        const clusterId = Handle.Cluster.getId(dto);
+
+        if(clusters[clusterId]) {
+            clusterData = Handle.Cluster.getData(dto);
+            clusters[clusterId].push(dto);
+        }
+
+        else clusters[clusterId] = [dto];
+    });
+
     Object.entries(clusters).forEach(([id, dtos]) => {
-        const clusterData = extractReservationClusterData(dtos[0]);
-        const clusterLabel = newCell(clusterData.period);
-        clusterLabel.colSpan = 3;
-        let row = getOrCreate("TR", null, "cluster-label") as HTMLTableRowElement;
-        row.appendChild(clusterLabel);
-        rows.push(row);
-        row = getOrCreate("TR") as HTMLTableRowElement;
+        const clusterData = Handle.Cluster.getData(dtos[0]);
+
+        let labelRow = getOrCreate("TR", null, "cluster-label") as HTMLTableRowElement;
+
+        const clusterLabel = Object.assign(getOrCreate("TD"), {
+            innerHTML: `${clusterData.personInfo}<br>- ${clusterData.period}`
+        }) as HTMLTableCellElement;
+        clusterLabel.colSpan = columnLabels.length;
+        
+        labelRow.appendChild(clusterLabel);
+
+        rows.push(labelRow);
+
+        let dataRow = getOrCreate("TR") as HTMLTableRowElement;
         dtos.forEach(dto => {
-            row.appendChild(newCell(dto.getLabel()));
-            row.appendChild(newCell(dto.getIsReleased() ? "Released" : ""));
-            row.appendChild(newCell(dto.getIsReturned() ? "Returned" : ""));
-            rows.push(row);
-            row = getOrCreate("TR") as HTMLTableRowElement;
+            const data = Handle.Dto.getPublicData(dto);
+            data.forEach(info => {
+                dataRow.appendChild(newCell(info));
+            });
+            rows.push(dataRow);
+            dataRow = getOrCreate("TR") as HTMLTableRowElement;
         });
     });
     
     return rows;
 }
+
 function newCell(text: string): HTMLTableCellElement {
     return newElem("TD", text) as HTMLTableCellElement;
 }

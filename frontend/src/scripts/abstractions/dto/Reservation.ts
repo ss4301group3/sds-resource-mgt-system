@@ -66,27 +66,3 @@ export class Reservation implements Dto {
     getIsApproved2(): boolean { return this.isApproved2; }
     getIsApproved3(): boolean { return this.isApproved3; }
 }
-
-export type ClusterData = {id: string, period: string, personId: number }
-export function extractReservationClusterData(dto: Reservation): ClusterData {
-    const personId = dto.getPersonId();
-    const start = dto.getStartTime();
-    const end = dto.getEndTime();
-    const data = {
-        id: `${personId}${start.toISOString()}${end.toISOString()}`,
-        period: `${getDateTimeString(start)} ~ ${getDateTimeString(end)}`,
-        personId: personId,
-    }
-    return data;
-}
-export function extractReservationClusterId(dto: Reservation): string {
-    const start = dto.getStartTime();
-    const end = dto.getEndTime();
-    return  `${dto.getPersonId()}${start.toISOString()}${end.toISOString()}`;
-}
-
-const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-function getDateTimeString(time: Date) {return getDateString(time) + "," + getTimeString(time)};
-function getDateString(time: Date) { return time.getDate() + "-" + MONTH_NAMES[time.getMonth()] + "-" + time.getFullYear(); }
-function getTimeString(time: Date) { return time.getHours()%12 + ":" + time.getMinutes().toString().padStart(2,'0') + (time.getHours() >= 12 ? "pm" : "am"); }

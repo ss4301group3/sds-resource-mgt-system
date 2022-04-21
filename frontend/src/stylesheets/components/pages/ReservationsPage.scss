@@ -1,3 +1,4 @@
+$color_blue-dark: #091119;
 $color_yellow: #ffcb00;
 
 #App {
@@ -5,8 +6,25 @@ $color_yellow: #ffcb00;
         #AppPageContent {
             div {
                 table {
+                    width: 100%;
+                    border-top: 1px solid $color_yellow;
+                    border-bottom: 1px solid $color_yellow;
+                    border-spacing: 0;
                     tr {
-                        &.cluster-label td{
+                        th, td {
+                            border-right: 1px solid $color_yellow;
+                            border-left: 1px solid $color_yellow;
+                            padding: 5px;
+                        }
+                        &.headings {
+                            font-size: small;
+                            background-color: $color_blue-dark;
+                        }
+                        &.cluster-label td {
+                            font-weight: bold;
+                            font-size: small;
+                            border-top: 1px solid $color_yellow;
+                            border-bottom: 1px dotted $color_yellow;
                             padding-top: 10px;
                         }
                     }

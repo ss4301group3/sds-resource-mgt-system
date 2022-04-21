@@ -1,10 +1,11 @@
 import { Fetch } from "./Data/Fetch";
 import { signInAttemptExecuted } from "./Auth/AuthModule";
 import { Pages } from "./Pages";
-import { CategoryDtos, CategoryGroups, Dto, ReservationDtos, ResourceDtos, ResourceGroups } from "../abstractions/dto";
+import { CategoryDtos, CategoryGroups, Dto, PersonDtos, ReservationDtos, ResourceDtos, ResourceGroups } from "../abstractions/dto";
 import { Category } from "../abstractions/dto/Category";
+import { Person } from "../abstractions/dto/Person";
 
-
+let persons: PersonDtos = {};
 let categories: CategoryDtos = {};
 let categoryGroups: CategoryGroups = {};
 let categoryNonGroup: CategoryDtos = {};
@@ -17,11 +18,21 @@ export class Data {
     static async init(): Promise<void> {
         categories = await Fetch.Categories();
         resources = await Fetch.Resources();
+        /*temp*/ this.initPersons();
         
         group(categories);
         group(resources);
 
         if(signInAttemptExecuted) this.forceRerenderView();
+    }
+
+    static async initPersons(): Promise<void> {
+        persons = await Fetch.Persons();
+    }
+
+    static getPersonbyId(id: number): Person | null {
+        if(persons[id]) return persons[id];
+        else return null;
     }
 
     static getParent(dto: Category) {
