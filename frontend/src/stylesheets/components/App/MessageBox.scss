@@ -6,27 +6,27 @@ $color_blue-dark: #091119;
 	#AppMessageBox {
 		z-index: 2;
 		display: block;
-		position:fixed;
+		position: fixed;
 		bottom: 0;
 
 		//sidenav inactive
 			width:calc(100% - 22px);
 			left: 22px;
-		&.sidenav-toggle-partial {
+		&.sidenav-toggle-active {
 			width:calc(100% - 262px);
 			left: 262px;
 		}
-		&.sidenav-toggle-total {
-			width:100%;
-			left: 0px;
-		}
-		&.sidenav-toggle-disabled {
-			width:calc(100%);
-			left: 0px;
-		}
+		&.sidenav-toggle-disabled,
 		&.dropnav-active {
 			width:100%;
 			left: 0px;
+		}
+		@media only screen and (max-width: 675px) {
+			&.sidenav-toggle-active,
+			&.dropnav-active {
+				width:100%;
+				left: 0px;
+			}
 		}
 
     
