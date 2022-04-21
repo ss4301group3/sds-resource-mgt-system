@@ -2,8 +2,32 @@ $color_yellow: #ffcb00;
 #App {
   #AppMainContainer {
     color: white;
-    transition: margin-left 0.2s ease-out;
-    margin-left: calc(20px + 22px);
+    transition-property: left margin-left width;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    position: relative;
+
+    //sidenav inactive
+    left: 22px;
+    width:calc(100% - 62px);
+		&.sidenav-toggle-partial {
+			width:calc(100% - 302px);
+			left: 262px;
+		}
+		&.sidenav-toggle-total {
+			width:100%;
+			left: 100%;
+		}
+		&.sidenav-toggle-disabled {
+			width:100%;
+			left: 0px;
+		}
+    &.dropnav-active {
+			width:100%;
+			left: 0px;
+    }
+
+    margin-left: 20px;
     margin-top: 20px;
     margin-right: 20px;
     a {

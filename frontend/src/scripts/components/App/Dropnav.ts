@@ -1,14 +1,13 @@
 import { ElemGetter, getOrCreate, on } from "../../utils/html";
 import "../../../stylesheets/components/App/Dropnav.scss";
+import { MainContainer } from "./MainContainer";
+import { Sidenav } from "./Sidenav";
+import { MessageBox } from "./MessageBox";
 
 export class Dropnav {
 
     static init(): void {
         this.expand();
-        
-        this.assignDIsplayEffectTo([
-            this.getBackground
-        ])
     }
 
     static get(): HTMLDivElement {

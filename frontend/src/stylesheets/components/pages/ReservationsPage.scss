@@ -7,13 +7,14 @@ $color_yellow: #ffcb00;
             div {
                 table {
                     width: 100%;
-                    border-top: 1px solid $color_yellow;
-                    border-bottom: 1px solid $color_yellow;
+                    border-top: 3px solid $color_yellow;
+                    border-right: 3px solid $color_yellow;
+                    border-bottom: 3px solid $color_yellow;
                     border-spacing: 0;
                     tr {
                         th, td {
-                            border-right: 1px solid $color_yellow;
-                            border-left: 1px solid $color_yellow;
+                            text-align: center;
+                            border-left: 3px solid $color_yellow;
                             padding: 5px;
                         }
                         &.headings {
@@ -22,10 +23,9 @@ $color_yellow: #ffcb00;
                         }
                         &.cluster-label td {
                             font-weight: bold;
-                            font-size: small;
-                            border-top: 1px solid $color_yellow;
-                            border-bottom: 1px dotted $color_yellow;
-                            padding-top: 10px;
+                            border-top: 3px solid $color_yellow;
+                            border-bottom: 0.5px solid $color_yellow;
+                            padding-top: 12.5px;
                         }
                     }
                 }

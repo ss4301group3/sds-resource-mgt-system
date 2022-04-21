@@ -4,12 +4,36 @@ $color_blue-dark: #091119;
 
 #App {
 	#AppMessageBox {
-		z-index: 0;
+		z-index: 2;
 		display: block;
 		position:fixed;
 		bottom: 0;
-		width:100%;
 
+		//sidenav inactive
+			width:calc(100% - 22px);
+			left: 22px;
+		&.sidenav-toggle-partial {
+			width:calc(100% - 262px);
+			left: 262px;
+		}
+		&.sidenav-toggle-total {
+			width:100%;
+			left: 0px;
+		}
+		&.sidenav-toggle-disabled {
+			width:calc(100%);
+			left: 0px;
+		}
+		&.dropnav-active {
+			width:100%;
+			left: 0px;
+		}
+
+    
+		transition-property: left width;
+		transition-duration: 0.2s;
+		transition-timing-function: ease-out;
+		
 		text-align: center;
 
 		p,h3 {

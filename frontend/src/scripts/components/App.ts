@@ -22,6 +22,8 @@ export class App {
         Loader.init();
         Navbar.init();
         Dropnav.init();
+        Sidenav.init();
+        assignComponentEffectTriggers();
     }
 
     static handleSignedInUser(account: AccountInfo): void {
@@ -65,6 +67,23 @@ export class App {
     static handleSignOut(): void {
         Navbar.setAuthButtonAction("Signing Out", false, true);
     }
+}
+
+function assignComponentEffectTriggers():void {
+    Dropnav.assignDIsplayEffectTo([
+        Dropnav.getBackground,
+        Sidenav.get,
+        Sidenav.getToggle,
+        MessageBox.get,
+        MainContainer.get
+    ]);
+
+    Sidenav.assignDIsplayEffectTo([
+        Sidenav.get,
+        Sidenav.getToggle,
+        MainContainer.get,
+        MessageBox.get,
+    ]);
 }
 
 function getAppElem(): HTMLDivElement {

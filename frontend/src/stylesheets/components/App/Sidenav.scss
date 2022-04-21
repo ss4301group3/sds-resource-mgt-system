@@ -19,10 +19,33 @@ $px_small: 3.5px;
     top: 55px; left: -240px;
     width: 240px; height: calc(100% - 55px);
 
+    //sidenav inactive
+    left: -240px;
+    width: 240px;
+		&.sidenav-toggle-partial {
+			width: 240px;
+			left: 0px;
+		}
+		&.sidenav-toggle-total {
+			width:calc(100% - 22px);
+			left: 0px;
+		}
+		&.sidenav-toggle-disabled {
+      left: -262px;
+      width: 240px;
+		}
+    &.dropnav-active {
+      left: -262px;
+      width: 240px;
+    }
+    
+
     color:white;
     background-color: $color_navbar-bg_light;
     
-    transition: left 0.2s ease-out;
+    transition-property: left width;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
 
     #SideNavSearch {
       height: 19.5px;
@@ -111,8 +134,7 @@ $px_small: 3.5px;
     align-items: center;
     
     position: fixed; display: flex;
-    top:55px; left:0px;
-    width:22px; height: calc(100% - 55px);
+    top:55px; height: calc(100% - 55px);
 
     text-align: center;
     font-size: 20px;
@@ -126,13 +148,27 @@ $px_small: 3.5px;
     flex-direction: row;
     justify-content: center;
     @include noselect();
-
-    transition: left 0.2s ease-out;
     
     transition-property: left, box-shadow, background-color;
     transition-timing-function: ease-out;
     transition-duration: 0.2s;
 
+    //sidenav inactive
+    &:after { content: ">"; }
+    left: 0px;
+    width: 22px;
+		&.sidenav-toggle-partial {
+      &:after { content: "<"; }
+			left: 240px;
+		}
+		&.sidenav-toggle-total {
+      &:after { content: "<"; }
+			left: calc(100% - 22px);
+		}
+		&.sidenav-toggle-disabled {
+      &:after { content: none; }
+			left: -22px;
+		}
     &.dropnav-active {
       background-color: $color_navbar-bg;
       left: -22px;
