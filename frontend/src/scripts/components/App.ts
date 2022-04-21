@@ -22,7 +22,6 @@ export class App {
         Loader.init();
         Navbar.init();
         Dropnav.init();
-        Sidenav.init();
         assignComponentEffectTriggers();
     }
 
@@ -38,6 +37,7 @@ export class App {
         Pages.cleanNavs();
         Pages.refresh();
 
+        FormPage.setActionForCloseButton(() => Pages.displayPrevious());
         FormPage.setBorrowerEmail(AppUser.getEmail());
         if(displayName) FormPage.setBorrowerName(displayName);
 

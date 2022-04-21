@@ -3,8 +3,12 @@ import { Reservation } from "../../abstractions/dto/Reservation";
 import { ElemGetter, getOrCreate, newElem, on } from "../../utils/html";
 import { Data } from "../Data";
 import { ClusterData, ReservationHandler as Handle } from "../../abstractions/dto/Reservation/ReservationHandler";
+import { Sidenav } from "../App/Sidenav";
 
 import "../../../stylesheets/components/pages/ReservationsPage.scss";
+
+let borrowerSearchInput = ""
+let facultySearchInput = ""
 
 export class ReservationsPage {
 
@@ -22,6 +26,15 @@ export class ReservationsPage {
 
     static getTitle(): string {
         return "Reservations";
+    }
+
+    static setupSidenav(): void {
+        Sidenav.clear();
+
+        const borrowerSearch = Sidenav.createAndGetSearchFor("Borrower", false, borrowerSearchInput);
+        borrowerSearch.input.onchange = () => { borrowerSearchInput = borrowerSearch.input.value }
+        const facultySearch = Sidenav.createAndGetSearchFor("Faculty", false, facultySearchInput);
+        facultySearch.input.onchange = () => { facultySearchInput = facultySearch.input.value }
     }
 }
 

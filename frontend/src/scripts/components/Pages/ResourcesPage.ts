@@ -8,6 +8,7 @@ import { Pages } from "../Pages";
 import { Dto } from "../../abstractions/dto";
 
 import "../../../stylesheets/components/pages/ResourcesPage.scss";
+import { Sidenav } from "../App/Sidenav";
 
 export class ResourcesPage {
 
@@ -60,6 +61,12 @@ export class ResourcesPage {
         }
 
         return directoryList;
+    }
+
+    static setupSidenav(): void {
+        Sidenav.clear();
+
+        Sidenav.createAndGetSearchFor("Resources", true);
     }
 }
 

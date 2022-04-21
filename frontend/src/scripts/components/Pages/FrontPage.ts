@@ -1,4 +1,4 @@
-import { ElemGetter, getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
+import { getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import "../../../stylesheets/components/pages/FrontPage.scss"
 
 let openFormAction: Function = () => {};

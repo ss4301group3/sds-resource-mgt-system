@@ -1,7 +1,9 @@
-import { AccountInfo } from "@azure/msal-browser";
 import { DEPARTMENT_NAME, ROLE_DESCRIPTIONS } from "../../../config";
 import { ElemGetter, getOrCreate, newElem, on } from "../../utils/html";
-import { App, AppUser } from "../App";
+import { AppUser } from "../App";
+import { Sidenav } from "../App/Sidenav";
+
+import "../../../stylesheets/components/pages/HomePage.scss"
 
 export class HomePage {
     static getContent(): HTMLDivElement {
@@ -18,6 +20,10 @@ export class HomePage {
 
     static getRemarks() {
         return newElem("DIV", DEPARTMENT_NAME + " - Resource Management System");
+    }
+
+    static setupSidenav(): void {
+        Sidenav.clear();
     }
 }
 

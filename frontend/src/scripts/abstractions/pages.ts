@@ -5,9 +5,10 @@ import { Navbar } from "../components/App/Navbar";
 import { StringGetter } from "../utils/strings";
 import { Loader } from "../components/App/Loader";
 import { Dto } from "./dto";
+import { Pages } from "../components/Pages";
 
 interface PageContainer {
-    addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: ElemGetter): Page;
+    addPage(elemGetter: ElemGetter, titleGetter?: StringGetter, remarksGetter?: ElemGetter, sidenavInitializer?: () => void): Page;
     domHandler: MainContainer | Dropnav;
 }
 export abstract class Page {
@@ -20,8 +21,8 @@ export class BasicPageContainer implements PageContainer{
 
     private pages: Set<BasicPage> = new Set<BasicPage>();
 
-    addPage(contentGetter: ElemGetter, titleGetter: StringGetter, remarksGetter: ElemGetter): BasicPage {
-        const page = new BasicPage(this, titleGetter, remarksGetter, contentGetter)
+    addPage(contentGetter: ElemGetter, titleGetter: StringGetter, remarksGetter: ElemGetter, sidenavInitializer: () => void): BasicPage {
+        const page = new BasicPage(this, titleGetter, remarksGetter, contentGetter, sidenavInitializer)
         this.pages.add(page);
         return page;
     }
@@ -32,6 +33,7 @@ export class BasicPage extends Page {
     private getTitle: StringGetter;
     private getRemarks: ElemGetter;
     private getContent: ElemGetter;
+    private initSidenav: () => void;
 
     private mostRecentDto: Dto | undefined;
 
@@ -39,7 +41,8 @@ export class BasicPage extends Page {
         container: BasicPageContainer, 
         titleGetter: StringGetter, 
         remarksGetter: ElemGetter, 
-        contentGetter: ElemGetter
+        contentGetter: ElemGetter,
+        sidenavInitializer: () => void
     ) {
         super();
 
@@ -48,8 +51,9 @@ export class BasicPage extends Page {
         this.getTitle = titleGetter;
         this.getRemarks = remarksGetter;
         this.getContent = contentGetter;
+        this.initSidenav = sidenavInitializer;
 
-        Navbar.addNavLink(this.getTitle(), () => this.displayRecent());
+        Navbar.addNavLink(this.getTitle(), () => Pages.displayRecent(this.getTitle()));
     }
 
     display(dto?: Dto): void {
@@ -60,6 +64,7 @@ export class BasicPage extends Page {
         domHandler.setTitle(this.getTitle(dto));
         domHandler.setRemarks(this.getRemarks(dto));
         domHandler.replaceContent(this.getContent(dto));
+        this.initSidenav();
 
         this.mostRecentDto = dto;
 

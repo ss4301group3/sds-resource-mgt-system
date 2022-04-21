@@ -16,7 +16,7 @@ const dropPages = new DropPageContainer;
 
 const pages: {[key:string]: Page} = { };
 
-let currentPage: string = "Front Page";
+let currentMainPage: string = "Front Page";
 
 export class Pages {
     static init(): void {
@@ -25,11 +25,11 @@ export class Pages {
     }
 
     static refresh(): void {
-        this.display(currentPage);
+        this.display(currentMainPage);
     }
 
     static displayRecent(pageidentifier: string) {
-        const pageKey = noSpaces(currentPage = pageidentifier);
+        const pageKey = noSpaces(currentMainPage = pageidentifier);
 
         if(typeof pages[pageKey] === typeof BasicPage)
             Navbar.setCurrent(pageKey);
@@ -37,9 +37,12 @@ export class Pages {
         pages[pageKey].displayRecent();
     }
 
-    static display(pageidentifier: string, dto?: Dto): void {
-        const pageKey = noSpaces(currentPage = pageidentifier);
+    static displayPrevious() {
+        this.displayRecent(currentMainPage);
+    }
 
+    static display(pageidentifier: string, dto?: Dto): void {
+        const pageKey = noSpaces(currentMainPage = pageidentifier);
         if(typeof pages[pageKey] === typeof BasicPage)
             Navbar.setCurrent(pageKey);
 
@@ -57,9 +60,9 @@ export class Pages {
 function initializePages(): void {
     FrontPage.init(); pages.FrontPage = dropPages.addPage(FrontPage.get);
     FormPage.init(); pages.FormPage = dropPages.addPage(FormPage.get);
-    pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks);
-    pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks);
-    pages.Reservations = basicPages.addPage(ReservationsPage.getContent, ReservationsPage.getTitle, ReservationsPage.getRemarks);
+    pages.HomePage = basicPages.addPage(HomePage.getContent, HomePage.getTitle, HomePage.getRemarks, HomePage.setupSidenav);
+    pages.Resources = basicPages.addPage(ResourcesPage.getContent, ResourcesPage.getTitle, ResourcesPage.getRemarks, ResourcesPage.setupSidenav);
+    pages.Reservations = basicPages.addPage(ReservationsPage.getContent, ReservationsPage.getTitle, ReservationsPage.getRemarks, ReservationsPage.setupSidenav);
 }
 
 function initializeLinks(): void {

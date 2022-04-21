@@ -5,7 +5,7 @@ $color_yellow: #ffcb00;
     transition-property: left margin-left width;
     transition-duration: 0.2s;
     transition-timing-function: ease-out;
-    position: fixed;
+    position: relative;
 
     //sidenav inactive
     width: calc(100% - 62px);
