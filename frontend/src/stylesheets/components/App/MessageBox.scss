@@ -1,0 +1,59 @@
+$color_yellow-light: #ffdd88cc;
+$color_yellow: #ffcb00;
+$color_blue-dark: #091119;
+
+#App {
+	#AppMessageBox {
+		z-index: 2;
+		display: block;
+		position: fixed;
+		bottom: 0;
+
+		//sidenav inactive
+			width:calc(100% - 22px);
+			left: 22px;
+		&.sidenav-toggle-active {
+			width:calc(100% - 262px);
+			left: 262px;
+		}
+		&.sidenav-toggle-disabled,
+		&.dropnav-active {
+			width:100%;
+			left: 0px;
+		}
+		@media only screen and (max-width: 675px) {
+			&.sidenav-toggle-active,
+			&.dropnav-active {
+				width:100%;
+				left: 0px;
+			}
+		}
+
+    
+		transition-property: left width;
+		transition-duration: 0.2s;
+		transition-timing-function: ease-out;
+		
+		text-align: center;
+
+		p,h3 {
+			color:white;
+			display:block;
+			font-weight: bold;
+
+			margin: 0;
+			padding: 7px 0;
+
+			background-color: $color_blue-dark;
+			.link {
+				font-size: small;
+				font-style: italic;
+				color: $color_yellow;
+				text-decoration: underline 1px;
+				&:hover {
+					font-style: normal;
+				}
+			}
+		}
+	}
+}

@@ -1,6 +1,9 @@
 # Compiled frontend files
 frontend/dist/
 
+# not to be committed
+backend/configs/dev-only/
+
 # Logs
 logs
 *.log

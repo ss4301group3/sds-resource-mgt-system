@@ -1,0 +1,45 @@
+#App, body {
+  background-color:  #132233;
+  margin: 0;
+}
+
+#App #LoaderContainer {
+  z-index: 2;
+  position: fixed;
+  flex-direction: column; display: flex;
+  align-items: center; 
+  justify-content:center;
+  width: 100%; left: 0;
+  top: calc(50% + 49px);
+  
+  background: none;
+
+  
+  scale: 1;
+  opacity: 1;
+  transition-property: scale, opacity, top;
+  transition-duration: 0.5s;
+}
+
+#App #LoaderContainer #LoaderSignOut {
+  color: #f4c803;
+  text-align: center;
+}
+
+#App #LoaderContainer span {
+  color: #f4c803;
+  text-align: center;
+  margin:15px;
+}
+#App #LoaderContainer #Loader {
+  font-size: large;
+}
+
+#App #LoaderContainer.page-inactive,
+#App #LoaderContainer.loader-inactive,
+#App #LoaderContainer.dropnav-inactive {
+  
+  scale: 0;
+  opacity: 0;
+  top: 100%;
+}

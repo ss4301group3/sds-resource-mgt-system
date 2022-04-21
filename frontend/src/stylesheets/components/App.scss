@@ -1,0 +1,16 @@
+body {
+  background-color: #132233;
+}
+
+#App {
+  background-color: #132233;
+  margin: 0;
+  font-family: sans-serif;
+  overflow-x: hidden;
+  
+  #AppNavbarFiller { height: 55px; }
+  
+  .hidden {
+    display: none;
+  }
+}

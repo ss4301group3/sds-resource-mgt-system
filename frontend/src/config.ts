@@ -1,5 +1,14 @@
+//Where clicking the navbar logo will redirect the user to
 export const DEPARTMENT_NAME: string = "School of Digital Science";
 export const HOMEPAGE_URL: string = "http://sds.ubd.edu.bn/";
+
+//Default dom element to attach the app to;
+export const APP_CONTAINER: HTMLElement = document.body;
+
+export const DEFAULT_SIGN_IN: string = "loginPopup";
+
+//These will appear on the form
+export const AGREEMENT_NOTE: string = "By submitting this form, I understand that the following as my responsibility:"
 export const AGREEMENT_TERMS: string[] = [
     "1. To pick up and return the Equipment at the end of my loan period unless agreed by both parties",
     "2. To inspect the equipment at check out",
@@ -10,6 +19,8 @@ export const AGREEMENT_TERMS: string[] = [
     "7. Sign out/turn off syncing for personal account in email, browsers and social media and collect all data and documents befroe returning",
     "8. Failure to comply with these borrowing policies and procedures may result in loss of privilege"
 ]
+
+//Do not change the role names; These are set up on Azure. Change there first in case these need to be changed
 export const ROLE_NAMES: Array<string> = ["responderA", "responderB", "appAdmin"];
 export const ROLE_DESCRIPTIONS: {[key:string]: string} = {
     "responderA": "Responder A: Able to respond to a loan request after Supervisor's agreement (if borrower a student)",

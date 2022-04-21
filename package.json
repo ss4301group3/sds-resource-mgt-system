@@ -9,11 +9,14 @@
   ],
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest",
     "dev": "nodemon -e html,js,css ./bin/www",
-    "build-prod": "webpack -c ./frontend/webpack.config.js --mode=production",
-    "build": "webpack -c ./frontend/webpack.config.js",
-    "watch": "webpack -c ./frontend/webpack.config.js --watch"
+    "build": "webpack -c ./frontend/webpack.config.js --mode=production",
+    "build-dev": "webpack -c ./frontend/webpack.config.js",
+    "watch": "webpack -c ./frontend/webpack.config.js --watch",
+    "test-e2e": "jest -c ./tests/e2e/jest.config.js",
+    "test-e2e-w": "jest --watch -c ./tests/e2e/jest.config.js",
+    "test-fr-unit": "jest -c ./frontend/tests/jest.unit.config.js",
+    "test-fr-unit-w": "jest --watch -c ./frontend/tests/jest.unit.config.js"
   },
   "repository": {
     "type": "git",
@@ -36,13 +39,19 @@
     "tedious": "^14.3.0"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.4",
+    "@types/jest": "^27.4.1",
     "css-loader": "^6.7.1",
     "html-loader": "^3.1.0",
     "html-webpack-plugin": "^5.5.0",
+    "jest": "^27.5.1",
+    "jest-puppeteer": "^6.1.0",
     "nodemon": "^2.0.15",
+    "puppeteer": "^13.5.2",
     "sass": "^1.49.11",
     "sass-loader": "^12.6.0",
     "style-loader": "^3.3.1",
+    "ts-jest": "^27.1.4",
     "ts-loader": "^9.2.8",
     "typescript": "^4.6.3",
     "webpack": "^5.71.0",

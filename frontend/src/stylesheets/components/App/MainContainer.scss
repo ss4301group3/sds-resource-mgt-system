@@ -1,0 +1,62 @@
+$color_yellow: #ffcb00;
+#App {
+  #AppMainContainer {
+    color: white;
+    transition-property: left margin-left width;
+    transition-duration: 0.2s;
+    transition-timing-function: ease-out;
+    position: relative;
+
+    //sidenav inactive
+    width: calc(100% - 62px);
+    left: 22px;
+    &.sidenav-toggle-active {
+			width: calc(100% - 302px);
+			left: 262px;
+		}
+		&.sidenav-toggle-disabled,
+    &.dropnav-active {
+      width: 100%;
+			left: 0px;
+		}
+    @media only screen and (max-width: 675px) {
+      &.sidenav-toggle-active {
+        width: calc(100% - 62px);
+        left: 100%;
+      }
+      &.sidenav-toggle-disabled,
+      &.dropnav-active {
+        width: 100%;
+        left: 0px;
+      }
+    }
+
+    margin-left: 20px;
+    margin-top: 20px;
+    margin-right: 20px;
+    a {
+      color: $color_yellow;
+    }
+    #AppPageTitle {
+      margin: 0 0 0 0;
+    }
+    #AppPageRemarks {
+      margin: 5px 0 0 0;
+    }
+    #AppPageContent {
+      margin: 0 0 0 0;
+      button {
+        margin: 0 ;
+      }
+      h3 {
+        margin: 20px 0 10px;
+      }
+      h4 {
+        margin: 20px 0 10px;
+      }
+      ul {
+        margin-top: 0px;
+      }
+    }
+  }
+}

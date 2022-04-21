@@ -1,12 +1,15 @@
 {
+  "include": [
+    "./jest.setup.ts"
+  ],
   "compilerOptions": {
-    "outDir": "./dist/",
+    "outDir": "../dist/",
     "sourceMap": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "strict": false,
     "module": "es6",
     "target": "es2017",
-    "strict": true,
     "allowJs": true,
     "moduleResolution": "node"
   }

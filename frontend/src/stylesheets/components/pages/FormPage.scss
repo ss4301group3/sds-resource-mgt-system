@@ -1,0 +1,263 @@
+$color_yellow: #f4c803;
+#AppLoanBoxContainer {
+	position: relative;
+	overflow-y: auto;
+	height: 100%;
+	left: 0;
+	top: -55px;
+	opacity: 0;
+	scale: 0;
+	
+	transition-property: opacity, scale, top, left;
+	transition-duration: 0.3s;
+	
+	&.dropnav-active {
+		top: 0px;
+		opacity: 1;
+		scale: 1;
+	}
+	&.page-inactive {
+		left: 100%;
+		opacity: 0;
+		scale: 0;
+	}
+	
+	#AppLoanBox {
+		position: relative;
+		padding: 40px;
+		top: 0px;
+		left: 15%;
+		background: #091119;
+		box-sizing: border-box;
+		box-shadow: 0 15px 25px rgba(0,0,0,.6);
+		margin-bottom: 0px;
+		width: 70%;
+		
+		.btn{
+			position: relative;
+			background: transparent;
+			border: none;
+			color: #f4c803;
+			float: left;
+			cursor: pointer;
+		}
+		
+		h2{
+			margin: 0 0 20px;
+			color: #fff;
+			text-align: center;
+			font-size: 20px;
+			clear: both;
+		}
+		
+		h3,
+		p{
+			color: #fff;
+			font-size: 15px;
+		}
+		
+		.user-box {
+			position: relative;
+			
+			input {
+				width: 100%;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				margin-bottom: 30px;
+				border: none;
+				border-bottom: 1px solid #fff;
+				outline: none;
+				background: transparent;
+
+				&:focus ~ label,
+				&:valid ~ label {
+					top: -20px;
+					left: 0;
+					color: #f4c803;
+					font-size: 12px;
+				}
+				
+				&:disabled ~ label {
+					top: -20px;
+					left: 0;
+					color: #0f0;
+					font-size: 12px;
+				}
+			}
+			label {
+				position: absolute;
+				top:0;
+				left: 0;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				pointer-events: none;
+				transition: .5s;
+			}
+		}
+		
+		
+		.date-box{
+			display: inline;
+			justify-content: space-evenly;
+			padding-top: 0.6px;
+			color:#fff;
+			font-size: 16px;
+			
+			input{
+				width: 30%;
+				padding: 10px 0;
+				font-size: 16px;
+				color: #fff;
+				margin-bottom: 20px;
+				border: none;
+				border-bottom: 1px solid #fff;
+				outline: none;
+				background: transparent;
+				margin-left: 10px;
+				margin-right: 10px;
+			}
+		}
+		
+		.select-box{
+			position: relative;
+			width: 100%;
+			align-content: center;
+			#LoanBoxItemsHeading {
+				margin-bottom: 0;
+			}
+			#LoanBoxItemsList {
+				div {
+					select{
+						text-align: center;
+						width: 80%;
+						margin-right: 0px;
+						margin-top: 15px;
+						border-radius: 25px;
+						padding:10px;
+  						-moz-appearance: none;
+  						-webkit-appearance: none;
+  						appearance: none;
+  						background-image: none;
+						background: none;
+						outline: none;
+						color: #fff;
+						&:disabled {
+							color: fff;
+						}
+					}
+					option{
+						color: black;
+					}
+					input{
+						width: 13%;
+						padding: 10px 0;
+						font-size: 16px;
+						color: #fff;
+						margin-bottom: 0;
+						margin-left: 20px;
+						border: none;
+						border-bottom: 1px solid #fff;
+						outline: none;
+						background: transparent;
+					}
+					.cancel-item {
+						background: transparent;
+						color: #fff;
+						border: none;
+						width: auto;
+						
+						i {
+							position: relative;
+							top: 8px;
+							left: 16px;
+							&:hover {
+								cursor: pointer;
+							}
+						}
+					}
+				}
+			}
+			button.addMore{
+				padding: 8px;
+				margin: 7px;
+				background: transparent;
+				color: #fff;
+				border: none;
+				
+				width:100%;
+				
+				&:hover{
+					i {
+						color: $color_yellow;
+						font-weight: bold;
+					}
+					cursor: pointer;
+				}
+			}
+		}
+		#Agreement {
+			h3 {
+				margin-top: 0;
+			}
+		}
+		
+		.submit-btn{
+			position: relative;
+			display: inline-block;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			padding: 10px 20px;
+			color: #f4c803;
+			font-size: 16px;
+			text-decoration: none;
+			text-transform: uppercase;
+			overflow: hidden;
+			transition: .5s;
+			margin-top: 40px;
+			letter-spacing: 4px;
+			border-radius: 25px;
+			border: 2px solid #f4c803;
+			background: transparent;
+			
+			&:hover {
+				background: #f4c803;
+				color: #091119;
+				border-radius:25px;
+				cursor: pointer;
+			}
+		}
+	}
+	
+}
+
+@media only screen and (max-width: 800px) {
+	#AppLoanBoxContainer {
+		#AppLoanBox {
+			top: 0%;
+			left: 0%; width: auto;
+			margin: 0;
+			.date-box {
+				display: block;
+				width: 100%;
+				input {
+					width: auto;
+				}
+			}
+			.btn {
+				top: -20px; left: -20px;
+			}
+			
+			.select-box{
+				#LoanBoxItemsList {
+					div {
+						select{
+							width: 73%;
+						}
+					}
+				}
+			}
+		}
+	}
+}
