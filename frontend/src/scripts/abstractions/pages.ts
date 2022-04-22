@@ -4,7 +4,7 @@ import { MainContainer } from "../components/App/MainContainer"
 import { Navbar } from "../components/App/Navbar";
 import { StringGetter } from "../utils/strings";
 import { Loader } from "../components/App/Loader";
-import { Dto } from "./dto";
+import { Dto, Dtos } from "./dto";
 import { Pages } from "../components/Pages";
 
 interface PageContainer {
@@ -12,7 +12,7 @@ interface PageContainer {
     domHandler: MainContainer | Dropnav;
 }
 export abstract class Page {
-    abstract display(dto?: Dto): void;
+    abstract display(dto?: Dto, dtos1?: Dtos, dtos2?: Dtos): void;
     abstract displayRecent(): void;
 }
 
@@ -35,7 +35,9 @@ export class BasicPage extends Page {
     private getContent: ElemGetter;
     private initSidenav: () => void;
 
-    private mostRecentDto: Dto | undefined;
+    private mostRecentDto: Dto | null | undefined;
+    private mostRecentDtos1: Dtos | null | undefined;
+    private mostRecentDtos2: Dtos | null | undefined;
 
     constructor(
         container: BasicPageContainer, 
@@ -56,23 +58,25 @@ export class BasicPage extends Page {
         Navbar.addNavLink(this.getTitle(), () => Pages.displayRecent(this.getTitle()));
     }
 
-    display(dto?: Dto): void {
+    display(dto?: Dto | null, dtos1?: Dtos | null, dtos2?: Dtos | null): void {
         Dropnav.collapse();
 
         const domHandler = this.container.domHandler;
 
-        domHandler.setTitle(this.getTitle(dto));
-        domHandler.setRemarks(this.getRemarks(dto));
-        domHandler.replaceContent(this.getContent(dto));
+        domHandler.setTitle(this.getTitle(dto, dtos1, dtos2));
+        domHandler.setRemarks(this.getRemarks(dto, dtos1, dtos2));
+        domHandler.replaceContent(this.getContent(dto, dtos1, dtos2));
         this.initSidenav();
 
         this.mostRecentDto = dto;
+        this.mostRecentDtos1 = dtos1;
+        this.mostRecentDtos2 = dtos2;
 
         Navbar.setCurrent(this.getTitle());
     }
 
     displayRecent(): void {
-        this.display(this.mostRecentDto);
+        this.display(this.mostRecentDto, this.mostRecentDtos1, this.mostRecentDtos2);
     }
 }
 

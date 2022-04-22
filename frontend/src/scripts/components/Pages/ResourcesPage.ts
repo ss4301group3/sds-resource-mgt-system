@@ -1,30 +1,36 @@
 
-import { ElemGetter, ifClicked, newElem, on } from "../../utils/html";
+import { ElemGetter, getOrCreate, ifClicked, newElem, on } from "../../utils/html";
 import { Data } from "../Data";
 import { Category} from "../../abstractions/dto/Category"
 import { FormPage } from "./FormPage";
 import { MessageBox } from "../App/MessageBox";
 import { Pages } from "../Pages";
-import { Dto } from "../../abstractions/dto";
+import { CategoryDtos, Dto, Dtos, ResourceDtos } from "../../abstractions/dto";
 
 import "../../../stylesheets/components/pages/ResourcesPage.scss";
 import { Sidenav } from "../App/Sidenav";
+import { SearchDiv, SearchObject } from "../../abstractions/searchComponents";
+
+let resourcesSearchInput = ""
 
 export class ResourcesPage {
 
-    static getContent(category?: Dto): HTMLDivElement {
+    static getContent(category?: Dto | null, categories?: Dtos | null, resources?: Dtos | null): HTMLDivElement {
         const content = document.createElement("DIV") as HTMLDivElement;
         
-        on(content).appendByGetters(getContent(category));
+        if(categories || resources) on(content).appendByGetters(getSearchContent(categories, resources));
+        else on(content).appendByGetters(getContent(category?category:undefined));
 
         return content;
     }
 
-    static getTitle(category?: Dto) {
+    static getTitle(category?: Dto | null) {
         return "Resources";
     }
 
-    static getRemarks(category?: Dto): HTMLElement {
+    static getRemarks(category?: Dto | null, categories?: Dtos | null, resources?: Dtos | null): HTMLElement {
+        if(categories || resources) return getOrCreate("DIV", "SearchRemark", null, "Search Results");
+
         let cat = category as Category;
 
         const mainPageLabel = "Main Page";
@@ -64,9 +70,30 @@ export class ResourcesPage {
     }
 
     static setupSidenav(): void {
-        Sidenav.clear();
+        Sidenav.enable();
+        
+        let resourcesSearch: SearchObject;
+        let resourcesSearchDiv = document.getElementById("SearchListDivForResourcesAndCategories") as SearchDiv;
+        
+        if(!resourcesSearchDiv) {
 
-        Sidenav.createAndGetSearchFor("Resources", true);
+            resourcesSearch = Sidenav.createAndGetSearchFor("Resources And Categories", "Resources", true, resourcesSearchInput) as SearchObject;
+            resourcesSearch.input.oninput = () => { resourcesSearchInput = resourcesSearch.input.value }
+            resourcesSearch.input.onkeydown = function(e) { if(e.key == 'Escape') resourcesSearchInput = ""; }
+
+            SearchDiv.convertToSearchDiv(resourcesSearch);
+
+            resourcesSearchDiv = resourcesSearch.listdiv;
+        }
+        
+        resourcesSearch = resourcesSearchDiv.searchObject
+        
+        Sidenav.clear().except([
+            resourcesSearch.listdiv,
+            resourcesSearch.input,
+            resourcesSearch.remarks
+        ]);
+        resourcesSearch.input?.focus();
     }
 }
 
@@ -98,10 +125,52 @@ function getContent(category?: Dto): Array<ElemGetter> {
     return getters;
 };
 
+function getSearchContent(categories?: Dtos | null, resources?: Dtos | null): Array<ElemGetter> {
+
+    const hasCategories = categories && Object.keys(categories as Dtos).length > 0;
+    const hasResources = resources && Object.keys(resources as Dtos).length > 0;
+
+    let getters: Array<ElemGetter> = []
+
+    if(hasCategories) getters.push(
+        getCategoriesHeading,
+        () => getCategoriesResults(categories as Dtos),
+    );
+    if(hasResources) getters.push(
+        getResourcesHeading,
+        () => getResourcesResults(resources as Dtos)
+    );
+
+    return getters;
+};
+
 function getCategoriesHeading(): HTMLElement { return newElem("H3", "Categories"); }
 function getCategories(category?: Dto): HTMLElement {
     
     const categories = Data.getCategories(category);
+
+    const container = Object.assign(document.createElement("DIV"), {
+        id: "ContentCategoriesContainer"
+    });
+
+    Object.entries(categories).forEach(([id, category]) => {
+
+        const item = Object.assign(document.createElement("BUTTON"), {
+            id: `ContentCategoriesItem${category.getId()}`,
+            innerHTML: category.getLabel()
+        });
+
+        ifClicked(item).trigger(() => {
+            Pages.display("Resources", category);
+        });
+
+        container.appendChild(item);
+    });
+
+    return container;
+}
+
+function getCategoriesResults(categories: Dtos): HTMLElement {
 
     const container = Object.assign(document.createElement("DIV"), {
         id: "ContentCategoriesContainer"
@@ -134,6 +203,36 @@ function getResources(category?: Dto): HTMLElement {
     });
 
     Object.entries(resources).forEach(([id, resource]) => {
+        const label = resource.getLabel();
+
+        const item = Object.assign(document.createElement("BUTTON"), {
+            id: `ContentResourcesItem${resource.getId().toString()}`,
+            innerHTML: label
+        });
+
+        ifClicked(item).trigger(() => {
+            FormPage.addItem(resource, 1);
+
+            const currentAmount = FormPage.peekItem(resource)[1];
+
+            MessageBox.writeMessage(
+                `MessageBoxAddResMsg${resource.getId()}`,
+                `+ ${label} ; Total - ${currentAmount} [<span class="link">Form Page</span>]`, true, 5000
+            );
+        });
+
+        container.appendChild(item);
+    });
+
+    return container;
+}
+function getResourcesResults(resources: Dtos): HTMLElement {
+
+    const container = Object.assign(document.createElement("DIV"), {
+        id: "ContentResourcesContainer"
+    });
+
+    Object.entries(resources as ResourceDtos).forEach(([id, resource]) => {
         const label = resource.getLabel();
 
         const item = Object.assign(document.createElement("BUTTON"), {

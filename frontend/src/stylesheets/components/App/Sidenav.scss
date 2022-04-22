@@ -51,12 +51,54 @@ $px_small: 3.5px;
     
     transition-property: left width;
     transition-duration: 0.2s;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease;
 
+    .sidenav-filter-controls {
+      text-align: center;
+      height: 100%;
+      overflow-y: auto;
+      div {
+        border: $px_small solid white;
+        margin: 5px;
+        h5{
+          margin: 5px;
+        }
+        div {
+          background-color: $color_navbar-bg;
+          span {
+            @include noselect();
+            cursor: pointer;
+            display: inline-block;
+            width: 100%;
+            color: white;
+            font-size: small;
+            font-weight: bold;
+            &:hover {
+              font-style: italic;
+            }
+            .sidenav-filter-control-controls-container-control-subcontrol {
+              border: none;
+              background-color: $color_navbar-bg;
+              color: #afa;
+              font-weight: bold;
+              font-size: small;
+              text-align: center;
+              padding: 0;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
     .sidenav-search-input {
       height: 19.5px;
       margin-left: $px_small;
       width: calc(240px - $px_small - 5px - 5px);
+    
+      transition-property: width;
+      transition-duration: 0.2s;
+      transition-timing-function: ease;
+
       @media only screen and (max-width: 675px) {
         width: calc(100% - $px_small - 5px - 5px);
       }
@@ -116,11 +158,14 @@ $px_small: 3.5px;
 
         background-color:$color_navbar-bg;
 
-        &:hover, &.searchResult {
-          cursor: grab;
-
+        .search-li-label:hover, .search-li-button:hover {
           font-weight: bold;
           font-style: italic;
+          cursor: pointer;
+        }
+        &:hover, &.searchResult {
+          &.draggable { cursor: grab; }
+
           color:$color_yellow;
 
           border-color: $color_yellow;
@@ -159,7 +204,7 @@ $px_small: 3.5px;
     @include noselect();
     
     transition-property: left, box-shadow, background-color;
-    transition-timing-function: ease-out;
+    transition-timing-function: ease;
     transition-duration: 0.2s;
 
     //sidenav inactive

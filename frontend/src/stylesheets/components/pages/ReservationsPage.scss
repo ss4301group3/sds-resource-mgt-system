@@ -5,6 +5,7 @@ $color_yellow: #ffcb00;
     #AppMainContainer {
         #AppPageContent {
             div {
+                overflow-x: auto;
                 table {
                     width: 100%;
                     border-top: 3px solid $color_yellow;
@@ -26,6 +27,16 @@ $color_yellow: #ffcb00;
                             border-top: 3px solid $color_yellow;
                             border-bottom: 0.5px solid $color_yellow;
                             padding-top: 12.5px;
+                        }
+                        @media only screen and (max-width: 675px) {
+                            th, td {
+                                font-size: small;
+                            }
+                            &.headings {
+                                th, td {
+                                    font-size: x-small;
+                                }
+                            }
                         }
                     }
                 }

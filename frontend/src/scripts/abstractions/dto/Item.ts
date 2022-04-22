@@ -30,6 +30,10 @@ export class Resource implements Dto {
     getExtRemarks(): string | null { return this.externalRemarks; }
     getUpdateTime(): Date { return this.updateTime; }
     getIsConsumable(): boolean { return this.isConsumable; }
+
+    get(propertyLabel: string): number | string | Date | Function {
+        return this[propertyLabel as keyof Resource]
+    }
 }
 
 export class Consumable extends Resource {
@@ -73,6 +77,10 @@ export class Consumable extends Resource {
     getNextInDate(): Date | null { return this.nextInDate; }
     getDatePurchased(): Date | null { return this.datePurchased; }
     getExpiryDate(): Date | null { return this.expiryDate; }
+
+    get(propertyLabel: string): number | string | Date | Function {
+        return this[propertyLabel as keyof Consumable]
+    }
 }
 
 export class NonConsumable extends Resource {
@@ -110,6 +118,10 @@ export class NonConsumable extends Resource {
     getModel(): string | null { return this.model; }
     getEquipmentNumber(): string | null { return this.equipmentNumber; }
     getSerialNumber(): string | null { return this.serialNumber; }
-    getAssigneeId(): number | null { return this.assigneeId; } 
+    getAssigneeId(): number | null { return this.assigneeId; }
+
+    get(propertyLabel: string): number | string | Date | Function {
+        return this[propertyLabel as keyof NonConsumable]
+    }
 }
 

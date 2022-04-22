@@ -23,7 +23,8 @@ export class HomePage {
     }
 
     static setupSidenav(): void {
-        Sidenav.clear();
+        Sidenav.disable();
+        //Sidenav.clear();
     }
 }
 

@@ -69,6 +69,6 @@ export type ClusterData = {id: string, period: string, personId: number, personI
 
 const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-function getDateTimeString(time: Date) {return getDateString(time) + "," + getTimeString(time)};
+function getDateTimeString(time: Date) {return getDateString(time) + "-" + getTimeString(time)};
 function getDateString(time: Date) { return time.getDate() + "-" + MONTH_NAMES[time.getMonth()] + "-" + time.getFullYear(); }
 function getTimeString(time: Date) { return time.getHours()%12 + ":" + time.getMinutes().toString().padStart(2,'0') + (time.getHours() >= 12 ? "pm" : "am"); }

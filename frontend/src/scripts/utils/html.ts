@@ -1,6 +1,6 @@
-import { Dto } from "../abstractions/dto";
+import { Dto, Dtos } from "../abstractions/dto";
 
-export type ElemGetter = (dto?: Dto) => HTMLElement;
+export type ElemGetter = (dto?: Dto | null, dtos1?: Dtos | null, dtos2?: Dtos | null) => HTMLElement;
 
 export function on(elem: HTMLElement) {
 	return {

@@ -8,7 +8,7 @@ import { HomePage } from "./Pages/HomePage";
 import { FormPage } from "./Pages/FormPage";
 import { ResourcesPage } from "./Pages/ResourcesPage";
 import { AppUser } from "./App";
-import { Dto } from "../abstractions/dto";
+import { Dto, Dtos } from "../abstractions/dto";
 import { ReservationsPage } from "./Pages/ReservationsPage";
 
 const basicPages = new BasicPageContainer;
@@ -41,12 +41,15 @@ export class Pages {
         this.displayRecent(currentMainPage);
     }
 
-    static display(pageidentifier: string, dto?: Dto): void {
-        const pageKey = noSpaces(currentMainPage = pageidentifier);
+    static display(pageidentifier: string, dto?: Dto, dtos1?: Dtos, dtos2?: Dtos): void {
+        const pageKey = noSpaces(
+            pageidentifier == "Form Page" ? pageidentifier :
+            currentMainPage = pageidentifier
+        );
         if(typeof pages[pageKey] === typeof BasicPage)
             Navbar.setCurrent(pageKey);
 
-        pages[pageKey].display(dto);
+        pages[pageKey].display(dto, dtos1, dtos2);
     }
     static cleanNavs(): void {
         if(!AppUser.hasAnyPrivilege()) {

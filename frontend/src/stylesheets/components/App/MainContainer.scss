@@ -16,7 +16,7 @@ $color_yellow: #ffcb00;
 		}
 		&.sidenav-toggle-disabled,
     &.dropnav-active {
-      width: 100%;
+      width: calc(100% - 40px);
 			left: 0px;
 		}
     @media only screen and (max-width: 675px) {
@@ -26,7 +26,7 @@ $color_yellow: #ffcb00;
       }
       &.sidenav-toggle-disabled,
       &.dropnav-active {
-        width: 100%;
+        width: calc(100% - 40px);
         left: 0px;
       }
     }

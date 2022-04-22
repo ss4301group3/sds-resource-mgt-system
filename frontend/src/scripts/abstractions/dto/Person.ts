@@ -26,4 +26,8 @@ export class Person implements Dto{
     getEmail(): string | null { return this.email; }
     getFaculty(): string | null { return this.faculty; }
     getPhone(): string | null { return this.phone; }
+
+    get(propertyLabel: string): number | string | Date | Function {
+        return this[propertyLabel as keyof Person]
+    }
 }
