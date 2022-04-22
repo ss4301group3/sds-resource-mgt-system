@@ -3,14 +3,17 @@ import "../../../stylesheets/components/App/Sidenav.scss";
 import { noSpaces } from "../../utils/strings";
 
 class SidenavStatus {
-    static OPTIONS = { collapsed: "collapsed", expanded: "expanded" }
+    static OPTIONS = { collapsed: "collapsed", expanded: "expanded" , disabled: "disabled"}
 
     static setTo() {
         return {
             collapsed() { status = SidenavStatus.OPTIONS.collapsed; Sidenav.effect(); },
-            expanded() { status = SidenavStatus.OPTIONS.expanded; Sidenav.effect(); }
+            expanded() { status = SidenavStatus.OPTIONS.expanded; Sidenav.effect(); },
+            disabled() { status = SidenavStatus.OPTIONS.disabled; Sidenav.effect(); }
         }
     }
+
+    static enable() { if(status == SidenavStatus.OPTIONS.disabled) { this.toggle(); } }
 
     static get() { return status; }
     static isCollapsed(): boolean { return status == SidenavStatus.OPTIONS.collapsed; }
@@ -32,19 +35,24 @@ type byLengthIterable = {
 const toggleSidenav = () => SidenavStatus.toggle();
 
 export class Sidenav {
+    static toggle = toggleSidenav;
+
+    static disable = () => SidenavStatus.setTo().disabled();
+    static enable = () => SidenavStatus.enable();
+
     static get(): HTMLDivElement {
         return getOrCreate("DIV", "AppSidenav") as HTMLDivElement;
     }
     
     static clear(): void { on(this.get()).removeChildren(); }
     
-    static createAndGetSearchFor(identifier: string, hasList?: boolean, defaultSearchInput?: string) {
+    static createAndGetSearchFor(identifier: string, dtoType: string, hasList?: boolean, defaultSearchInput?: string) {
         const input = getOrCreate("INPUT", `SearchInputFor${noSpaces(identifier)}`,"sidenav-search-input") as HTMLInputElement;
         input.placeholder = "Search";
         if(defaultSearchInput) input.value = defaultSearchInput;
         input.disabled = SidenavStatus.isCollapsed();
 
-        const remarks = getOrCreate("P", `SearchRemarksFor${noSpaces(identifier)}`,"sidenav-search-remarks");
+        const remarks = getOrCreate("P", `SearchRemarksFor${noSpaces(identifier)}`,"sidenav-search-remarks") as HTMLParagraphElement;
 
         const listDiv = getOrCreate("DIV", `SearchListDivFor${noSpaces(identifier)}`, "sidenav-search-list-div");
         listDiv.appendChild(getOrCreate("UL", `SearchListUlFor${noSpaces(identifier)}`, "sidenav-search-list-ul"));
@@ -59,6 +67,7 @@ export class Sidenav {
         }
 
         return {
+            dtoType: dtoType,
             input: input,
             remarks: remarks,
             listdiv: hasList ? listDiv : null
@@ -99,9 +108,15 @@ export class Sidenav {
             passedGetters ? (<HTMLElement[]>selectedElems) : this.getEffectedElems()
         );
 
-        if(status == SidenavStatus.OPTIONS.collapsed) {
+        if(status == SidenavStatus.OPTIONS.collapsed || status == SidenavStatus.OPTIONS.disabled) {
             for(let i = 0; i < effectedElems.length; i++) {
                 effectedElems[i].classList.remove("sidenav-toggle-active");
+        
+                if(status == SidenavStatus.OPTIONS.disabled) {
+                    effectedElems[i].classList.add("sidenav-toggle-disabled");
+                } else {
+                    effectedElems[i].classList.remove("sidenav-toggle-disabled");
+                }
             }
             for(let i = 0; i < searchInputs.length; i++) {
                 (<HTMLInputElement>searchInputs[i]).disabled = true;

@@ -65,4 +65,8 @@ export class Reservation implements Dto {
     getIsApproved1(): boolean { return this.isApproved1; }
     getIsApproved2(): boolean { return this.isApproved2; }
     getIsApproved3(): boolean { return this.isApproved3; }
+
+    get(propertyLabel: string): number | string | Date | Function {
+        return this[propertyLabel as keyof Reservation]
+    }
 }

@@ -6,6 +6,7 @@ import { ClusterData, ReservationHandler as Handle } from "../../abstractions/dt
 import { Sidenav } from "../App/Sidenav";
 
 import "../../../stylesheets/components/pages/ReservationsPage.scss";
+import { noSpaces } from "../../utils/strings";
 
 let borrowerSearchInput = ""
 let facultySearchInput = ""
@@ -29,12 +30,15 @@ export class ReservationsPage {
     }
 
     static setupSidenav(): void {
+        Sidenav.disable();
+        /*
         Sidenav.clear();
 
-        const borrowerSearch = Sidenav.createAndGetSearchFor("Borrower", false, borrowerSearchInput);
+        const borrowerSearch = Sidenav.createAndGetSearchFor("Borrower", "Persons", false, borrowerSearchInput);
         borrowerSearch.input.onchange = () => { borrowerSearchInput = borrowerSearch.input.value }
-        const facultySearch = Sidenav.createAndGetSearchFor("Faculty", false, facultySearchInput);
+        const facultySearch = Sidenav.createAndGetSearchFor("Faculty", "Persons", false, facultySearchInput);
         facultySearch.input.onchange = () => { facultySearchInput = facultySearch.input.value }
+        */
     }
 }
 
@@ -45,7 +49,7 @@ function getContent(): Array<ElemGetter> {
     return getters;
 }
 
-function getReservationsTable(dto?: Dto): HTMLTableElement {
+function getReservationsTable(dto?: Dto | null): HTMLTableElement {
     const table = getOrCreate("TABLE") as HTMLTableElement;
 
     const loader = getTableLoader();
@@ -124,5 +128,5 @@ function newCell(text: string): HTMLTableCellElement {
     return newElem("TD", text) as HTMLTableCellElement;
 }
 function newHeader(text: string): HTMLTableCellElement {
-    return newElem("TH", text) as HTMLTableCellElement;
+    return getOrCreate("TH", "TableHeader"+noSpaces(text), null, text) as HTMLTableCellElement;
 }
