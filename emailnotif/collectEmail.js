@@ -1,51 +1,58 @@
 const fs = require('fs');
 
-const reserv_raw = (fs.readFileSync('reservation.csv', 'utf8')).split("\r\n");
+const reservation = 
+  // read csv file
+  fs.readFileSync('mockReservationData.csv', 'utf8')
+  // split to each line
+  .split("\r\n")
+  // remove empty strings
+  .filter(x => x.length > 0)
+  // split each line to subarray
+  .map(x => x.split(","));
 
-const reserv_entries = new Array(reserv_raw.length)
-  .fill('')
-  .map((_, i) => reserv_raw.slice(i, i + 1));
-
-const entries_array = [];
-for (i=0; i<reserv_entries.length; i++){
-  entries_array[i] = reserv_entries[i].toString().split(',');
-}
-
-// Approved bookings
+// Notify approval: isPending (False), isApproved3 (True)
 const approvedEmails = [];
-function getApproved(entries_array) {
-  if(entries_array[i][14] == 'false' && entries_array[i][17] == 'true'){
-    approvedEmails.push(entries_array[i][9]);
+function getApproved(row) {
+  if (row[14] == 'false' && row[17] == 'true'){
+    approvedEmails.push(row[9]);
   }
 }
 
-// Rejected bookings
+// Notify rejection: isPending (False), isApproved3 (False)
 const rejectEmails = [];
-function getRejected(entries_array) {
-  if(entries_array[i][14] == 'false' && entries_array[i][17] == 'false'){
-    rejectEmails.push(entries_array[i][9]);
+function getRejected(row) {
+  if (row[14] == 'false' && row[17] == 'false'){
+    rejectEmails.push(row[9]);
   }
 }
 
-// Approaching deadline bookings
+// Notify nearing deadline: endTime (X days from current day), isReturned (False), isPending (False), isApproved3 (True)
 const deadlineEmails = [];
-function getSoonDeadline(entries_array) {
-  if(entries_array[i][7] == 'false' && entries_array[i][14] == 'false' && entries_array[i][17] == 'true'){
-    deadlineEmails.push(entries_array[i][9]);
+function getSoonDeadline(row) {
+  if (row[7] == 'false' && row[14] == 'false' && row[17] == 'true') {
+    deadlineEmails.push(row[9]);
   }
 }
 
-// New, un-responded to bookings
+// New, un-responded to bookings (IsApproved1-3==false, isPending==true)
 const newReservationIds = [];
-function getNewReservations(entries_array) {
-  if(entries_array[i][15] == 'false' && entries_array[i][16] == 'false' && entries_array[i][17] == 'false' && entries_array[i][14] == 'true'){
-    newReservationIds.push(entries_array[i][0]);
+function getNewReservations(row) {
+  if(row[15] == 'false' && row[16] == 'false' && row[17] == 'false' && row[14] == 'true'){
+    newReservationIds.push(row[0]);
   }
 }
 
-for(i=1;i<entries_array.length;i++){
-  getApproved(entries_array);
-  getRejected(entries_array);
-  getSoonDeadline(entries_array);
-  getNewReservations(entries_array);
+// Perform above functions in all the reservations
+for (let i = 1; i < reservation.length; i++){
+  const row = reservation[i];
+  getApproved(row);
+  getRejected(row);
+  getSoonDeadline(row);
+  getNewReservations(row);
 }
+
+// Print to check
+console.log(deadlineEmails);
+console.log(rejectEmails);
+console.log(approvedEmails);
+console.log(newReservationIds);
