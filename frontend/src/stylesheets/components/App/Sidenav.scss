@@ -53,6 +53,43 @@ $px_small: 3.5px;
     transition-duration: 0.2s;
     transition-timing-function: ease;
 
+    .sidenav-filter-controls {
+      text-align: center;
+      height: 100%;
+      overflow-y: auto;
+      div {
+        border: $px_small solid white;
+        margin: 5px;
+        h5{
+          margin: 5px;
+        }
+        div {
+          background-color: $color_navbar-bg;
+          span {
+            @include noselect();
+            cursor: pointer;
+            display: inline-block;
+            width: 100%;
+            color: white;
+            font-size: small;
+            font-weight: bold;
+            &:hover {
+              font-style: italic;
+            }
+            .sidenav-filter-control-controls-container-control-subcontrol {
+              border: none;
+              background-color: $color_navbar-bg;
+              color: #afa;
+              font-weight: bold;
+              font-size: small;
+              text-align: center;
+              padding: 0;
+              width: 100%;
+            }
+          }
+        }
+      }
+    }
     .sidenav-search-input {
       height: 19.5px;
       margin-left: $px_small;

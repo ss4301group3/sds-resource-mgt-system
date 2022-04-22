@@ -106,7 +106,13 @@ $color_yellow: #f4c803;
 			font-size: 16px;
 			
 			input{
-				width: 30%;
+				width: 40%;
+				@media only screen and (max-width: 1300px) {
+					width: 35%;
+				}
+				@media only screen and (max-width: 1080px) {
+					width: 100%;
+				}
 				padding: 10px 0;
 				font-size: 16px;
 				color: #fff;
@@ -239,10 +245,8 @@ $color_yellow: #f4c803;
 			left: 0%; width: auto;
 			margin: 0;
 			.date-box {
-				display: block;
-				width: 100%;
 				input {
-					width: auto;
+					width: 100%;
 				}
 			}
 			.btn {

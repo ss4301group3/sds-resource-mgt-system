@@ -1,5 +1,5 @@
 
-import { AGREEMENT_NOTE, AGREEMENT_TERMS, DEPARTMENT_NAME } from "../../../config";
+import { AGREEMENT_NOTE, AGREEMENT_TERMS, DEPARTMENT_NAME, TIMEZONE_DIFF_GMT } from "../../../config";
 import { DivContainingItemsList, LoanBoxItemsList } from "../../abstractions/loanFormComponents";
 import { getOrCreate, ifClicked, ifEmpty } from "../../utils/html";
 import { noSpaces } from "../../utils/strings";
@@ -108,8 +108,8 @@ function getFormHeading(): HTMLHeadElement {
 const getBorrowerNameBox =   (): HTMLDivElement => getInputBoxFor("Borrower Name").ofType("text");
 const getSupervisorNameBox = (): HTMLDivElement => getInputBoxFor("Supervisor Name").ofType("text");
 const getEmailBox =          (): HTMLDivElement => getInputBoxFor("Email").ofType("email");
-const getStartDateBox =      (): HTMLDivElement => getInputBoxFor("Start date", "start_date").ofType("date", "date-box");
-const getEndDateBox =        (): HTMLDivElement => getInputBoxFor("End date", "end_date").ofType("date", "date-box");
+const getStartDateBox =      (): HTMLDivElement => getInputBoxFor("Start date", "start_date").ofType("datetime-local", "date-box");
+const getEndDateBox =        (): HTMLDivElement => getInputBoxFor("End date", "end_date").ofType("datetime-local", "date-box");
 
 function getItemsListBox(): HTMLDivElement {
     const box = getOrCreate("DIV", "LoanBoxItemsListBox", "select-box") as HTMLDivElement;
@@ -169,9 +169,17 @@ function getSubmitButton(): HTMLButtonElement {
     return getOrCreate("BUTTON", "LoanBoxSubmitBtn", "submit-btn", "SUBMIT", null, "submit") as HTMLButtonElement;
 }
 
+const today = new Date();
+today.setMilliseconds(0); today.setSeconds(0); today.setHours(today.getHours() + TIMEZONE_DIFF_GMT);
+const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+tomorrow.setMilliseconds(0); tomorrow.setSeconds(0); tomorrow.setHours(tomorrow.getHours() + TIMEZONE_DIFF_GMT);
+
 function getInputInputFor(fieldName: string, nameProp?: string | null) {
     return { ofType:(type:string) => {
-        return getOrCreate("INPUT", `LoanBox${noSpaces(fieldName)}Input`, null, null, null, type, nameProp, true);
+        const input = getOrCreate("INPUT", `LoanBox${noSpaces(fieldName)}Input`, null, null, null, type, nameProp, true) as HTMLInputElement;
+        if(fieldName == "Start date") input.valueAsDate = today;
+        else if(fieldName == "End date") input.valueAsDate = tomorrow;
+        return input;
     }}
 }
 function getInputLabelFor(fieldName: string) {
@@ -185,7 +193,7 @@ function getInputBoxFor(fieldName: string, nameProp?: string) {
                 () => getInputInputFor(fieldName, nameProp ? nameProp :  null).ofType(type),
                 () => getInputLabelFor(fieldName)
             ];
-            if(type == "date") getters.reverse();
+            if(type == "datetime-local") getters.reverse();
             ifEmpty(box).appendByGetters(getters);
             return box;
         }

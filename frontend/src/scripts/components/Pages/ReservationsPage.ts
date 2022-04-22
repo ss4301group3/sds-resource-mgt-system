@@ -7,6 +7,7 @@ import { Sidenav } from "../App/Sidenav";
 
 import "../../../stylesheets/components/pages/ReservationsPage.scss";
 import { noSpaces } from "../../utils/strings";
+import { FILTER_LABELS, ReservationFilter } from "../Data/ReservationFilter";
 
 let borrowerSearchInput = ""
 let facultySearchInput = ""
@@ -30,15 +31,17 @@ export class ReservationsPage {
     }
 
     static setupSidenav(): void {
-        Sidenav.disable();
-        /*
-        Sidenav.clear();
+        Sidenav.enable();
 
-        const borrowerSearch = Sidenav.createAndGetSearchFor("Borrower", "Persons", false, borrowerSearchInput);
-        borrowerSearch.input.onchange = () => { borrowerSearchInput = borrowerSearch.input.value }
-        const facultySearch = Sidenav.createAndGetSearchFor("Faculty", "Persons", false, facultySearchInput);
-        facultySearch.input.onchange = () => { facultySearchInput = facultySearch.input.value }
-        */
+        const controls: Array<HTMLDivElement> = [];
+
+        FILTER_LABELS.forEach(label => {
+            controls.push(Sidenav.createAndGetFilterControlFor(label, "Reservations"))
+        });
+
+        Sidenav.clear().except([<HTMLElement>controls[0].parentElement]);
+        document.getElementById("FilterControlControlsControlSubControlForReservations*Faculty")?.focus();
+        
     }
 }
 
@@ -102,7 +105,7 @@ function getRows(dtos: ReservationDtos): Array<HTMLTableRowElement> {
         let labelRow = getOrCreate("TR", null, "cluster-label") as HTMLTableRowElement;
 
         const clusterLabel = Object.assign(getOrCreate("TD"), {
-            innerHTML: `${clusterData.personInfo}<br>- ${clusterData.period}`
+            innerHTML: `${clusterData.personInfo}<br>${clusterData.period}`
         }) as HTMLTableCellElement;
         clusterLabel.colSpan = columnLabels.length;
         

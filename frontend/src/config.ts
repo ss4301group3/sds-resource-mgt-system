@@ -7,6 +7,8 @@ export const APP_CONTAINER: HTMLElement = document.body;
 
 export const DEFAULT_SIGN_IN: string = "loginPopup";
 
+export const TIMEZONE_DIFF_GMT: number = +8;
+
 //These will appear on the form
 export const AGREEMENT_NOTE: string = "By submitting this form, I understand that the following as my responsibility:"
 export const AGREEMENT_TERMS: string[] = [

@@ -162,7 +162,7 @@ export abstract class SearchDiv extends HTMLDivElement{
                 li.btn2.classList.remove("hidden");
             }
 
-            label.onclick = function(e) {
+            label.onclick = li.btn1.onclick = function(e) {
                 if(window.innerWidth <= 675) Sidenav.toggle();
                 Pages.display("Resources", dto);
             }

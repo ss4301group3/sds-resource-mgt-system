@@ -4,7 +4,7 @@ import { Resource  } from "../../abstractions/dto/Item"
 import { Person } from "../../abstractions/dto/Person";
 import { Reservation }from "../../abstractions/dto/Reservation";
 import { MessageBox } from "../App/MessageBox";
-import { Filter } from "./Filter";
+import { ReservationFilter } from "./ReservationFilter";
 
 export class Fetch {
     static async Persons(): Promise<PersonDtos> {
@@ -33,7 +33,8 @@ export class Fetch {
     }
     static async Reservations(): Promise <ReservationDtos> {
         try {
-            throw Error("Code not yet specified; Using dummies instead.")
+            const filter = ReservationFilter.get(); //send this to the server
+            throw Error("Code not yet specified; Using dummies instaead.")
         } catch (error: any) {
             MessageBox.writeMessage(error.message, "Unable to fetch resource from server: " + error.message, true, 3000);
         }
@@ -80,5 +81,5 @@ function getMockReservations(): ReservationDtos {
         2: new Reservation(2, "Dummy Table", 5, "APB G.14",yesterday, true, tomorrow, false, 1, 4, 4, null, null, true, true, false, false),
     };
 
-    return Filter.Reservations.apply(reservations);
+    return reservations;
 }

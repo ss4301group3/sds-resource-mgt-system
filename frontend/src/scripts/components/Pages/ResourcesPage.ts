@@ -71,15 +71,29 @@ export class ResourcesPage {
 
     static setupSidenav(): void {
         Sidenav.enable();
-        if(!document.getElementById("SearchListDivForResourcesAndCategories")) {
-            Sidenav.clear();
+        
+        let resourcesSearch: SearchObject;
+        let resourcesSearchDiv = document.getElementById("SearchListDivForResourcesAndCategories") as SearchDiv;
+        
+        if(!resourcesSearchDiv) {
 
-            const resourcesSearch = Sidenav.createAndGetSearchFor("Resources And Categories", "Resources", true, resourcesSearchInput) as SearchObject;
+            resourcesSearch = Sidenav.createAndGetSearchFor("Resources And Categories", "Resources", true, resourcesSearchInput) as SearchObject;
             resourcesSearch.input.oninput = () => { resourcesSearchInput = resourcesSearch.input.value }
             resourcesSearch.input.onkeydown = function(e) { if(e.key == 'Escape') resourcesSearchInput = ""; }
 
             SearchDiv.convertToSearchDiv(resourcesSearch);
+
+            resourcesSearchDiv = resourcesSearch.listdiv;
         }
+        
+        resourcesSearch = resourcesSearchDiv.searchObject
+        
+        Sidenav.clear().except([
+            resourcesSearch.listdiv,
+            resourcesSearch.input,
+            resourcesSearch.remarks
+        ]);
+        resourcesSearch.input?.focus();
     }
 }
 

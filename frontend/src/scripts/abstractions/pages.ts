@@ -71,7 +71,6 @@ export class BasicPage extends Page {
         this.mostRecentDto = dto;
         this.mostRecentDtos1 = dtos1;
         this.mostRecentDtos2 = dtos2;
-        if(this.getTitle() == "Resources") console.log(this.mostRecentDto, this.mostRecentDtos1, this.mostRecentDtos2)
 
         Navbar.setCurrent(this.getTitle());
     }
