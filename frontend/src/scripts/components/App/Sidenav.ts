@@ -166,17 +166,17 @@ export class Sidenav {
 
                 inputControl.type = inputControl2.type = "datetime-local";
 
-                if(current[0]) inputControl.valueAsDate = current[0];
-                if(current[1]) inputControl2.valueAsDate = current[1];
+                if(current[0]) inputControl.valueAsNumber = Date.parse(current[0].toString());
+                if(current[1]) inputControl2.valueAsNumber = Date.parse(current[1].toString());
                 inputControl.onchange = function() {
                     const newValue = ReservationFilter.changeCriterion(i, [inputControl.valueAsDate, inputControl2.valueAsDate]) as [Date|null,Date|null]
-                    inputControl.valueAsDate = newValue[0];
+                    if(newValue[0]) inputControl.valueAsNumber = Date.parse(newValue[0].toString());
                     if(!newValue[0]) inputControl.style.color = "pink";
                     else inputControl.style.color = "#afa";
                 }
                 inputControl2.onchange = function() {
                     const newValue = ReservationFilter.changeCriterion(i, [inputControl.valueAsDate, inputControl2.valueAsDate]) as [Date|null,Date|null]
-                    inputControl2.valueAsDate = newValue[1];
+                    if(newValue[1]) inputControl2.valueAsNumber = Date.parse(newValue[1].toString());
                     if(!newValue[1]) inputControl2.style.color = "pink";
                     else inputControl2.style.color = "#afa";
                 }

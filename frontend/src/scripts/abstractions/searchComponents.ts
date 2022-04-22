@@ -63,7 +63,7 @@ export abstract class SearchDiv extends HTMLDivElement{
                         if(window.innerWidth <= 675) Sidenav.toggle();
                     }
 
-                }, {capture:true})
+                })
             }
         }
 
