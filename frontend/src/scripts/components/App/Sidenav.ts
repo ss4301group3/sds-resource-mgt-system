@@ -185,10 +185,10 @@ export class Sidenav {
             }
             else if(identifier == FILTER_LABELS[i = 8]) {
                 control.innerHTML = crit(i) == true ? "Ascending" : "Descending"; //label
-                control.onclick = function() {
+                control.addEventListener("click", function() {
                     const newValue = ReservationFilter.changeCriterion(i);
                     control.innerHTML = newValue == true ? "Ascending" : "Descending";
-                }
+                }, {capture:true});
             }
 
             elem.appendChild(control);
