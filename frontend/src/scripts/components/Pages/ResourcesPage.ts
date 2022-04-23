@@ -115,6 +115,9 @@ function getContent(category?: Dto): Array<ElemGetter> {
     if(!hasResources)
         getters = getters.filter(notResourcesRelated);
 
+    if(!Data.resourcesAreLoaded()) getters.push(getFetchingInfoHeading);
+    else if(!hasResources && !hasSubcategories) getters.push(getEmptyInfoHeading);
+
     function notCategoriesRelated(getter: ElemGetter) {
         return getter != (() => getCategories(category)) && getter != getCategoriesHeading;
     }
@@ -124,6 +127,9 @@ function getContent(category?: Dto): Array<ElemGetter> {
 
     return getters;
 };
+
+function getEmptyInfoHeading(): HTMLElement { return newElem("H3", "Empty Category"); }
+function getFetchingInfoHeading(): HTMLElement { return newElem("H3", "Fetching data from server"); }
 
 function getSearchContent(categories?: Dtos | null, resources?: Dtos | null): Array<ElemGetter> {
 

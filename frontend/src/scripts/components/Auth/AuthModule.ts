@@ -52,9 +52,12 @@ export class AuthModule {
     private loginRequest: PopupRequest; // https://azuread.github.io/microsoft-authentication-library-for-js/ref/msal-browser/modules/_src_request_popuprequest_.html
     private profileRedirectRequest: RedirectRequest;
     private profileRequest: PopupRequest;
+    private backendRedirectRequest: RedirectRequest;
+    private backendRequest: PopupRequest;
     private groupsRedirectRequest: RedirectRequest;
     private groupsRequest: PopupRequest;
     private silentProfileRequest: SilentRequest; // https://azuread.github.io/microsoft-authentication-library-for-js/ref/msal-browser/modules/_src_request_silentrequest_.html
+    private silentBackendRequest: SilentRequest;
     private silentGroupsRequest: SilentRequest;
     private silentLoginRequest: SsoSilentRequest;
 
@@ -81,6 +84,15 @@ export class AuthModule {
         };
 
         // Add here scopes for access token to be used at MS Graph API endpoints.
+        this.backendRequest = {
+            scopes: ["api://sdsrms/access_as_user"]
+        };
+
+        this.backendRedirectRequest = {
+            ...this.backendRequest,
+            redirectStartPage: window.location.href
+        };
+
         this.groupsRequest = {
             scopes: ["User.Read"]
         };
@@ -92,6 +104,11 @@ export class AuthModule {
 
         this.silentProfileRequest = {
             scopes: ["openid", "profile", "User.Read"],
+            forceRefresh: false
+        };
+
+        this.silentBackendRequest = {
+            scopes: ["api://sdsrms/access_as_user"],
             forceRefresh: false
         };
 
@@ -257,6 +274,26 @@ export class AuthModule {
             this.silentProfileRequest.account = this.account;
         }
         return this.getTokenPopup(this.silentProfileRequest, this.profileRequest);
+    }
+
+    /**
+     * Gets the token to read user profile data from MS Graph silently, or falls back to interactive redirect.
+     */
+    async getBackendTokenRedirect(): Promise<string|null> {
+        if (this.account) {
+            this.silentBackendRequest.account = this.account;
+        }
+        return this.getTokenRedirect(this.silentBackendRequest, this.backendRedirectRequest);
+    }
+
+    /**
+     * Gets the token to read user profile data from MS Graph silently, or falls back to interactive popup.
+     */
+    async getBackendTokenPopup(): Promise<string|null> {
+        if (this.account) {
+            this.silentBackendRequest.account = this.account;
+        }
+        return this.getTokenPopup(this.silentBackendRequest, this.backendRequest);
     }
 
     /**

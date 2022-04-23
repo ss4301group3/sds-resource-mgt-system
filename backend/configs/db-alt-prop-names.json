@@ -1,0 +1,22 @@
+{
+    "Id": "id",
+    "Category_Name": "categoryName",
+    "Parent_Id": "parentId",
+    "Update_Time": "updateTime",
+
+    "Item_Name": "itemName",
+    "Category_Id": "categoryId",
+    "Is_Consumable": "isConsumable",
+    "Internal_Tag_Or_Status_Remarks": "internalTagOrStatusRemarks",
+    "External_Remarks": "externalRemarks",
+    "Value_Per_Amt": "valuePerAmt",
+    "Value_Unit": "valueUnit",
+    "Amount_In": "amtIn",
+    "Amount_Out": "amtOut",
+    "Amount_Bal": "amtBal",
+    "Amount_Unit": "amtUnit",
+    "Next_In_Amt": "nextInAmt",
+    "Next_In_Date": "nextInDate",
+    "Purchase_Date": "purchaseDate",
+    "Expiry_Date": "expiryDate"
+}

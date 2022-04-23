@@ -59,6 +59,8 @@ export abstract class SearchDiv extends HTMLDivElement{
                         Pages.display(
                             "Resources", undefined, categories, resources
                         );
+
+                        if(window.innerWidth <= 675) Sidenav.toggle();
                     }
 
                 })

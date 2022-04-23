@@ -15,16 +15,22 @@ let resourceGroups: ResourceGroups = {};
 let resourceNonGroup: ResourceDtos = {};
 let reservations: ReservationDtos = {};
 
+let resourcesLoaded = false;
+
 export class Data {
+    static resourcesAreLoaded(): boolean { return resourcesLoaded; }
     static async init(): Promise<void> {
         categories = await Fetch.Categories();
         resources = await Fetch.Resources();
+
+        resourcesLoaded = true;
         /*temp*/ this.initPersons();
         
         group(categories);
         group(resources);
 
         if(signInAttemptExecuted) this.forceRerenderView();
+        Pages.refresh();
     }
 
     static async initPersons(): Promise<void> {

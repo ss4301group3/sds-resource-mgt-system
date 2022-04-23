@@ -177,8 +177,9 @@ tomorrow.setMilliseconds(0); tomorrow.setSeconds(0); tomorrow.setHours(tomorrow.
 function getInputInputFor(fieldName: string, nameProp?: string | null) {
     return { ofType:(type:string) => {
         const input = getOrCreate("INPUT", `LoanBox${noSpaces(fieldName)}Input`, null, null, null, type, nameProp, true) as HTMLInputElement;
-        if(fieldName == "Start date") input.valueAsDate = today;
-        else if(fieldName == "End date") input.valueAsDate = tomorrow;
+        
+        if(fieldName == "Start date") input.valueAsNumber= Date.parse(today.toString());
+        else if(fieldName == "End date") input.valueAsNumber = Date.parse(tomorrow.toString());
         return input;
     }}
 }
