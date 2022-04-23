@@ -1,10 +1,13 @@
 
 import { AuthModule } from "./Auth/AuthModule";
-import { GRAPH_CONFIG } from "./Auth/Constants";
-import { FetchManager } from "./Auth/FetchManager";
+import { BACKEND_PROTECTED_CONFIG, BACKEND_PUBLIC_CONFIG, GRAPH_CONFIG } from "./Auth/Constants";
+import { FetchManager, GraphFetchManager, ProtectedFetchManager, PublicFetchManager } from "./Auth/FetchManager";
 
 const authModule: AuthModule = new AuthModule();
-const networkModule: FetchManager = new FetchManager();
+
+const graphFetchModule: FetchManager = new GraphFetchManager();
+const publicFetchModule: FetchManager = new PublicFetchManager();
+const protectedFetchModule: FetchManager = new ProtectedFetchManager();
 
 export class Auth {
     static init(): void {
@@ -44,12 +47,53 @@ export function signOut(): void {
 }
 
 /**
+ * Called to fetch categories info
+ */
+export async function fetchInwardCategories(): Promise<any> {
+    const backendResponse = await publicFetchModule.callEndpointWithToken(BACKEND_PUBLIC_CONFIG.CATEGORIES_ENDPT);
+    //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
+    console.log(backendResponse);
+    return backendResponse;
+}
+
+/**
+ * Called to fetch categories info
+ */
+export async function fetchInwardConsumablesPublic(): Promise<any> {
+    const backendResponse = await publicFetchModule.callEndpointWithToken(BACKEND_PUBLIC_CONFIG.CONSUMABLES_ENDPT);
+    //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
+    console.log(backendResponse);
+    return backendResponse;
+}
+
+/**
+ * Called to fetch categories info
+ */
+export async function fetchInwardNonConsumablesPublic(): Promise<any> {
+    const backendResponse = await publicFetchModule.callEndpointWithToken(BACKEND_PUBLIC_CONFIG.NONCONSUMABLES_ENDPT);
+    //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
+    console.log(backendResponse);
+    return backendResponse;
+}
+
+/**
+ * Called to fetch categories info (if it were protected)
+ */
+export async function getCategoriesIfItWereProtected(): Promise<void> {
+    const token = isIE ? await authModule.getBackendTokenRedirect() : await authModule.getBackendTokenPopup();
+    if (token && token.length > 0) {
+        const backendResponse = await graphFetchModule.callEndpointWithToken(BACKEND_PROTECTED_CONFIG.CATEGORIES_ENDPT, token);
+        //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
+    }
+}
+
+/**
  * Called to fetch info on whether user belongs to UBD Staff Group
  */
 export async function getIsStaff(): Promise<void> {
     const token = isIE ? await authModule.getGroupsTokenRedirect() : await authModule.getGroupsTokenPopup();
     if (token && token.length > 0) {
-        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT, token);
+        const graphResponse = await graphFetchModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT, token);
         //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTAFF_ENDPT);
     }
 }
@@ -60,7 +104,7 @@ export async function getIsStaff(): Promise<void> {
 export async function getIsStudent(): Promise<void> {
     const token = isIE ? await authModule.getGroupsTokenRedirect() : await authModule.getGroupsTokenPopup();
     if (token && token.length > 0) {
-        const graphResponse = await networkModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTUDENT_ENDPT, token);
+        const graphResponse = await graphFetchModule.callEndpointWithToken(GRAPH_CONFIG.GRAPH_GROUPS_ISSTUDENT_ENDPT, token);
         //UIManager.updateUI(graphResponse, GRAPH_CONFIG.GRAPH_GROUPS_ISSTUDENT_ENDPT);
     }
 }

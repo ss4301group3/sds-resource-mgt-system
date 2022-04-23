@@ -1,5 +1,10 @@
 import { Dto } from "../dto";
 
+export type RawCategory = {
+    id: number,
+    categoryName: string,
+    parentId: number | null,
+}
 export class Category implements Dto{
     private id: number;
     private categoryName: string;

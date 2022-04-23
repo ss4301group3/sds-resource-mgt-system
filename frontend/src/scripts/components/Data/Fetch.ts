@@ -1,9 +1,10 @@
-import { CategoryDtos, PersonDtos, ReservationDtos, ResourceDtos } from "../../abstractions/dto";
-import { Category } from "../../abstractions/dto/Category";
-import { Resource  } from "../../abstractions/dto/Item"
+import { CategoryDtos, Dtos, PersonDtos, ReservationDtos, ResourceDtos } from "../../abstractions/dto";
+import { Category, RawCategory } from "../../abstractions/dto/Category";
+import { RawResource, Resource  } from "../../abstractions/dto/Item"
 import { Person } from "../../abstractions/dto/Person";
 import { Reservation }from "../../abstractions/dto/Reservation";
 import { MessageBox } from "../App/MessageBox";
+import { fetchInwardCategories, fetchInwardConsumablesPublic, fetchInwardNonConsumablesPublic } from "../Auth";
 import { ReservationFilter } from "./ReservationFilter";
 
 export class Fetch {
@@ -16,20 +17,59 @@ export class Fetch {
         return getMockPersons();
     }
     static async Categories(): Promise<CategoryDtos> {
+        const categories: CategoryDtos = {};
         try {
-            throw Error("Code not yet specified; Using dummies instead.")
+            const rawData = await fetchInwardCategories();
+            Object.entries(rawData).forEach(([id, info]) => {
+                const rawCat = <RawCategory> info;
+                const cat = new Category(rawCat.id, rawCat.categoryName, rawCat.parentId);
+                categories[cat.getId()] = cat;
+            });
         } catch (error: any) {
             MessageBox.writeMessage(error.message, "Unable to fetch resource from server: " + error.message, true, 3000);
         }
-        return getMockCategories();
+
+        return categories;
+    }
+    static async Consumables(mainCollection?: ResourceDtos): Promise<ResourceDtos> {
+        const resources: ResourceDtos = mainCollection ? mainCollection : {};
+        try {
+            const rawData = await fetchInwardConsumablesPublic();
+            Object.entries(rawData).forEach(([id, info]) => {
+                const rawRes = <RawResource> info;
+                const res = new Resource(rawRes.id, rawRes.itemName, rawRes.categoryId, rawRes.internalTagOrStatusRemarks, rawRes.externalRemarks, rawRes.updateTime, rawRes.isConsumable);
+                resources[res.getId()] = res;
+            });
+        } catch (error: any) {
+            MessageBox.writeMessage(error.message, "Unable to fetch resource from server: " + error.message, true, 3000);
+        }
+
+        return resources;
+    }
+    static async NonConsumables(mainCollection?: ResourceDtos): Promise<ResourceDtos> {
+        const resources: ResourceDtos = mainCollection ? mainCollection : {};
+        try {
+            const rawData = await fetchInwardNonConsumablesPublic();
+            Object.entries(rawData).forEach(([id, info]) => {
+                const rawRes = <RawResource> info;
+                const res = new Resource(rawRes.id, rawRes.itemName, rawRes.categoryId, rawRes.internalTagOrStatusRemarks, rawRes.externalRemarks, rawRes.updateTime, rawRes.isConsumable);
+                resources[res.getId()] = res;
+            });
+        } catch (error: any) {
+            MessageBox.writeMessage(error.message, "Unable to fetch resource from server: " + error.message, true, 3000);
+        }
+
+        return resources;
     }
     static async Resources(): Promise<ResourceDtos>{
+        const resources: ResourceDtos = {};
         try {
-            throw Error("Code not yet specified; Using dummies instead.")
+            await this.Consumables(resources);
+            await this.NonConsumables(resources);
         } catch (error: any) {
             MessageBox.writeMessage(error.message, "Unable to fetch resource from server: " + error.message, true, 3000);
         }
-        return getMockResources();
+        return resources;
     }
     static async Reservations(): Promise <ReservationDtos> {
         try {

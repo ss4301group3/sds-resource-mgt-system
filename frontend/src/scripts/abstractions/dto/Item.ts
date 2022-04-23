@@ -1,5 +1,15 @@
 import { Dto } from "../dto";
 
+export type RawResource = {
+    id: number;
+    itemName: string;
+    categoryId: number;
+    internalTagOrStatusRemarks: string | null;
+    externalRemarks: string | null;
+    updateTime: Date ;
+    isConsumable: boolean;
+}
+
 export class Resource implements Dto {
     private id: number;
     private itemName: string;
