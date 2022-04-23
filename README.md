@@ -3,7 +3,7 @@ The repository for SS4301 Project 3 - SDS Resource Management System
 
 ## Important
 
-Tote that the database credentials are not included in the commit;
+Database config/credentials (stored locally) are not included in the commit;
 Thus fetching items & category data will not work immediately out of the box.
 
 ## Instructions - New from repo
