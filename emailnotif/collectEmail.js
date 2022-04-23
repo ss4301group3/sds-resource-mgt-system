@@ -1,24 +1,17 @@
 const fs = require('fs');
 
-const reservation = 
-  // read csv file
-  fs.readFileSync('mockReservationData.csv', 'utf8')
-  // split to each line
-  .split("\r\n")
-  // remove empty strings
-  .filter(x => x.length > 0)
-  // split each line to subarray
-  .map(x => x.split(","));
+const reservation = fs.readFileSync('reservation.csv', 'utf8')
+  .split("\r\n").filter(x => x.length > 0).map(x => x.split(","));
 
-// Notify approval: isPending (False), isApproved3 (True)
+// Notify approval: isReturned (F), isPending (F), isApproved3 (T)
 const approvedEmails = [];
 function getApproved(row) {
-  if (row[14] == 'false' && row[17] == 'true'){
+  if (row[7] == 'false' && row[14] == 'false' && row[17] == 'true'){
     approvedEmails.push(row[9]);
   }
 }
 
-// Notify rejection: isPending (False), isApproved3 (False)
+// Notify rejection: isPending (F), isApproved3 (F)
 const rejectEmails = [];
 function getRejected(row) {
   if (row[14] == 'false' && row[17] == 'false'){
@@ -26,15 +19,39 @@ function getRejected(row) {
   }
 }
 
-// Notify nearing deadline: endTime (X days from current day), isReturned (False), isPending (False), isApproved3 (True)
+// Notify near deadline: isReturned (F), isPending (F), isApproved3 (T)
+const now = Date.parse(new Date());
+const day = 86400*1000;
+var endTime;
+let difference = now - endTime;
+
 const deadlineEmails = [];
-function getSoonDeadline(row) {
-  if (row[7] == 'false' && row[14] == 'false' && row[17] == 'true') {
-    deadlineEmails.push(row[9]);
+function nearDeadline(difference, day){
+  if (difference <= 4*day)
+  { return true; }
+}
+
+function formatEndTime(row){
+   endTime = Date.parse(new Date(row[6]));
+   difference = now - endTime;
+}
+
+function filterDeadlineEmails(row){
+  if (row[7] == 'false' && row[14] == 'false' && row[17] == 'true'){
+    formatEndTime(row);
+    if ((nearDeadline(difference, day) == true))
+    { deadlineEmails.push(row[9]); }
   }
 }
 
-// New, un-responded to bookings (IsApproved1-3==false, isPending==true)
+function getDeadlineEmails(row){
+  if (row[7] == 'false' && row[14] == 'false' && row[17] == 'true'){ 
+    formatEndTime(row);
+    filterDeadlineEmails(row);
+  }
+}
+
+// New reservation: IsApproved1-3 (F), isPending (T)
 const newReservationIds = [];
 function getNewReservations(row) {
   if(row[15] == 'false' && row[16] == 'false' && row[17] == 'false' && row[14] == 'true'){
@@ -47,12 +64,12 @@ for (let i = 1; i < reservation.length; i++){
   const row = reservation[i];
   getApproved(row);
   getRejected(row);
-  getSoonDeadline(row);
+  getDeadlineEmails(row);
   getNewReservations(row);
 }
 
 // Print to check
-console.log(deadlineEmails);
-console.log(rejectEmails);
-console.log(approvedEmails);
-console.log(newReservationIds);
+console.log("Deadline emails:", deadlineEmails);
+console.log("Reject emails:",rejectEmails);
+console.log("Approval emails:",approvedEmails);
+console.log("New reservation IDs:",newReservationIds);
